@@ -3,15 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-
   <meta name="theme-color" content="#0b5fa5" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="PepsiCo Fill Voice" />
-
+  <meta name="apple-mobile-web-app-title" content="PepsiCo Fill" />
   <link rel="manifest" href="manifest.json" />
-
-  <title>PepsiCo Fill Voice</title>
+  <title>PepsiCo Fill</title>
   <style>
     :root{
       --bg:#0b5fa5;
@@ -20,741 +17,1356 @@
       --text:#0c1b2a;
       --muted:#5a6b7c;
       --line:#e7eef6;
-      --good:#0f9d58;
       --danger:#dc3545;
+      --good:#0f9d58;
+      --warn:#f4a700;
     }
-    *{box-sizing:border-box}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: linear-gradient(180deg,var(--bg),var(--bg2));
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:linear-gradient(180deg,var(--bg),var(--bg2));
       color:var(--text);
       min-height:100vh;
     }
-    header{
-      padding:18px 16px 10px;
-      color:#fff;
-    }
-    header h1{
-      margin:0;
-      font-size:18px;
-      font-weight:800;
-      letter-spacing:0.2px;
-    }
-    header p{
-      margin:8px 0 0;
-      font-size:13px;
-      opacity:0.95;
-    }
 
-    .wrap{
-      padding: 0 12px 18px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .card{
-      background: var(--card);
-      border-radius: 14px;
-      padding: 14px;
-      margin: 12px 0;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-      border: 1px solid rgba(255,255,255,0.35);
-    }
-
-    .row{
+    /* NAV */
+    .nav{
       display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
+      background:rgba(0,0,0,0.25);
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
     }
-    .btn{
-      appearance:none;
-      border:0;
-      border-radius: 12px;
-      padding: 12px 14px;
-      font-weight:700;
-      cursor:pointer;
-      transition: transform .06s ease, opacity .2s ease;
-      user-select:none;
-      background: #ffffff;
-      color: #0b5fa5;
-      border: 1px solid rgba(11,95,165,0.25);
-    }
-    .btn:active{ transform: translateY(1px); }
-    .btn.primary{
-      background:#0b5fa5;
-      color:#fff;
-      border: 1px solid rgba(255,255,255,0.35);
-      box-shadow: 0 10px 18px rgba(11,95,165,0.25);
-    }
-    .btn.danger{
-      background: #dc3545;
-      color:#fff;
-      border: 1px solid rgba(255,255,255,0.25);
-    }
-    .btn.ghost{
-      background: transparent;
-      color:#0b5fa5;
-      border: 1px dashed rgba(11,95,165,0.45);
-    }
-    .btn.small{
-      padding: 8px 10px;
-      border-radius: 10px;
-      font-weight: 800;
-      font-size: 12px;
-    }
-
-    .mic{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      width: 100%;
-      min-height: 48px;
-    }
-    .status{
-      font-size: 13px;
-      color: var(--muted);
-      margin-top:10px;
-      line-height:1.35;
-    }
-    .transcript{
-      width:100%;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      min-height: 56px;
-      font-size: 14px;
-      background: #f7fbff;
-      outline:none;
-    }
-
-    .list{
-      width:100%;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .item{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding: 10px 10px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background:#fff;
-    }
-    .item .label{
-      font-weight: 800;
-      font-size: 14px;
-      line-height:1.2;
-    }
-    .item .sub{
-      font-size: 12px;
-      color:var(--muted);
-      margin-top:4px;
-      font-weight:600;
-    }
-
-    .qtyBox{
-      display:flex;
-      align-items:center;
-      gap:8px;
+    .nav::-webkit-scrollbar{display:none;}
+    .navBtn{
       flex-shrink:0;
-    }
-    .qtyBtn{
-      width:34px;
-      height:34px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      background:#fff;
-      font-weight:900;
+      padding:12px 16px;
+      color:#fff;
+      background:transparent;
+      border:0;
+      font-weight:700;
+      font-size:13px;
       cursor:pointer;
+      border-bottom:3px solid transparent;
+      white-space:nowrap;
     }
-    .qty{
-      min-width: 46px;
-      text-align:center;
-      font-weight: 900;
-      font-size: 16px;
+    .navBtn.active{border-bottom-color:#fff;}
+
+    /* SCREENS */
+    .screen{display:none;padding:12px;}
+    .screen.active{display:block;}
+
+    /* CARDS */
+    .card{
+      background:var(--card);
+      border-radius:14px;
+      padding:14px;
+      margin:10px 0;
+      box-shadow:0 8px 24px rgba(0,0,0,0.12);
+    }
+    .cardTitle{font-weight:900;font-size:15px;margin-bottom:10px;}
+
+    /* BUTTONS */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:6px;
+      appearance:none;border:0;border-radius:12px;
+      padding:11px 14px;font-weight:700;font-size:13px;
+      cursor:pointer;user-select:none;
+      transition:transform .06s ease,opacity .15s ease;
+    }
+    .btn:active{transform:translateY(1px);}
+    .btn.primary{background:#0b5fa5;color:#fff;}
+    .btn.success{background:var(--good);color:#fff;}
+    .btn.danger{background:var(--danger);color:#fff;}
+    .btn.warn{background:var(--warn);color:#fff;}
+    .btn.ghost{background:transparent;color:#0b5fa5;border:1px dashed rgba(11,95,165,0.45);}
+    .btn.light{background:#f0f4fa;color:#0b5fa5;}
+    .btn.sm{padding:8px 10px;font-size:12px;border-radius:10px;}
+    .btn.full{width:100%;}
+
+    /* FORM ELEMENTS */
+    input,select,textarea{
+      width:100%;padding:10px 12px;
+      border:1px solid var(--line);border-radius:10px;
+      font-size:14px;font-family:inherit;
+      background:#f7fbff;outline:none;
+      margin:4px 0;
+    }
+    label{font-size:12px;font-weight:700;color:var(--muted);display:block;margin-top:8px;}
+
+    /* ROW */
+    .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+    .row.nowrap{flex-wrap:nowrap;}
+
+    /* STATUS */
+    .status{font-size:13px;color:var(--muted);margin:8px 0;line-height:1.4;}
+
+    /* TRANSCRIPT */
+    .transcript{
+      min-height:48px;padding:10px 12px;
+      border:1px solid var(--line);border-radius:10px;
+      font-size:14px;background:#f7fbff;
+      line-height:1.4;color:var(--text);
     }
 
-    .exportArea{
-      width:100%;
-      min-height: 110px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background:#f7fbff;
-      padding: 10px 12px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 13px;
-      line-height: 1.35;
-      white-space: pre-wrap;
+    /* FILL LIST ITEMS */
+    .fillList{display:flex;flex-direction:column;gap:8px;}
+    .fillItem{
+      display:flex;align-items:center;justify-content:space-between;gap:8px;
+      padding:10px;border-radius:12px;border:1px solid var(--line);background:#fff;
+      position:relative;
     }
-    .hint{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.35;
-      margin:10px 0 0;
+    .fillItem.outOfStock{border-color:var(--danger);background:#fff8f8;}
+    .fillItem .iLabel{font-weight:800;font-size:13px;line-height:1.2;}
+    .fillItem .iSub{font-size:11px;color:var(--muted);margin-top:2px;}
+    .fillItem .iFlag{
+      font-size:10px;font-weight:800;color:var(--danger);
+      background:#fde8ea;border-radius:6px;padding:2px 6px;display:inline-block;margin-top:3px;
     }
-    .footerNote{
-      color:#dbe9fb;
-      padding: 0 12px 16px;
-      font-size: 12px;
-      opacity:0.95;
-      text-align:center;
+    .qtyBox{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+    .qBtn{
+      width:32px;height:32px;border-radius:9px;
+      border:1px solid var(--line);background:#f0f4fa;
+      font-weight:900;font-size:16px;cursor:pointer;
     }
+    .qNum{min-width:40px;text-align:center;font-weight:900;font-size:16px;}
+
+    /* QUICK ADD BUTTONS */
+    .quickGrid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+      gap:8px;
+    }
+    .quickItem{
+      padding:10px 8px;border-radius:12px;
+      background:#f0f4fa;border:1px solid var(--line);
+      text-align:center;cursor:pointer;
+      font-size:12px;font-weight:700;color:#0b5fa5;
+      user-select:none;
+    }
+    .quickItem:active{background:#dce8f8;}
+
+    /* EXPORT BOX */
+    .exportBox{
+      width:100%;min-height:100px;
+      padding:10px 12px;border-radius:10px;
+      border:1px solid var(--line);background:#f7fbff;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-size:12px;line-height:1.5;
+      white-space:pre-wrap;
+    }
+
+    /* HISTORY */
+    .histItem{
+      padding:12px;border-radius:12px;
+      border:1px solid var(--line);background:#fff;
+      margin-bottom:8px;cursor:pointer;
+    }
+    .histItem:active{background:#f0f4fa;}
+    .histTitle{font-weight:800;font-size:14px;}
+    .histSub{font-size:12px;color:var(--muted);margin-top:3px;}
+    .histBadge{
+      display:inline-block;font-size:11px;font-weight:800;
+      background:#e8f0fe;color:#0b5fa5;
+      border-radius:8px;padding:2px 8px;margin-top:4px;
+    }
+
+    /* MODAL */
+    .modalBack{
+      display:none;position:fixed;inset:0;
+      background:rgba(0,0,0,0.55);z-index:100;
+      align-items:flex-end;justify-content:center;
+    }
+    .modalBack.open{display:flex;}
+    .modal{
+      background:#fff;border-radius:20px 20px 0 0;
+      padding:20px 16px 32px;width:100%;max-width:600px;
+      max-height:85vh;overflow-y:auto;
+    }
+    .modalTitle{font-weight:900;font-size:16px;margin-bottom:12px;}
+
+    /* NOTES */
+    .noteChip{
+      display:inline-block;font-size:12px;
+      background:#fff8e1;border:1px solid #f4a700;
+      border-radius:8px;padding:3px 8px;margin:2px;
+      color:#7a5200;font-weight:600;
+    }
+
+    /* TIMER */
+    .timerDisplay{
+      font-size:28px;font-weight:900;
+      color:#0b5fa5;text-align:center;
+      letter-spacing:2px;padding:8px 0;
+    }
+
+    /* CONTACTS */
+    .contactItem{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px;border-radius:10px;border:1px solid var(--line);
+      background:#fff;margin-bottom:6px;
+    }
+    .contactName{font-weight:700;font-size:13px;}
+    .contactNum{font-size:12px;color:var(--muted);}
+
+    /* TOTALS BAR */
+    .totalsBar{
+      background:linear-gradient(135deg,#0b5fa5,#073f7a);
+      border-radius:12px;padding:12px 14px;color:#fff;
+      display:flex;justify-content:space-between;align-items:center;
+      flex-wrap:wrap;gap:8px;margin-bottom:10px;
+    }
+    .totStat{text-align:center;}
+    .totNum{font-size:22px;font-weight:900;}
+    .totLbl{font-size:11px;opacity:0.8;}
+
+    header{padding:14px 12px 6px;color:#fff;}
+    header h1{margin:0;font-size:17px;font-weight:900;}
+    header p{margin:4px 0 0;font-size:12px;opacity:0.9;}
+
+    .hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.4;}
+    .divider{height:1px;background:var(--line);margin:10px 0;}
+    .emptyState{text-align:center;padding:24px;color:var(--muted);font-size:13px;}
+
+    .tag{
+      display:inline-block;font-size:11px;font-weight:700;
+      border-radius:8px;padding:2px 8px;margin:2px;
+    }
+    .tag.blue{background:#e8f0fe;color:#0b5fa5;}
+    .tag.green{background:#e6f4ea;color:#137333;}
+    .tag.red{background:#fde8ea;color:#c62828;}
+    .tag.yellow{background:#fff8e1;color:#7a5200;}
   </style>
 </head>
-
 <body>
+
 <header>
-  <h1>PepsiCo Fill List — Voice to Quantity</h1>
-  <p>Tap the mic, say "Pepsi 12 pack need 8". Items will auto-group by brand + size.</p>
+  <h1>🥤 PepsiCo Fill</h1>
+  <p id="headerSub">Select a store to begin</p>
 </header>
 
-<div class="wrap">
+<nav class="nav">
+  <button class="navBtn active" onclick="showScreen('sStore')">🏪 Store</button>
+  <button class="navBtn" onclick="showScreen('sVoice')">🎤 Voice</button>
+  <button class="navBtn" onclick="showScreen('sQuick')">⚡ Quick Add</button>
+  <button class="navBtn" onclick="showScreen('sList')">📋 Fill List</button>
+  <button class="navBtn" onclick="showScreen('sNotes')">📝 Notes</button>
+  <button class="navBtn" onclick="showScreen('sExport')">📤 Export</button>
+  <button class="navBtn" onclick="showScreen('sHistory')">🕘 History</button>
+  <button class="navBtn" onclick="showScreen('sSettings')">⚙️ Settings</button>
+</nav>
+
+<!-- ============================================================ -->
+<!-- SCREEN: STORE -->
+<!-- ============================================================ -->
+<div class="screen active" id="sStore">
   <div class="card">
-    <div class="row">
-      <button id="micBtn" class="btn primary mic" type="button" aria-label="Start voice input">
-        <span style="font-size:16px;font-weight:900;">🎤</span>
-        <span id="micText">Start Voice</span>
-      </button>
+    <div class="cardTitle">Current Store</div>
+    <label>Store Name</label>
+    <div class="row nowrap">
+      <input id="storeNameInput" type="text" placeholder="e.g. Walmart Penfield" />
+      <button class="btn light sm" onclick="pickFromDropdown()">▼ Saved</button>
     </div>
+    <label>Address</label>
+    <input id="storeAddrInput" type="text" placeholder="e.g. 1234 Main St, Rochester NY" />
+    <div style="height:8px"></div>
+    <div class="row">
+      <button class="btn primary" onclick="startStore()">✅ Start / Set Store</button>
+      <button class="btn light sm" onclick="saveStoreToDropdown()">💾 Save Store</button>
+    </div>
+    <div class="status" id="storeStatus">No store set yet.</div>
+  </div>
 
-    <div class="status" id="statusText">Mic is waiting. Make sure microphone permission is enabled on your iPhone.</div>
-
-    <div style="height:10px"></div>
-    <div>
-      <div class="hint"><b>Last transcript:</b></div>
-      <div id="transcript" class="transcript" aria-live="polite"></div>
-      <div class="row" style="margin-top:10px;">
-        <button id="addBtn" class="btn" type="button">Add Parsed Items</button>
-        <button id="clearBtn" class="btn danger" type="button">Clear List</button>
-      </div>
+  <div class="card" id="timerCard">
+    <div class="cardTitle">⏱ Time at Store</div>
+    <div class="timerDisplay" id="timerDisplay">00:00:00</div>
+    <div class="row" style="justify-content:center;gap:10px;margin-top:8px;">
+      <button class="btn success sm" onclick="startTimer()">▶ Start</button>
+      <button class="btn warn sm" onclick="pauseTimer()">⏸ Pause</button>
+      <button class="btn light sm" onclick="resetTimer()">↺ Reset</button>
     </div>
   </div>
 
   <div class="card">
-    <div class="row" style="justify-content:space-between;">
-      <div>
-        <div style="font-weight:900;font-size:16px;">Fill List (Grouped)</div>
-        <div class="hint" id="totalHint">Total cases/units: 0</div>
+    <div class="cardTitle">📊 Today's Totals</div>
+    <div class="totalsBar">
+      <div class="totStat">
+        <div class="totNum" id="statItems">0</div>
+        <div class="totLbl">Line Items</div>
       </div>
-      <button id="sortBtn" class="btn ghost small" type="button">Sort</button>
+      <div class="totStat">
+        <div class="totNum" id="statUnits">0</div>
+        <div class="totLbl">Total Units</div>
+      </div>
+      <div class="totStat">
+        <div class="totNum" id="statOOS">0</div>
+        <div class="totLbl">Out of Stock</div>
+      </div>
     </div>
-
-    <div style="height:12px"></div>
-    <div id="items" class="list"></div>
-
-    <div class="hint" style="margin-top:12px;">
-      Tip: If something is wrong, just tap <b>+</b> / <b>-</b> next to it.
-    </div>
-  </div>
-
-  <div class="card">
-    <div style="font-weight:900;font-size:16px;margin-bottom:10px;">Export</div>
-    <div class="row">
-      <button id="copyBtn" class="btn" type="button">Copy List</button>
-      <button id="emailBtn" class="btn primary" type="button">Email List</button>
-    </div>
-    <div style="height:10px"></div>
-    <div id="exportArea" class="exportArea" readonly></div>
+    <div class="hint" id="statDate"></div>
   </div>
 </div>
 
-<div class="footerNote">
-  Works as a free iPhone home-screen app (PWA). No Apple App Store fees.
+<!-- ============================================================ -->
+<!-- SCREEN: VOICE -->
+<!-- ============================================================ -->
+<div class="screen" id="sVoice">
+  <div class="card">
+    <div class="cardTitle">🎤 Voice Entry</div>
+    <button id="micBtn" class="btn primary full" onclick="toggleMic()">
+      🎤 Start Voice
+    </button>
+    <div class="status" id="micStatus">Tap Start Voice, then speak.</div>
+    <div style="height:6px"></div>
+    <div class="hint"><b>Last transcript:</b></div>
+    <div id="transcript" class="transcript"></div>
+    <div class="row" style="margin-top:10px;">
+      <button class="btn success" onclick="addParsed()">✅ Add Parsed Items</button>
+      <button class="btn light sm" onclick="clearTranscript()">✕ Clear</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="cardTitle">💬 Voice Cheat Sheet</div>
+    <div class="hint">
+      Say: <b>"[Product] [size] [cans/bottles] need [number]"</b><br><br>
+      Examples:<br>
+      • "Pepsi 12 pack cans need 8"<br>
+      • "Diet Pepsi 1.25 liter bottles need 6"<br>
+      • "Mountain Dew 20 oz bottles need 10"<br>
+      • "Gatorade 24 pack need 3"<br>
+      • "Aquafina 20 oz need 12"<br>
+      • "Pepsi Zero 12 pack cans need 4"<br>
+      • "Bubly 12 pack cans need 2"<br><br>
+      You can say multiple in one go:<br>
+      <b>"Pepsi 12 pack cans need 8, Diet Pepsi 2 liter need 4"</b>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: QUICK ADD -->
+<!-- ============================================================ -->
+<div class="screen" id="sQuick">
+  <div class="card">
+    <div class="cardTitle">⚡ Quick Add — Tap to add 1</div>
+    <div class="quickGrid" id="quickGrid"></div>
+    <div style="height:10px"></div>
+    <div class="hint">Long-press any button to add a custom quantity.</div>
+  </div>
+
+  <div class="card">
+    <div class="cardTitle">➕ Add Custom Quick Button</div>
+    <label>Product Label</label>
+    <input id="qbLabel" type="text" placeholder="e.g. Pepsi 12pk Cans" />
+    <div class="row" style="margin-top:8px;">
+      <button class="btn primary" onclick="addQuickBtn()">Add Button</button>
+      <button class="btn danger sm" onclick="resetQuickBtns()">Reset All</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: FILL LIST -->
+<!-- ============================================================ -->
+<div class="screen" id="sList">
+  <div class="card">
+    <div class="row" style="justify-content:space-between;">
+      <div class="cardTitle" style="margin:0;">📋 Fill List</div>
+      <div class="row" style="gap:6px;">
+        <button class="btn light sm" onclick="sortList()">Sort A-Z</button>
+        <button class="btn danger sm" onclick="clearList()">Clear</button>
+      </div>
+    </div>
+    <div class="hint" id="totalHint" style="margin:6px 0 10px;">Total units: 0</div>
+    <div class="fillList" id="fillList"></div>
+    <div class="emptyState" id="emptyState">No items yet. Use Voice or Quick Add.</div>
+  </div>
+
+  <div class="card">
+    <div class="cardTitle">➕ Add Item Manually</div>
+    <label>Product</label>
+    <input id="manualLabel" type="text" placeholder="e.g. Pepsi 12pk Cans" />
+    <label>Quantity</label>
+    <input id="manualQty" type="number" placeholder="e.g. 8" min="1" />
+    <div style="height:8px"></div>
+    <button class="btn primary" onclick="addManual()">Add to List</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: NOTES -->
+<!-- ============================================================ -->
+<div class="screen" id="sNotes">
+  <div class="card">
+    <div class="cardTitle">📝 Store Notes</div>
+    <textarea id="noteText" rows="4" placeholder="e.g. Cooler light broken, back stock low on Diet Pepsi..."></textarea>
+    <div class="row" style="margin-top:8px;">
+      <button class="btn primary" onclick="addNote()">Add Note</button>
+      <button class="btn light sm" onclick="startVoiceNote()">🎤 Voice Note</button>
+    </div>
+    <div class="status" id="noteStatus"></div>
+  </div>
+
+  <div class="card">
+    <div class="cardTitle">Saved Notes This Visit</div>
+    <div id="notesList"></div>
+    <div class="emptyState" id="notesEmpty">No notes yet.</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: EXPORT -->
+<!-- ============================================================ -->
+<div class="screen" id="sExport">
+  <div class="card">
+    <div class="cardTitle">📤 Export This List</div>
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <button class="btn primary" onclick="copyExport()">📋 Copy</button>
+      <button class="btn success" onclick="emailExport()">📧 Email</button>
+      <button class="btn warn" onclick="smsExport()">💬 Text/SMS</button>
+      <button class="btn light sm" onclick="saveToHistory()">💾 Save to History</button>
+    </div>
+    <div class="status" id="exportStatus"></div>
+    <div style="height:8px"></div>
+    <div id="exportBox" class="exportBox">No items yet.</div>
+  </div>
+
+  <div class="card">
+    <div class="cardTitle">💬 Text Contacts</div>
+    <div class="hint">Add people you text lists to. When you tap "Text/SMS" you pick who to send to.</div>
+    <div style="height:8px"></div>
+    <div id="contactsList"></div>
+    <div class="divider"></div>
+    <label>Name</label>
+    <input id="contactName" type="text" placeholder="e.g. Manager Mike" />
+    <label>Phone Number</label>
+    <input id="contactPhone" type="tel" placeholder="e.g. 5855551234" />
+    <div style="height:8px"></div>
+    <button class="btn primary sm" onclick="addContact()">Add Contact</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: HISTORY -->
+<!-- ============================================================ -->
+<div class="screen" id="sHistory">
+  <div class="card">
+    <div class="cardTitle">🕘 Saved Lists</div>
+    <div class="hint">Tap any saved list to view or re-export it.</div>
+    <div style="height:8px"></div>
+    <div id="historyList"></div>
+    <div class="emptyState" id="histEmpty">No saved lists yet. Use "Save to History" in Export.</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: SETTINGS -->
+<!-- ============================================================ -->
+<div class="screen" id="sSettings">
+  <div class="card">
+    <div class="cardTitle">⚙️ Settings</div>
+    <div class="hint">Your default email address (for "Email List")</div>
+    <label>My Email</label>
+    <input id="settingEmail" type="email" placeholder="you@email.com" />
+    <div style="height:8px"></div>
+    <button class="btn primary sm" onclick="saveSetting('email')">Save Email</button>
+    <div class="divider"></div>
+    <div class="hint">App version: 2.0 | All data saved locally on this device.</div>
+    <div style="height:8px"></div>
+    <button class="btn danger sm" onclick="nukeAll()">⚠️ Delete ALL Data</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL: Store Picker -->
+<!-- ============================================================ -->
+<div class="modalBack" id="storeModal">
+  <div class="modal">
+    <div class="modalTitle">Saved Stores</div>
+    <div id="storeDropList"></div>
+    <div style="height:10px"></div>
+    <button class="btn light full" onclick="closeModal('storeModal')">Cancel</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL: History Detail -->
+<!-- ============================================================ -->
+<div class="modalBack" id="histModal">
+  <div class="modal">
+    <div class="modalTitle" id="histModalTitle">List Detail</div>
+    <div id="histModalBody" class="exportBox" style="margin-bottom:12px;"></div>
+    <div class="row" style="gap:8px;flex-wrap:wrap;">
+      <button class="btn primary sm" onclick="copyHistModal()">📋 Copy</button>
+      <button class="btn success sm" onclick="emailHistModal()">📧 Email</button>
+      <button class="btn warn sm" onclick="smsHistModal()">💬 Text</button>
+      <button class="btn danger sm" onclick="deleteHistModal()">🗑 Delete</button>
+    </div>
+    <div style="height:10px"></div>
+    <button class="btn light full" onclick="closeModal('histModal')">Close</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL: SMS Contact Picker -->
+<!-- ============================================================ -->
+<div class="modalBack" id="smsModal">
+  <div class="modal">
+    <div class="modalTitle">Send Text To...</div>
+    <div id="smsPickList"></div>
+    <div style="height:10px"></div>
+    <button class="btn light full" onclick="closeModal('smsModal')">Cancel</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL: Quick Add Quantity -->
+<!-- ============================================================ -->
+<div class="modalBack" id="qtyModal">
+  <div class="modal">
+    <div class="modalTitle" id="qtyModalTitle">How many?</div>
+    <input id="qtyModalInput" type="number" placeholder="e.g. 6" min="1" />
+    <div style="height:10px"></div>
+    <div class="row">
+      <button class="btn primary" onclick="confirmQtyModal()">Add</button>
+      <button class="btn light" onclick="closeModal('qtyModal')">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <script>
-  /***********************
-   * Speech Recognition
-   ***********************/
-  const statusText = document.getElementById('statusText');
-  const transcriptEl = document.getElementById('transcript');
-  const micBtn = document.getElementById('micBtn');
-  const micText = document.getElementById('micText');
+/* ============================================================
+   STATE
+   ============================================================ */
+let currentStore = { name: "", address: "" };
+let itemMap = new Map();   // label -> { qty, oos }
+let notes = [];
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+let currentHistItem = null;  // for history modal
+let currentQtyLabel = null;  // for qty modal
 
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+/* ============================================================
+   STORAGE HELPERS
+   ============================================================ */
+function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+function load(key, def){ const v=localStorage.getItem(key); return v ? JSON.parse(v) : def; }
 
-  let recognition = null;
-  let listening = false;
-  let lastFinalTranscript = "";
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.navBtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // highlight correct nav button
+  const idx = ['sStore','sVoice','sQuick','sList','sNotes','sExport','sHistory','sSettings'].indexOf(id);
+  document.querySelectorAll('.navBtn')[idx].classList.add('active');
+  if(id==='sExport') renderExport();
+  if(id==='sHistory') renderHistory();
+  if(id==='sList') renderList();
+}
 
-  function setListeningUI(isOn){
-    listening = isOn;
-    micText.textContent = isOn ? "Listening..." : "Start Voice";
-    micBtn.style.opacity = isOn ? "0.95" : "1";
+/* ============================================================
+   MODALS
+   ============================================================ */
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+/* ============================================================
+   STORE
+   ============================================================ */
+function startStore(){
+  const name = document.getElementById('storeNameInput').value.trim();
+  const addr = document.getElementById('storeAddrInput').value.trim();
+  if(!name){ document.getElementById('storeStatus').textContent="Please enter a store name."; return; }
+  currentStore = { name, address: addr };
+  itemMap.clear();
+  notes = [];
+  timerSeconds = 0;
+  timerRunning = false;
+  clearInterval(timerInterval);
+  document.getElementById('timerDisplay').textContent = "00:00:00";
+  document.getElementById('storeStatus').textContent = `✅ Store set: ${name}`;
+  document.getElementById('headerSub').textContent = `${name}${addr ? ' — '+addr:''}`;
+  renderList();
+  renderNotes();
+  updateStats();
+}
+
+function saveStoreToDropdown(){
+  const name = document.getElementById('storeNameInput').value.trim();
+  const addr = document.getElementById('storeAddrInput').value.trim();
+  if(!name){ alert("Enter a store name first."); return; }
+  let stores = load('savedStores', []);
+  if(!stores.find(s=>s.name===name)){
+    stores.push({ name, address: addr });
+    save('savedStores', stores);
   }
+  document.getElementById('storeStatus').textContent = `💾 "${name}" saved to dropdown.`;
+}
 
-  function initSpeech(){
-    if(!SpeechRecognition){
-      statusText.textContent = "Voice recognition is not supported in this browser. Try Safari on iPhone.";
-      micBtn.disabled = true;
-      return;
-    }
-    recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.interimResults = true;
-    recognition.continuous = false;
-
-    recognition.onstart = () => {
-      setListeningUI(true);
-      statusText.textContent = "Listening... Speak now. Use: \"<Product> need <Quantity>\".";
-    };
-
-    recognition.onerror = (e) => {
-      setListeningUI(false);
-      statusText.textContent = "Speech error: " + (e.error || "unknown") + ". Try again and confirm mic permission.";
-    };
-
-    recognition.onend = () => {
-      setListeningUI(false);
-      if(lastFinalTranscript.trim()){
-        statusText.textContent = "Done. Review transcript, then tap \"Add Parsed Items\".";
-      } else {
-        statusText.textContent = "Stopped. Tap \"Start Voice\" again and speak clearly.";
-      }
-    };
-
-    recognition.onresult = (event) => {
-      let interim = "";
-      let final = "";
-      for(let i=event.resultIndex; i<event.results.length; i++){
-        const text = event.results[i][0].transcript;
-        if(event.results[i].isFinal) final += text;
-        else interim += text;
-      }
-      const combined = (final || interim).trim();
-      transcriptEl.textContent = combined;
-      if(final.trim()) lastFinalTranscript = final.trim();
-    };
-  }
-
-  micBtn.addEventListener('click', async () => {
-    if(!recognition) return;
-    lastFinalTranscript = "";
-    transcriptEl.textContent = "";
-    try{
-      recognition.start();
-    }catch(err){
-      statusText.textContent = "Could not start listening. If you just listened, wait 2 seconds and tap again.";
-      console.warn(err);
-    }
-  });
-
-  /***********************
-   * Parsing + Grouping
-   ***********************/
-  const itemsEl = document.getElementById('items');
-  const totalHint = document.getElementById('totalHint');
-  const exportArea = document.getElementById('exportArea');
-
-  const addBtn = document.getElementById('addBtn');
-  const clearBtn = document.getElementById('clearBtn');
-  const sortBtn = document.getElementById('sortBtn');
-
-  // Map: label -> qty
-  const itemMap = new Map();
-
-  // Convert number words ONLY (does not touch decimals like 1.25)
-  function wordToDigits(s){
-    s = (s || "").toLowerCase();
-
-    const units = {
-      "zero":0,"one":1,"two":2,"three":3,"four":4,"five":5,"six":6,"seven":7,"eight":8,"nine":9,
-      "ten":10,"eleven":11,"twelve":12,"thirteen":13,"fourteen":14,"fifteen":15,"sixteen":16,"seventeen":17,
-      "eighteen":18,"nineteen":19
-    };
-    const tens = {"twenty":20,"thirty":30,"forty":40,"fifty":50,"sixty":60,"seventy":70,"eighty":80,"ninety":90};
-
-    // twenty one, thirty four, etc.
-    s = s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\s+(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g, (match, t, u) => {
-      return String(tens[t] + units[u]);
+function pickFromDropdown(){
+  const stores = load('savedStores', []);
+  const list = document.getElementById('storeDropList');
+  list.innerHTML = "";
+  if(!stores.length){
+    list.innerHTML = '<div class="emptyState">No saved stores yet.</div>';
+  } else {
+    stores.forEach((s,i)=>{
+      const d = document.createElement('div');
+      d.className = "histItem";
+      d.innerHTML = `<div class="histTitle">${s.name}</div><div class="histSub">${s.address||'No address'}</div>`;
+      d.onclick = ()=>{
+        document.getElementById('storeNameInput').value = s.name;
+        document.getElementById('storeAddrInput').value = s.address||"";
+        closeModal('storeModal');
+      };
+      // delete button
+      const del = document.createElement('button');
+      del.className = "btn danger sm";
+      del.style = "margin-top:6px;";
+      del.textContent = "🗑 Remove";
+      del.onclick = (e)=>{
+        e.stopPropagation();
+        stores.splice(i,1);
+        save('savedStores',stores);
+        pickFromDropdown();
+      };
+      d.appendChild(del);
+      list.appendChild(d);
     });
+  }
+  openModal('storeModal');
+}
 
-    // standalone teens/units
-    s = s.replace(/\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g, (m, w) => {
-      return String(units[w]);
+/* ============================================================
+   TIMER
+   ============================================================ */
+function startTimer(){
+  if(timerRunning) return;
+  timerRunning = true;
+  timerInterval = setInterval(()=>{
+    timerSeconds++;
+    const h=Math.floor(timerSeconds/3600);
+    const m=Math.floor((timerSeconds%3600)/60);
+    const s=timerSeconds%60;
+    document.getElementById('timerDisplay').textContent =
+      String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  },1000);
+}
+function pauseTimer(){
+  timerRunning = false;
+  clearInterval(timerInterval);
+}
+function resetTimer(){
+  pauseTimer();
+  timerSeconds = 0;
+  document.getElementById('timerDisplay').textContent = "00:00:00";
+}
+
+/* ============================================================
+   STATS
+   ============================================================ */
+function updateStats(){
+  const entries = Array.from(itemMap.values());
+  const items = entries.length;
+  const units = entries.reduce((a,v)=>a+v.qty, 0);
+  const oos = entries.filter(v=>v.oos).length;
+  document.getElementById('statItems').textContent = items;
+  document.getElementById('statUnits').textContent = units;
+  document.getElementById('statOOS').textContent = oos;
+  const now = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  document.getElementById('statDate').textContent =
+    days[now.getDay()] + ', ' + now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+}
+
+/* ============================================================
+   SPEECH RECOGNITION
+   ============================================================ */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
+let micOn = false;
+let lastTranscript = "";
+
+function initSpeech(){
+  if(!SR){
+    document.getElementById('micStatus').textContent = "Voice not supported. Use Safari on iPhone.";
+    document.getElementById('micBtn').disabled = true;
+    return;
+  }
+  recognition = new SR();
+  recognition.lang = "en-US";
+  recognition.interimResults = true;
+  recognition.continuous = false;
+
+  recognition.onstart = ()=>{
+    micOn=true;
+    document.getElementById('micBtn').textContent = "🔴 Listening... (tap to stop)";
+    document.getElementById('micStatus').textContent = "Listening. Speak now.";
+  };
+  recognition.onerror = (e)=>{
+    micOn=false;
+    document.getElementById('micBtn').textContent = "🎤 Start Voice";
+    document.getElementById('micStatus').textContent = "Error: "+e.error+". Try again.";
+  };
+  recognition.onend = ()=>{
+    micOn=false;
+    document.getElementById('micBtn').textContent = "🎤 Start Voice";
+    if(lastTranscript) document.getElementById('micStatus').textContent = "Done. Tap \"Add Parsed Items\".";
+    else document.getElementById('micStatus').textContent = "Stopped. Tap Start Voice to try again.";
+  };
+  recognition.onresult = (ev)=>{
+    let interim="", final="";
+    for(let i=ev.resultIndex;i<ev.results.length;i++){
+      const t=ev.results[i][0].transcript;
+      if(ev.results[i].isFinal) final+=t;
+      else interim+=t;
+    }
+    const text=(final||interim).trim();
+    document.getElementById('transcript').textContent = text;
+    if(final.trim()) lastTranscript=final.trim();
+  };
+}
+
+function toggleMic(){
+  if(!recognition) return;
+  if(micOn){ recognition.stop(); return; }
+  lastTranscript="";
+  document.getElementById('transcript').textContent="";
+  try{ recognition.start(); }
+  catch(e){ document.getElementById('micStatus').textContent="Wait a moment then try again."; }
+}
+
+function clearTranscript(){
+  document.getElementById('transcript').textContent="";
+  lastTranscript="";
+}
+
+/* ============================================================
+   PARSING
+   ============================================================ */
+function wordToDigits(s){
+  s=(s||"").toLowerCase();
+  const units={"zero":0,"one":1,"two":2,"three":3,"four":4,"five":5,"six":6,"seven":7,"eight":8,"nine":9,"ten":10,"eleven":11,"twelve":12,"thirteen":13,"fourteen":14,"fifteen":15,"sixteen":16,"seventeen":17,"eighteen":18,"nineteen":19};
+  const tens={"twenty":20,"thirty":30,"forty":40,"fifty":50,"sixty":60,"seventy":70,"eighty":80,"ninety":90};
+  s=s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\s+(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g,(_,t,u)=>String(tens[t]+units[u]));
+  s=s.replace(/\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g,(_,w)=>String(units[w]));
+  s=s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\b/g,(_,w)=>String(tens[w]));
+  return s;
+}
+
+function normalizeText(s){
+  s=(s||"").toLowerCase();
+  s=s.replace(/zero\s*sugar/g,"zero");
+  s=s.replace(/diet\s*pepsi/g,"diet pepsi");
+  s=s.replace(/mountain\s*dew/g,"mountain dew");
+  s=s.replace(/\bone\s+and\s+(a\s+)?quarter\b/g,"1.25");
+  s=s.replace(/\bbottles?\b/g,"bottles");
+  s=s.replace(/\bcans?\b/g,"cans");
+  s=s.replace(/ounces\b/g,"oz");
+  s=s.replace(/liters?\b/g,"liter");
+  s=s.replace(/[()]/g," ");
+  s=s.replace(/[,;]+/g,",");
+  s=s.replace(/\s+/g," ").trim();
+  s=wordToDigits(s);
+  return s;
+}
+
+function detectContainer(seg){
+  if(/\b(bottle|bottles)\b/.test(seg)) return "bottles";
+  if(/\b(can|cans)\b/.test(seg)) return "cans";
+  return "";
+}
+
+function detectSize(seg){
+  const pack=seg.match(/(\d+)\s*(pack|pk|case)\b/);
+  if(pack) return pack[1]+"pk";
+  const lit=seg.match(/(\d+(?:\.\d+)?)\s*(l|lt|liter)\b/);
+  if(lit) return String(parseFloat(lit[1]))+"L";
+  const oz=seg.match(/(\d+(?:\.\d+)?)\s*(oz|ounce)\b/);
+  if(oz) return oz[1].replace(/\.0$/,"")+"oz";
+  return "unknown";
+}
+
+function detectBrand(seg){
+  const s=seg.toLowerCase();
+  if(s.includes("gatorade")){
+    let v="";
+    if(s.includes("zero"))v="Zero";
+    else if(s.includes("fierce"))v="Fierce";
+    else if(s.includes("thirst"))v="Thirst Quencher";
+    return {brand:"Gatorade",variant:v};
+  }
+  if(s.includes("aquafina")) return {brand:"Aquafina",variant:""};
+  if(s.includes("propel")) return {brand:"Propel",variant:s.includes("zero")?"Zero":""};
+  if(s.includes("bubly")){
+    let v="";
+    if(s.includes("blackberry")||s.includes("berry"))v="Berry";
+    else if(s.includes("grapefruit"))v="Grapefruit";
+    else if(s.includes("lime"))v="Lime";
+    else if(s.includes("lemon"))v="Lemon";
+    else if(s.includes("cherry"))v="Cherry";
+    else if(s.includes("peach"))v="Peach";
+    else if(s.includes("apple"))v="Apple";
+    else if(s.includes("mango"))v="Mango";
+    else if(s.includes("strawberry"))v="Strawberry";
+    return {brand:"Bubly",variant:v};
+  }
+  if(s.includes("mountain dew")){
+    let v="";
+    if(s.includes("baja blast"))v=s.includes("zero")?"Baja Blast Zero":"Baja Blast";
+    else if(s.includes("code red"))v="Code Red";
+    else if(s.includes("voltage"))v="Voltage";
+    else if(s.includes("zero")||s.includes("0 sugar"))v="Zero";
+    else if(s.includes("live wire"))v="Live Wire";
+    else if(s.includes("major melon"))v="Major Melon";
+    return {brand:"Mountain Dew",variant:v};
+  }
+  if(s.includes("pepsi")){
+    let v="";
+    if(s.includes("diet"))v="Diet";
+    else if(s.includes("zero"))v="Zero Sugar";
+    else if(s.includes("wild cherry"))v="Wild Cherry";
+    else if(s.includes("cherry"))v="Cherry";
+    else if(s.includes("vanilla"))v="Vanilla";
+    else if(s.includes("mango"))v="Mango";
+    return {brand:"Pepsi",variant:v};
+  }
+  if(s.includes("mug")) return {brand:"Mug",variant:"Root Beer"};
+  if(s.includes("tropicana")){
+    let v="";
+    if(s.includes("orange"))v="Orange";
+    else if(s.includes("lemon"))v="Lemon";
+    else if(s.includes("grape"))v="Grape";
+    else if(s.includes("apple"))v="Apple";
+    return {brand:"Tropicana",variant:v};
+  }
+  if(s.includes("starry")) return {brand:"Starry",variant:s.includes("zero")?"Zero":""};
+  if(s.includes("lipton")){
+    let v="";
+    if(s.includes("green"))v="Green Tea";
+    else if(s.includes("peach"))v="Peach Tea";
+    else v="Iced Tea";
+    return {brand:"Lipton",variant:v};
+  }
+  if(s.includes("rockstar")) return {brand:"Rockstar",variant:""};
+  return {brand:"",variant:""};
+}
+
+function makeLabel(seg){
+  const s=normalizeText(seg);
+  const size=detectSize(s);
+  const container=detectContainer(s);
+  const bi=detectBrand(s);
+  let base=bi.brand||(seg.replace(/\bneed\b.*/,"").trim()||"Unknown");
+  if(bi.variant) base+=` (${bi.variant})`;
+  let label=`${base} | ${size}`;
+  if(container) label+=` — ${container}`;
+  return label;
+}
+
+function parseTranscript(text){
+  text=normalizeText(text);
+  text=text.replace(/\band\b/g,",").replace(/\s*,\s*/g,",");
+  const re=/(.+?)\b(?:need|needs|want|add|fill)\b\s*(\d+)\b/gmi;
+  const out=[];
+  let m;
+  while((m=re.exec(text))!==null){
+    const seg=(m[1]||"").trim();
+    const qty=parseInt(m[2],10);
+    if(seg&&qty>0) out.push({label:makeLabel(seg),qty});
+  }
+  return out;
+}
+
+/* ============================================================
+   ADD TO LIST
+   ============================================================ */
+function addToList(label, qty, oos=false){
+  const prev=itemMap.get(label)||{qty:0,oos:false};
+  itemMap.set(label,{qty:prev.qty+qty, oos: prev.oos||oos});
+  renderList();
+  updateStats();
+}
+
+function addParsed(){
+  const t=(document.getElementById('transcript').textContent||"").trim();
+  if(!t){ document.getElementById('micStatus').textContent="No transcript. Tap Start Voice first."; return; }
+  const entries=parseTranscript(t);
+  if(!entries.length){
+    document.getElementById('micStatus').textContent='No items found. Say "<Product> need <Qty>".';
+    return;
+  }
+  entries.forEach(e=>addToList(e.label,e.qty));
+  document.getElementById('micStatus').textContent=`✅ Added ${entries.length} item(s).`;
+  document.getElementById('transcript').textContent="";
+  lastTranscript="";
+  showScreen('sList');
+}
+
+function addManual(){
+  const label=document.getElementById('manualLabel').value.trim();
+  const qty=parseInt(document.getElementById('manualQty').value,10);
+  if(!label||!(qty>0)){ alert("Enter both a product name and quantity."); return; }
+  addToList(label,qty);
+  document.getElementById('manualLabel').value="";
+  document.getElementById('manualQty').value="";
+}
+
+/* ============================================================
+   RENDER LIST
+   ============================================================ */
+function renderList(){
+  const list=document.getElementById('fillList');
+  const empty=document.getElementById('emptyState');
+  list.innerHTML="";
+  const entries=Array.from(itemMap.entries()).sort((a,b)=>a[0].localeCompare(b[0]));
+  if(!entries.length){ empty.style.display="block"; document.getElementById('totalHint').textContent="Total units: 0"; return; }
+  empty.style.display="none";
+  let total=0;
+  entries.forEach(([label,val])=>{
+    total+=val.qty;
+    const d=document.createElement('div');
+    d.className="fillItem"+(val.oos?" outOfStock":"");
+    d.innerHTML=`
+      <div style="flex:1 1 auto;">
+        <div class="iLabel">${label}</div>
+        ${val.oos?'<span class="iFlag">OUT OF STOCK</span>':''}
+      </div>
+      <div class="qtyBox">
+        <button class="qBtn" onclick="changeQty('${label}',-1)">–</button>
+        <div class="qNum">${val.qty}</div>
+        <button class="qBtn" onclick="changeQty('${label}',1)">+</button>
+        <button class="btn warn sm" onclick="toggleOOS('${label}')" title="Toggle Out of Stock">⚠️</button>
+        <button class="btn danger sm" onclick="removeItem('${label}')" title="Remove">✕</button>
+      </div>`;
+    list.appendChild(d);
+  });
+  document.getElementById('totalHint').textContent=`Total units: ${total} across ${entries.length} line item(s)`;
+  updateStats();
+  renderExportQuiet();
+}
+
+function changeQty(label, delta){
+  const prev=itemMap.get(label);
+  if(!prev) return;
+  const next=prev.qty+delta;
+  if(next<=0){ itemMap.delete(label); }
+  else { itemMap.set(label,{...prev,qty:next}); }
+  renderList();
+}
+
+function removeItem(label){
+  itemMap.delete(label);
+  renderList();
+}
+
+function toggleOOS(label){
+  const prev=itemMap.get(label);
+  if(!prev) return;
+  itemMap.set(label,{...prev,oos:!prev.oos});
+  renderList();
+}
+
+function sortList(){
+  renderList();
+}
+
+function clearList(){
+  if(!confirm("Clear the entire fill list?")) return;
+  itemMap.clear();
+  renderList();
+}
+
+/* ============================================================
+   QUICK ADD BUTTONS
+   ============================================================ */
+const DEFAULT_QUICK=[
+  "Pepsi 12pk Cans","Pepsi 12pk Bottles","Diet Pepsi 12pk Cans",
+  "Pepsi Zero 12pk Cans","Pepsi 2L","Diet Pepsi 2L",
+  "Pepsi 20oz Bottles","Mountain Dew 12pk Cans","Mountain Dew 2L",
+  "Gatorade 20oz","Aquafina 20oz","Bubly 12pk Cans"
+];
+
+function loadQuickBtns(){
+  return load('quickBtns', DEFAULT_QUICK);
+}
+
+function renderQuickBtns(){
+  const btns=loadQuickBtns();
+  const grid=document.getElementById('quickGrid');
+  grid.innerHTML="";
+  btns.forEach((label,idx)=>{
+    const d=document.createElement('div');
+    d.className="quickItem";
+    d.textContent=label+" (+1)";
+    d.onclick=()=> addToList(label,1);
+    d.oncontextmenu=(e)=>{
+      e.preventDefault();
+      currentQtyLabel=label;
+      document.getElementById('qtyModalTitle').textContent=`How many ${label}?`;
+      document.getElementById('qtyModalInput').value="";
+      openModal('qtyModal');
+    };
+    // long press for mobile
+    let pressTimer;
+    d.addEventListener('touchstart',()=>{ pressTimer=setTimeout(()=>{ currentQtyLabel=label; document.getElementById('qtyModalTitle').textContent=`How many ${label}?`; document.getElementById('qtyModalInput').value=""; openModal('qtyModal'); },600); });
+    d.addEventListener('touchend',()=>clearTimeout(pressTimer));
+    d.addEventListener('touchmove',()=>clearTimeout(pressTimer));
+    grid.appendChild(d);
+  });
+}
+
+function addQuickBtn(){
+  const label=document.getElementById('qbLabel').value.trim();
+  if(!label){ alert("Enter a label."); return; }
+  const btns=loadQuickBtns();
+  if(!btns.includes(label)) btns.push(label);
+  save('quickBtns',btns);
+  document.getElementById('qbLabel').value="";
+  renderQuickBtns();
+}
+
+function resetQuickBtns(){
+  if(!confirm("Reset quick buttons to defaults?")) return;
+  save('quickBtns',DEFAULT_QUICK);
+  renderQuickBtns();
+}
+
+function confirmQtyModal(){
+  const qty=parseInt(document.getElementById('qtyModalInput').value,10);
+  if(!(qty>0)){ alert("Enter a valid quantity."); return; }
+  if(currentQtyLabel) addToList(currentQtyLabel,qty);
+  closeModal('qtyModal');
+}
+
+/* ============================================================
+   NOTES
+   ============================================================ */
+function addNote(){
+  const text=document.getElementById('noteText').value.trim();
+  if(!text){ document.getElementById('noteStatus').textContent="Enter a note first."; return; }
+  notes.push({ text, time: new Date().toLocaleTimeString() });
+  document.getElementById('noteText').value="";
+  document.getElementById('noteStatus').textContent="✅ Note added.";
+  renderNotes();
+}
+
+function startVoiceNote(){
+  if(!recognition){ alert("Voice not supported."); return; }
+  recognition.onend=()=>{
+    micOn=false;
+    const t=(document.getElementById('transcript').textContent||"").trim();
+    if(t){ notes.push({text:t, time:new Date().toLocaleTimeString()}); renderNotes(); document.getElementById('noteStatus').textContent="✅ Voice note added."; }
+    // re-init so voice works again on voice screen
+    initSpeech();
+  };
+  try{ recognition.start(); document.getElementById('noteStatus').textContent="Listening for note..."; }
+  catch(e){ document.getElementById('noteStatus').textContent="Wait a moment and try again."; }
+}
+
+function renderNotes(){
+  const list=document.getElementById('notesList');
+  const empty=document.getElementById('notesEmpty');
+  list.innerHTML="";
+  if(!notes.length){ empty.style.display="block"; return; }
+  empty.style.display="none";
+  notes.forEach((n,i)=>{
+    const d=document.createElement('div');
+    d.style="padding:8px 0;border-bottom:1px solid var(--line);";
+    d.innerHTML=`<span class="noteChip">${n.time}</span> ${n.text} <button class="btn danger sm" style="float:right;" onclick="deleteNote(${i})">✕</button>`;
+    list.appendChild(d);
+  });
+}
+
+function deleteNote(i){
+  notes.splice(i,1);
+  renderNotes();
+}
+
+/* ============================================================
+   EXPORT
+   ============================================================ */
+function buildExportText(){
+  const now=new Date();
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const dateStr=days[now.getDay()]+', '+now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  const timeStr=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  const timerVal=document.getElementById('timerDisplay').textContent;
+
+  let lines=[];
+  lines.push("===================================");
+  lines.push("  PEPSICO FILL LIST");
+  lines.push("===================================");
+  if(currentStore.name) lines.push(`Store: ${currentStore.name}`);
+  if(currentStore.address) lines.push(`Address: ${currentStore.address}`);
+  lines.push(`Date: ${dateStr}`);
+  lines.push(`Time: ${timeStr}`);
+  lines.push(`Time at Store: ${timerVal}`);
+  lines.push("-----------------------------------");
+
+  const entries=Array.from(itemMap.entries()).sort((a,b)=>a[0].localeCompare(b[0]));
+  if(!entries.length){
+    lines.push("No items.");
+  } else {
+    let total=0;
+    entries.forEach(([label,val])=>{
+      total+=val.qty;
+      lines.push(`${val.oos?"[OOS] ":""}${label}: ${val.qty}`);
     });
+    lines.push("-----------------------------------");
+    lines.push(`TOTAL UNITS: ${total}`);
+  }
 
-    // standalone tens
-    s = s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\b/g, (m, w) => {
-      return String(tens[w]);
+  if(notes.length){
+    lines.push("-----------------------------------");
+    lines.push("NOTES:");
+    notes.forEach(n=>lines.push(`• [${n.time}] ${n.text}`));
+  }
+
+  lines.push("===================================");
+  return lines.join("\n");
+}
+
+function renderExport(){
+  document.getElementById('exportBox').textContent=buildExportText();
+}
+function renderExportQuiet(){
+  const el=document.getElementById('exportBox');
+  if(el) el.textContent=buildExportText();
+}
+
+async function copyExport(){
+  const text=buildExportText();
+  try{
+    await navigator.clipboard.writeText(text);
+    document.getElementById('exportStatus').textContent="✅ Copied to clipboard.";
+  }catch(e){
+    document.getElementById('exportStatus').textContent="Copy failed. Try selecting text manually.";
+  }
+}
+
+function emailExport(){
+  const text=buildExportText();
+  const email=load('settings',{}).email||"";
+  const subject=encodeURIComponent(`PepsiCo Fill List — ${currentStore.name||'Store'}`);
+  const body=encodeURIComponent(text);
+  window.location.href=`mailto:${email}?subject=${subject}&body=${body}`;
+}
+
+function smsExport(){
+  const contacts=load('contacts',[]);
+  const list=document.getElementById('smsPickList');
+  list.innerHTML="";
+  if(!contacts.length){
+    list.innerHTML='<div class="emptyState">No contacts saved. Add contacts below first.</div>';
+  } else {
+    contacts.forEach(c=>{
+      const d=document.createElement('div');
+      d.className="contactItem";
+      d.style.cursor="pointer";
+      d.innerHTML=`<div><div class="contactName">${c.name}</div><div class="contactNum">${c.phone}</div></div><button class="btn primary sm">Send</button>`;
+      d.querySelector('button').onclick=()=>{
+        const text=encodeURIComponent(buildExportText());
+        window.location.href=`sms:${c.phone}&body=${text}`;
+        closeModal('smsModal');
+      };
+      list.appendChild(d);
     });
-
-    return s;
   }
-
-  function normalizeText(s){
-    s = (s || "").toLowerCase();
-
-    // Common speech -> canonical
-    s = s.replace(/zero\s*sugar/g, "zero");
-    s = s.replace(/pepsi\s*zero/g, "pepsi zero");
-    s = s.replace(/diet\s*pepsi/g, "diet pepsi");
-    s = s.replace(/mountain\s*dew/g, "mountain dew");
-
-    // liters: support "1.25" and common phrase forms
-    s = s.replace(/\b1\s*1\s*\/\s*4\b/g,'1.25');
-    s = s.replace(/\bone\s+and\s+(a\s+)?quarter\b/g,'1.25');
-    s = s.replace(/\b1\s+and\s+quarter\b/g,'1.25');
-
-    // Unit abbreviations
-    s = s.replace(/\bbottles?\b/g, "bottles");
-    s = s.replace(/\bcans?\b/g, "cans");
-    s = s.replace(/ounces/g, "oz");
-    s = s.replace(/liter(s)?\b/g, "liter");
-
-    // Remove extra punctuation
-    s = s.replace(/[()]/g,' ');
-    s = s.replace(/[,;]+/g, ',');
-    s = s.replace(/\s+/g, ' ').trim();
-
-    // Convert number words (quantities) to digits without breaking decimals
-    s = wordToDigits(s);
-
-    return s;
-  }
-
-  function detectContainer(segment){
-    segment = segment.toLowerCase();
-    if(/\b(bottle|bottles)\b/.test(segment)) return "bottles";
-    if(/\b(can|cans)\b/.test(segment)) return "cans";
-    return "";
-  }
-
-  function detectSizePart(segment){
-    segment = segment.toLowerCase();
-
-    // 12 pack / 24 pack / 6 pack / etc.
-    const pack = segment.match(/(\d+)\s*(pack|pk|case)\b/);
-    if(pack) return `${pack[1]}pk`;
-
-    // liters including 1.25
-    const liters = segment.match(/(\d+(?:\.\d+)?)\s*(l|lt|liter)\b/);
-    if(liters){
-      let val = liters[1];
-      // normalize "1.0" -> "1"
-      val = String(parseFloat(val));
-      return `${val}L`;
-    }
-
-    // ounces (20 oz singles, etc.)
-    const oz = segment.match(/(\d+(?:\.\d+)?)\s*(oz|ounce|ounces)\b/);
-    if(oz) return `${oz[1].replace(/\.0$/,'')}oz`;
-
-    return "unknown";
-  }
-
-  function detectBrandVariant(segment){
-    const s = segment.toLowerCase();
-
-    // Pepsi family
-    if(s.includes("gatorade")){
-      let variant = "";
-      if(s.includes("zero")) variant = "Zero";
-      if(s.includes("fierce")) variant = "Fierce";
-      if(s.includes("thirst")) variant = "Thirst Quencher";
-      return { brand: "Gatorade", variant };
-    }
-
-    if(s.includes("aquafina")){
-      return { brand: "Aquafina", variant: "" };
-    }
-
-    if(s.includes("propel")){
-      let variant = "";
-      if(s.includes("zero")) variant = "Zero";
-      return { brand: "Propel", variant };
-    }
-
-    if(s.includes("bubly")){
-      let variant = "";
-      if(s.includes("berry") || s.includes("blackberry")) variant = "Berry";
-      else if(s.includes("grapefruit")) variant = "Grapefruit";
-      else if(s.includes("lime")) variant = "Lime";
-      else if(s.includes("lemon")) variant = "Lemon";
-      else if(s.includes("cherry")) variant = "Cherry";
-      else if(s.includes("peach")) variant = "Peach";
-      return { brand: "Bubly", variant };
-    }
-
-    if(s.includes("mountain dew")){
-      let variant = "";
-      if(s.includes("baja blast")) variant = s.includes("zero") ? "Baja Blast Zero" : "Baja Blast";
-      else if(s.includes("code red")) variant = "Code Red";
-      else if(s.includes("zero") || s.includes("0 sugar")) variant = "Zero";
-      else if(s.includes("voltage")) variant = "Voltage";
-      return { brand: "Mountain Dew", variant };
-    }
-
-    // Pepsi sodas
-    if(s.includes("pepsi")){
-      // variant
-      let variant = "";
-      if(s.includes("diet")) variant = "Diet";
-      else if(s.includes("zero")) variant = "Zero Sugar";
-      else if(s.includes("wild cherry")) variant = "Wild Cherry";
-      else if(s.includes("cherry")) variant = "Cherry";
-      else if(s.includes("vanilla")) variant = "Vanilla";
-      else variant = "";
-
-      return { brand: "Pepsi", variant };
-    }
-
-    // Other common PepsiCo beverages (best-effort keyword matching)
-    if(s.includes("mug") && s.includes("root")) return { brand: "Mug", variant: "Root Beer" };
-    if(s.includes("tropicana")) {
-      let variant = "";
-      if(s.includes("orange")) variant = "Orange";
-      else if(s.includes("lemon")) variant = "Lemon";
-      return { brand: "Tropicana", variant };
-    }
-
-    return { brand: "Unrecognized PepsiCo", variant: "" };
-  }
-
-  function cleanFlavorRemainder(segment, brandInfo){
-    let s = segment.toLowerCase();
-
-    // Remove obvious size/unit/container words so remainder is mostly flavor/product words
-    s = s.replace(/(\d+(?:\.\d+)?)\s*(pack|pk|case)\b/g,' ');
-    s = s.replace(/(\d+(?:\.\d+)?)\s*(l|lt|liter)\b/g,' ');
-    s = s.replace(/(\d+(?:\.\d+)?)\s*oz\b/g,' ');
-    s = s.replace(/\bbottle|bottles|can|cans\b/g,' ');
-
-    // Remove brand + variant tokens
-    const brandTokens = [
-      "pepsi","diet","zero","mountain dew","gatorade","aquafina","bubly","propel","mug","tropicana",
-      "wild cherry","cherry","vanilla","code red","baja blast","voltage",
-      "thirst quencher","fierce"
-    ];
-    for(const t of brandTokens){
-      const re = new RegExp("\\b"+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+"\\b","g");
-      s = s.replace(re,' ');
-    }
-
-    // Remove command words
-    s = s.replace(/\b(need|needs|want|add|fill|quantity|qty|count|of|the|a|an|please)\b/g,' ');
-
-    s = s.replace(/\s+/g,' ').trim();
-    return s;
-  }
-
-  function makeLabel(rawProductSegment){
-    let segment = normalizeText(rawProductSegment);
-
-    const sizePart = detectSizePart(segment);
-    const containerPart = detectContainer(segment); // cans/bottles (optional)
-    const brandInfo = detectBrandVariant(segment);
-
-    const remainder = cleanFlavorRemainder(segment, brandInfo);
-
-    let base = brandInfo.brand;
-    if(brandInfo.variant) base += ` (${brandInfo.variant})`;
-
-    // Unrecognized fallback
-    if(brandInfo.brand === "Unrecognized PepsiCo"){
-      const safe = remainder && remainder.length ? remainder : (segment.replace(/\bneed\b.*$/,'').trim() || "Unrecognized item");
-      return `${safe} | ${sizePart}${containerPart ? ` — ${containerPart}` : ""}`;
-    }
-
-    // If we still have remainder (like extra flavor wording), append it
-    const extra = remainder && remainder !== "unknown" ? remainder : "";
-
-    let label = `${base} | ${sizePart}`;
-    if(containerPart) label += ` — ${containerPart}`;
-    if(extra) label += ` — ${extra}`;
-    return label;
-  }
-
-  function parseTranscriptToEntries(transcript){
-    // Example: "<product> need <qty>, <product> need <qty>"
-    transcript = normalizeText(transcript);
-
-    // Replace "and" with comma to help segmenting
-    transcript = transcript.replace(/\band\b/g, ',').replace(/\s*,\s*/g, ',');
-
-    // Pattern: productSegment + need|want|add|fill + qty
-    const re = /(.+?)\b(?:need|needs|want|add|fill)\b\s*(\d+)\b/gmi;
-
-    const matches = [];
-    let m;
-    while((m = re.exec(transcript)) !== null){
-      const productSegment = (m[1] || "").trim();
-      const qty = parseInt(m[2], 10);
-      if(productSegment && qty > 0){
-        matches.push({ productSegment, qty });
-      }
-    }
-    return matches;
-  }
-
-  function addEntry(label, qty){
-    const prev = itemMap.get(label) || 0;
-    itemMap.set(label, prev + qty);
-  }
-
-  function renderItems(){
-    itemsEl.innerHTML = "";
-
-    const entries = Array.from(itemMap.entries()).map(([label, qty]) => ({label, qty}));
-
-    // Sort alphabetically (simple + consistent)
-    entries.sort((a,b)=>a.label.localeCompare(b.label));
-
-    let total = 0;
-
-    for(const e of entries){
-      total += e.qty;
-
-      const itemDiv = document.createElement('div');
-      itemDiv.className = "item";
-
-      const left = document.createElement('div');
-      left.style.flex = "1 1 auto";
-
-      const labelDiv = document.createElement('div');
-      labelDiv.className = "label";
-      labelDiv.textContent = e.label;
-
-      const subDiv = document.createElement('div');
-      subDiv.className = "sub";
-      subDiv.textContent = "Grouped item";
-
-      left.appendChild(labelDiv);
-      left.appendChild(subDiv);
-
-      const right = document.createElement('div');
-      right.className = "qtyBox";
-
-      const minusBtn = document.createElement('button');
-      minusBtn.className = "qtyBtn";
-      minusBtn.type = "button";
-      minusBtn.textContent = "–";
-      minusBtn.addEventListener('click', () => {
-        const next = (itemMap.get(e.label) || 0) - 1;
-        if(next <= 0) itemMap.delete(e.label);
-        else itemMap.set(e.label, next);
-        renderAll();
-      });
-
-      const qtyDiv = document.createElement('div');
-      qtyDiv.className = "qty";
-      qtyDiv.textContent = e.qty;
-
-      const plusBtn = document.createElement('button');
-      plusBtn.className = "qtyBtn";
-      plusBtn.type = "button";
-      plusBtn.textContent = "+";
-      plusBtn.addEventListener('click', () => {
-        itemMap.set(e.label, (itemMap.get(e.label) || 0) + 1);
-        renderAll();
-      });
-
-      right.appendChild(minusBtn);
-      right.appendChild(qtyDiv);
-      right.appendChild(plusBtn);
-
-      itemDiv.appendChild(left);
-      itemDiv.appendChild(right);
-
-      itemsEl.appendChild(itemDiv);
-    }
-
-    totalHint.textContent = `Total cases/units: ${total}`;
-    renderExport();
-  }
-
-  function renderExport(){
-    const lines = [];
-    const entries = Array.from(itemMap.entries()).map(([label, qty]) => ({label, qty}));
-    entries.sort((a,b)=>a.label.localeCompare(b.label));
-
-    for(const e of entries){
-      lines.push(`${e.label}: ${e.qty}`);
-    }
-
-    exportArea.textContent = lines.length ? lines.join("\n") : "No items yet.";
-  }
-
-  function renderAll(){
-    renderItems();
-  }
-
-  addBtn.addEventListener('click', () => {
-    const t = (transcriptEl.textContent || "").trim();
-    if(!t){
-      statusText.textContent = "No transcript found. Tap Start Voice and speak first.";
-      return;
-    }
-    const entries = parseTranscriptToEntries(t);
-    if(entries.length === 0){
-      statusText.textContent = "Couldn't detect any \"<product> need <quantity>\" pairs. Use the word \"need\".";
-      return;
-    }
-
-    for(const ent of entries){
-      const label = makeLabel(ent.productSegment);
-      addEntry(label, ent.qty);
-    }
-
-    statusText.textContent = `Added ${entries.length} item(s). Review the grouped list below.`;
-    lastFinalTranscript = "";
-    transcriptEl.textContent = "";
-    renderAll();
+  openModal('smsModal');
+}
+
+/* ============================================================
+   SAVE TO HISTORY
+   ============================================================ */
+function saveToHistory(){
+  const text=buildExportText();
+  const now=new Date();
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const entry={
+    id: Date.now(),
+    store: currentStore.name||"Unknown Store",
+    address: currentStore.address||"",
+    date: days[now.getDay()]+', '+now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}),
+    time: now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),
+    items: itemMap.size,
+    units: Array.from(itemMap.values()).reduce((a,v)=>a+v.qty,0),
+    text
+  };
+  let history=load('history',[]);
+  history.unshift(entry);
+  save('history',history);
+  document.getElementById('exportStatus').textContent="✅ Saved to History.";
+}
+
+/* ============================================================
+   HISTORY
+   ============================================================ */
+function renderHistory(){
+  const list=document.getElementById('historyList');
+  const empty=document.getElementById('histEmpty');
+  const history=load('history',[]);
+  list.innerHTML="";
+  if(!history.length){ empty.style.display="block"; return; }
+  empty.style.display="none";
+  history.forEach(entry=>{
+    const d=document.createElement('div');
+    d.className="histItem";
+    d.innerHTML=`
+      <div class="histTitle">${entry.store}</div>
+      <div class="histSub">${entry.address||''}</div>
+      <div class="histSub">${entry.date} at ${entry.time}</div>
+      <span class="histBadge">${entry.items} items · ${entry.units} units</span>`;
+    d.onclick=()=> openHistModal(entry);
+    list.appendChild(d);
   });
+}
 
-  clearBtn.addEventListener('click', () => {
-    itemMap.clear();
-    renderAll();
-    transcriptEl.textContent = "";
-    lastFinalTranscript = "";
-    statusText.textContent = "List cleared.";
-  });
+function openHistModal(entry){
+  currentHistItem=entry;
+  document.getElementById('histModalTitle').textContent=`${entry.store} — ${entry.date}`;
+  document.getElementById('histModalBody').textContent=entry.text;
+  openModal('histModal');
+}
 
-  sortBtn.addEventListener('click', () => {
-    renderAll();
-  });
+async function copyHistModal(){
+  if(!currentHistItem) return;
+  try{
+    await navigator.clipboard.writeText(currentHistItem.text);
+    alert("Copied!");
+  }catch(e){ alert("Copy failed."); }
+}
 
-  async function copyExport(){
-    const text = exportArea.textContent || "";
-    if(!text.trim() || text.trim() === "No items yet.") return;
+function emailHistModal(){
+  if(!currentHistItem) return;
+  const subject=encodeURIComponent(`PepsiCo Fill — ${currentHistItem.store} — ${currentHistItem.date}`);
+  const body=encodeURIComponent(currentHistItem.text);
+  window.location.href=`mailto:?subject=${subject}&body=${body}`;
+}
 
-    try{
-      await navigator.clipboard.writeText(text);
-      statusText.textContent = "Copied list to clipboard.";
-    }catch(e){
-      statusText.textContent = "Copy failed. Try again (your browser may block clipboard).";
-      console.warn(e);
-    }
+function smsHistModal(){
+  if(!currentHistItem) return;
+  const contacts=load('contacts',[]);
+  const list=document.getElementById('smsPickList');
+  list.innerHTML="";
+  if(!contacts.length){
+    list.innerHTML='<div class="emptyState">No contacts saved. Go to Export tab to add contacts.</div>';
+  } else {
+    contacts.forEach(c=>{
+      const d=document.createElement('div');
+      d.className="contactItem";
+      d.innerHTML=`<div><div class="contactName">${c.name}</div><div class="contactNum">${c.phone}</div></div><button class="btn primary sm">Send</button>`;
+      d.querySelector('button').onclick=()=>{
+        const text=encodeURIComponent(currentHistItem.text);
+        window.location.href=`sms:${c.phone}&body=${text}`;
+        closeModal('smsModal');
+      };
+      list.appendChild(d);
+    });
   }
+  closeModal('histModal');
+  openModal('smsModal');
+}
 
-  document.getElementById('copyBtn').addEventListener('click', copyExport);
+function deleteHistModal(){
+  if(!currentHistItem) return;
+  if(!confirm("Delete this saved list permanently?")) return;
+  let history=load('history',[]);
+  history=history.filter(h=>h.id!==currentHistItem.id);
+  save('history',history);
+  closeModal('histModal');
+  currentHistItem=null;
+  renderHistory();
+}
 
-  document.getElementById('emailBtn').addEventListener('click', () => {
-    const text = exportArea.textContent || "";
-    const subject = encodeURIComponent("PepsiCo Fill List");
-    const body = encodeURIComponent(text);
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+/* ============================================================
+   CONTACTS
+   ============================================================ */
+function addContact(){
+  const name=document.getElementById('contactName').value.trim();
+  const phone=document.getElementById('contactPhone').value.trim().replace(/\D/g,'');
+  if(!name||!phone){ alert("Enter both name and phone number."); return; }
+  let contacts=load('contacts',[]);
+  contacts.push({name,phone});
+  save('contacts',contacts);
+  document.getElementById('contactName').value="";
+  document.getElementById('contactPhone').value="";
+  renderContacts();
+}
+
+function renderContacts(){
+  const contacts=load('contacts',[]);
+  const list=document.getElementById('contactsList');
+  list.innerHTML="";
+  contacts.forEach((c,i)=>{
+    const d=document.createElement('div');
+    d.className="contactItem";
+    d.innerHTML=`
+      <div>
+        <div class="contactName">${c.name}</div>
+        <div class="contactNum">${c.phone}</div>
+      </div>
+      <button class="btn danger sm" onclick="deleteContact(${i})">🗑</button>`;
+    list.appendChild(d);
   });
+}
 
-  /***********************
-   * Init + PWA SW register
-   ***********************/
-  renderAll();
+function deleteContact(i){
+  let contacts=load('contacts',[]);
+  contacts.splice(i,1);
+  save('contacts',contacts);
+  renderContacts();
+}
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+function saveSetting(key){
+  let settings=load('settings',{});
+  if(key==='email') settings.email=document.getElementById('settingEmail').value.trim();
+  save('settings',settings);
+  alert("Saved!");
+}
+
+function loadSettings(){
+  const settings=load('settings',{});
+  if(settings.email) document.getElementById('settingEmail').value=settings.email;
+}
+
+function nukeAll(){
+  if(!confirm("This will delete ALL your data including history, stores, and contacts. Are you sure?")) return;
+  if(!confirm("Really delete everything? This cannot be undone.")) return;
+  localStorage.clear();
+  location.reload();
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function init(){
   initSpeech();
+  renderQuickBtns();
+  renderContacts();
+  renderNotes();
+  renderList();
+  loadSettings();
+  updateStats();
 
-  // Register service worker (PWA install/offline caching)
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./sw.js").catch(() => {});
+  // Register PWA service worker
+  if("serviceWorker" in navigator){
+    window.addEventListener("load",()=>{
+      navigator.serviceWorker.register("./sw.js").catch(()=>{});
     });
   }
-</script>
+}
 
+init();
+</script>
 </body>
 </html>
