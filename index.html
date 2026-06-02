@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+
+  <meta name="theme-color" content="#0b5fa5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="PepsiCo Fill Voice" />
+
+  <link rel="manifest" href="manifest.json" />
+
+  <title>PepsiCo Fill Voice</title>
+  <style>
+    :root{
+      --bg:#0b5fa5;
+      --bg2:#073f7a;
+      --card:#ffffff;
+      --text:#0c1b2a;
+      --muted:#5a6b7c;
+      --line:#e7eef6;
+      --good:#0f9d58;
+      --danger:#dc3545;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg,var(--bg),var(--bg2));
+      color:var(--text);
+      min-height:100vh;
+    }
+    header{
+      padding:18px 16px 10px;
+      color:#fff;
+    }
+    header h1{
+      margin:0;
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:0.2px;
+    }
+    header p{
+      margin:8px 0 0;
+      font-size:13px;
+      opacity:0.95;
+    }
+
+    .wrap{
+      padding: 0 12px 18px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .card{
+      background: var(--card);
+      border-radius: 14px;
+      padding: 14px;
+      margin: 12px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      border: 1px solid rgba(255,255,255,0.35);
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .btn{
+      appearance:none;
+      border:0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-weight:700;
+      cursor:pointer;
+      transition: transform .06s ease, opacity .2s ease;
+      user-select:none;
+      background: #ffffff;
+      color: #0b5fa5;
+      border: 1px solid rgba(11,95,165,0.25);
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn.primary{
+      background:#0b5fa5;
+      color:#fff;
+      border: 1px solid rgba(255,255,255,0.35);
+      box-shadow: 0 10px 18px rgba(11,95,165,0.25);
+    }
+    .btn.danger{
+      background: #dc3545;
+      color:#fff;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .btn.ghost{
+      background: transparent;
+      color:#0b5fa5;
+      border: 1px dashed rgba(11,95,165,0.45);
+    }
+    .btn.small{
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .mic{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      width: 100%;
+      min-height: 48px;
+    }
+    .status{
+      font-size: 13px;
+      color: var(--muted);
+      margin-top:10px;
+      line-height:1.35;
+    }
+    .transcript{
+      width:100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      min-height: 56px;
+      font-size: 14px;
+      background: #f7fbff;
+      outline:none;
+    }
+
+    .list{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background:#fff;
+    }
+    .item .label{
+      font-weight: 800;
+      font-size: 14px;
+      line-height:1.2;
+    }
+    .item .sub{
+      font-size: 12px;
+      color:var(--muted);
+      margin-top:4px;
+      font-weight:600;
+    }
+
+    .qtyBox{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-shrink:0;
+    }
+    .qtyBtn{
+      width:34px;
+      height:34px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background:#fff;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .qty{
+      min-width: 46px;
+      text-align:center;
+      font-weight: 900;
+      font-size: 16px;
+    }
+
+    .exportArea{
+      width:100%;
+      min-height: 110px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background:#f7fbff;
+      padding: 10px 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.35;
+      white-space: pre-wrap;
+    }
+    .hint{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.35;
+      margin:10px 0 0;
+    }
+    .footerNote{
+      color:#dbe9fb;
+      padding: 0 12px 16px;
+      font-size: 12px;
+      opacity:0.95;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <h1>PepsiCo Fill List — Voice to Quantity</h1>
+  <p>Tap the mic, say "Pepsi 12 pack need 8". Items will auto-group by brand + size.</p>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <div class="row">
+      <button id="micBtn" class="btn primary mic" type="button" aria-label="Start voice input">
+        <span style="font-size:16px;font-weight:900;">🎤</span>
+        <span id="micText">Start Voice</span>
+      </button>
+    </div>
+
+    <div class="status" id="statusText">Mic is waiting. Make sure microphone permission is enabled on your iPhone.</div>
+
+    <div style="height:10px"></div>
+    <div>
+      <div class="hint"><b>Last transcript:</b></div>
+      <div id="transcript" class="transcript" aria-live="polite"></div>
+      <div class="row" style="margin-top:10px;">
+        <button id="addBtn" class="btn" type="button">Add Parsed Items</button>
+        <button id="clearBtn" class="btn danger" type="button">Clear List</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between;">
+      <div>
+        <div style="font-weight:900;font-size:16px;">Fill List (Grouped)</div>
+        <div class="hint" id="totalHint">Total cases/units: 0</div>
+      </div>
+      <button id="sortBtn" class="btn ghost small" type="button">Sort</button>
+    </div>
+
+    <div style="height:12px"></div>
+    <div id="items" class="list"></div>
+
+    <div class="hint" style="margin-top:12px;">
+      Tip: If something is wrong, just tap <b>+</b> / <b>-</b> next to it.
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-weight:900;font-size:16px;margin-bottom:10px;">Export</div>
+    <div class="row">
+      <button id="copyBtn" class="btn" type="button">Copy List</button>
+      <button id="emailBtn" class="btn primary" type="button">Email List</button>
+    </div>
+    <div style="height:10px"></div>
+    <div id="exportArea" class="exportArea" readonly></div>
+  </div>
+</div>
+
+<div class="footerNote">
+  Works as a free iPhone home-screen app (PWA). No Apple App Store fees.
+</div>
+
+<script>
+  /***********************
+   * Speech Recognition
+   ***********************/
+  const statusText = document.getElementById('statusText');
+  const transcriptEl = document.getElementById('transcript');
+  const micBtn = document.getElementById('micBtn');
+  const micText = document.getElementById('micText');
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  let recognition = null;
+  let listening = false;
+  let lastFinalTranscript = "";
+
+  function setListeningUI(isOn){
+    listening = isOn;
+    micText.textContent = isOn ? "Listening..." : "Start Voice";
+    micBtn.style.opacity = isOn ? "0.95" : "1";
+  }
+
+  function initSpeech(){
+    if(!SpeechRecognition){
+      statusText.textContent = "Voice recognition is not supported in this browser. Try Safari on iPhone.";
+      micBtn.disabled = true;
+      return;
+    }
+    recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = true;
+    recognition.continuous = false;
+
+    recognition.onstart = () => {
+      setListeningUI(true);
+      statusText.textContent = "Listening... Speak now. Use: \"<Product> need <Quantity>\".";
+    };
+
+    recognition.onerror = (e) => {
+      setListeningUI(false);
+      statusText.textContent = "Speech error: " + (e.error || "unknown") + ". Try again and confirm mic permission.";
+    };
+
+    recognition.onend = () => {
+      setListeningUI(false);
+      if(lastFinalTranscript.trim()){
+        statusText.textContent = "Done. Review transcript, then tap \"Add Parsed Items\".";
+      } else {
+        statusText.textContent = "Stopped. Tap \"Start Voice\" again and speak clearly.";
+      }
+    };
+
+    recognition.onresult = (event) => {
+      let interim = "";
+      let final = "";
+      for(let i=event.resultIndex; i<event.results.length; i++){
+        const text = event.results[i][0].transcript;
+        if(event.results[i].isFinal) final += text;
+        else interim += text;
+      }
+      const combined = (final || interim).trim();
+      transcriptEl.textContent = combined;
+      if(final.trim()) lastFinalTranscript = final.trim();
+    };
+  }
+
+  micBtn.addEventListener('click', async () => {
+    if(!recognition) return;
+    lastFinalTranscript = "";
+    transcriptEl.textContent = "";
+    try{
+      recognition.start();
+    }catch(err){
+      statusText.textContent = "Could not start listening. If you just listened, wait 2 seconds and tap again.";
+      console.warn(err);
+    }
+  });
+
+  /***********************
+   * Parsing + Grouping
+   ***********************/
+  const itemsEl = document.getElementById('items');
+  const totalHint = document.getElementById('totalHint');
+  const exportArea = document.getElementById('exportArea');
+
+  const addBtn = document.getElementById('addBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const sortBtn = document.getElementById('sortBtn');
+
+  // Map: label -> qty
+  const itemMap = new Map();
+
+  // Convert number words ONLY (does not touch decimals like 1.25)
+  function wordToDigits(s){
+    s = (s || "").toLowerCase();
+
+    const units = {
+      "zero":0,"one":1,"two":2,"three":3,"four":4,"five":5,"six":6,"seven":7,"eight":8,"nine":9,
+      "ten":10,"eleven":11,"twelve":12,"thirteen":13,"fourteen":14,"fifteen":15,"sixteen":16,"seventeen":17,
+      "eighteen":18,"nineteen":19
+    };
+    const tens = {"twenty":20,"thirty":30,"forty":40,"fifty":50,"sixty":60,"seventy":70,"eighty":80,"ninety":90};
+
+    // twenty one, thirty four, etc.
+    s = s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\s+(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g, (match, t, u) => {
+      return String(tens[t] + units[u]);
+    });
+
+    // standalone teens/units
+    s = s.replace(/\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g, (m, w) => {
+      return String(units[w]);
+    });
+
+    // standalone tens
+    s = s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\b/g, (m, w) => {
+      return String(tens[w]);
+    });
+
+    return s;
+  }
+
+  function normalizeText(s){
+    s = (s || "").toLowerCase();
+
+    // Common speech -> canonical
+    s = s.replace(/zero\s*sugar/g, "zero");
+    s = s.replace(/pepsi\s*zero/g, "pepsi zero");
+    s = s.replace(/diet\s*pepsi/g, "diet pepsi");
+    s = s.replace(/mountain\s*dew/g, "mountain dew");
+
+    // liters: support "1.25" and common phrase forms
+    s = s.replace(/\b1\s*1\s*\/\s*4\b/g,'1.25');
+    s = s.replace(/\bone\s+and\s+(a\s+)?quarter\b/g,'1.25');
+    s = s.replace(/\b1\s+and\s+quarter\b/g,'1.25');
+
+    // Unit abbreviations
+    s = s.replace(/\bbottles?\b/g, "bottles");
+    s = s.replace(/\bcans?\b/g, "cans");
+    s = s.replace(/ounces/g, "oz");
+    s = s.replace(/liter(s)?\b/g, "liter");
+
+    // Remove extra punctuation
+    s = s.replace(/[()]/g,' ');
+    s = s.replace(/[,;]+/g, ',');
+    s = s.replace(/\s+/g, ' ').trim();
+
+    // Convert number words (quantities) to digits without breaking decimals
+    s = wordToDigits(s);
+
+    return s;
+  }
+
+  function detectContainer(segment){
+    segment = segment.toLowerCase();
+    if(/\b(bottle|bottles)\b/.test(segment)) return "bottles";
+    if(/\b(can|cans)\b/.test(segment)) return "cans";
+    return "";
+  }
+
+  function detectSizePart(segment){
+    segment = segment.toLowerCase();
+
+    // 12 pack / 24 pack / 6 pack / etc.
+    const pack = segment.match(/(\d+)\s*(pack|pk|case)\b/);
+    if(pack) return `${pack[1]}pk`;
+
+    // liters including 1.25
+    const liters = segment.match(/(\d+(?:\.\d+)?)\s*(l|lt|liter)\b/);
+    if(liters){
+      let val = liters[1];
+      // normalize "1.0" -> "1"
+      val = String(parseFloat(val));
+      return `${val}L`;
+    }
+
+    // ounces (20 oz singles, etc.)
+    const oz = segment.match(/(\d+(?:\.\d+)?)\s*(oz|ounce|ounces)\b/);
+    if(oz) return `${oz[1].replace(/\.0$/,'')}oz`;
+
+    return "unknown";
+  }
+
+  function detectBrandVariant(segment){
+    const s = segment.toLowerCase();
+
+    // Pepsi family
+    if(s.includes("gatorade")){
+      let variant = "";
+      if(s.includes("zero")) variant = "Zero";
+      if(s.includes("fierce")) variant = "Fierce";
+      if(s.includes("thirst")) variant = "Thirst Quencher";
+      return { brand: "Gatorade", variant };
+    }
+
+    if(s.includes("aquafina")){
+      return { brand: "Aquafina", variant: "" };
+    }
+
+    if(s.includes("propel")){
+      let variant = "";
+      if(s.includes("zero")) variant = "Zero";
+      return { brand: "Propel", variant };
+    }
+
+    if(s.includes("bubly")){
+      let variant = "";
+      if(s.includes("berry") || s.includes("blackberry")) variant = "Berry";
+      else if(s.includes("grapefruit")) variant = "Grapefruit";
+      else if(s.includes("lime")) variant = "Lime";
+      else if(s.includes("lemon")) variant = "Lemon";
+      else if(s.includes("cherry")) variant = "Cherry";
+      else if(s.includes("peach")) variant = "Peach";
+      return { brand: "Bubly", variant };
+    }
+
+    if(s.includes("mountain dew")){
+      let variant = "";
+      if(s.includes("baja blast")) variant = s.includes("zero") ? "Baja Blast Zero" : "Baja Blast";
+      else if(s.includes("code red")) variant = "Code Red";
+      else if(s.includes("zero") || s.includes("0 sugar")) variant = "Zero";
+      else if(s.includes("voltage")) variant = "Voltage";
+      return { brand: "Mountain Dew", variant };
+    }
+
+    // Pepsi sodas
+    if(s.includes("pepsi")){
+      // variant
+      let variant = "";
+      if(s.includes("diet")) variant = "Diet";
+      else if(s.includes("zero")) variant = "Zero Sugar";
+      else if(s.includes("wild cherry")) variant = "Wild Cherry";
+      else if(s.includes("cherry")) variant = "Cherry";
+      else if(s.includes("vanilla")) variant = "Vanilla";
+      else variant = "";
+
+      return { brand: "Pepsi", variant };
+    }
+
+    // Other common PepsiCo beverages (best-effort keyword matching)
+    if(s.includes("mug") && s.includes("root")) return { brand: "Mug", variant: "Root Beer" };
+    if(s.includes("tropicana")) {
+      let variant = "";
+      if(s.includes("orange")) variant = "Orange";
+      else if(s.includes("lemon")) variant = "Lemon";
+      return { brand: "Tropicana", variant };
+    }
+
+    return { brand: "Unrecognized PepsiCo", variant: "" };
+  }
+
+  function cleanFlavorRemainder(segment, brandInfo){
+    let s = segment.toLowerCase();
+
+    // Remove obvious size/unit/container words so remainder is mostly flavor/product words
+    s = s.replace(/(\d+(?:\.\d+)?)\s*(pack|pk|case)\b/g,' ');
+    s = s.replace(/(\d+(?:\.\d+)?)\s*(l|lt|liter)\b/g,' ');
+    s = s.replace(/(\d+(?:\.\d+)?)\s*oz\b/g,' ');
+    s = s.replace(/\bbottle|bottles|can|cans\b/g,' ');
+
+    // Remove brand + variant tokens
+    const brandTokens = [
+      "pepsi","diet","zero","mountain dew","gatorade","aquafina","bubly","propel","mug","tropicana",
+      "wild cherry","cherry","vanilla","code red","baja blast","voltage",
+      "thirst quencher","fierce"
+    ];
+    for(const t of brandTokens){
+      const re = new RegExp("\\b"+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+"\\b","g");
+      s = s.replace(re,' ');
+    }
+
+    // Remove command words
+    s = s.replace(/\b(need|needs|want|add|fill|quantity|qty|count|of|the|a|an|please)\b/g,' ');
+
+    s = s.replace(/\s+/g,' ').trim();
+    return s;
+  }
+
+  function makeLabel(rawProductSegment){
+    let segment = normalizeText(rawProductSegment);
+
+    const sizePart = detectSizePart(segment);
+    const containerPart = detectContainer(segment); // cans/bottles (optional)
+    const brandInfo = detectBrandVariant(segment);
+
+    const remainder = cleanFlavorRemainder(segment, brandInfo);
+
+    let base = brandInfo.brand;
+    if(brandInfo.variant) base += ` (${brandInfo.variant})`;
+
+    // Unrecognized fallback
+    if(brandInfo.brand === "Unrecognized PepsiCo"){
+      const safe = remainder && remainder.length ? remainder : (segment.replace(/\bneed\b.*$/,'').trim() || "Unrecognized item");
+      return `${safe} | ${sizePart}${containerPart ? ` — ${containerPart}` : ""}`;
+    }
+
+    // If we still have remainder (like extra flavor wording), append it
+    const extra = remainder && remainder !== "unknown" ? remainder : "";
+
+    let label = `${base} | ${sizePart}`;
+    if(containerPart) label += ` — ${containerPart}`;
+    if(extra) label += ` — ${extra}`;
+    return label;
+  }
+
+  function parseTranscriptToEntries(transcript){
+    // Example: "<product> need <qty>, <product> need <qty>"
+    transcript = normalizeText(transcript);
+
+    // Replace "and" with comma to help segmenting
+    transcript = transcript.replace(/\band\b/g, ',').replace(/\s*,\s*/g, ',');
+
+    // Pattern: productSegment + need|want|add|fill + qty
+    const re = /(.+?)\b(?:need|needs|want|add|fill)\b\s*(\d+)\b/gmi;
+
+    const matches = [];
+    let m;
+    while((m = re.exec(transcript)) !== null){
+      const productSegment = (m[1] || "").trim();
+      const qty = parseInt(m[2], 10);
+      if(productSegment && qty > 0){
+        matches.push({ productSegment, qty });
+      }
+    }
+    return matches;
+  }
+
+  function addEntry(label, qty){
+    const prev = itemMap.get(label) || 0;
+    itemMap.set(label, prev + qty);
+  }
+
+  function renderItems(){
+    itemsEl.innerHTML = "";
+
+    const entries = Array.from(itemMap.entries()).map(([label, qty]) => ({label, qty}));
+
+    // Sort alphabetically (simple + consistent)
+    entries.sort((a,b)=>a.label.localeCompare(b.label));
+
+    let total = 0;
+
+    for(const e of entries){
+      total += e.qty;
+
+      const itemDiv = document.createElement('div');
+      itemDiv.className = "item";
+
+      const left = document.createElement('div');
+      left.style.flex = "1 1 auto";
+
+      const labelDiv = document.createElement('div');
+      labelDiv.className = "label";
+      labelDiv.textContent = e.label;
+
+      const subDiv = document.createElement('div');
+      subDiv.className = "sub";
+      subDiv.textContent = "Grouped item";
+
+      left.appendChild(labelDiv);
+      left.appendChild(subDiv);
+
+      const right = document.createElement('div');
+      right.className = "qtyBox";
+
+      const minusBtn = document.createElement('button');
+      minusBtn.className = "qtyBtn";
+      minusBtn.type = "button";
+      minusBtn.textContent = "–";
+      minusBtn.addEventListener('click', () => {
+        const next = (itemMap.get(e.label) || 0) - 1;
+        if(next <= 0) itemMap.delete(e.label);
+        else itemMap.set(e.label, next);
+        renderAll();
+      });
+
+      const qtyDiv = document.createElement('div');
+      qtyDiv.className = "qty";
+      qtyDiv.textContent = e.qty;
+
+      const plusBtn = document.createElement('button');
+      plusBtn.className = "qtyBtn";
+      plusBtn.type = "button";
+      plusBtn.textContent = "+";
+      plusBtn.addEventListener('click', () => {
+        itemMap.set(e.label, (itemMap.get(e.label) || 0) + 1);
+        renderAll();
+      });
+
+      right.appendChild(minusBtn);
+      right.appendChild(qtyDiv);
+      right.appendChild(plusBtn);
+
+      itemDiv.appendChild(left);
+      itemDiv.appendChild(right);
+
+      itemsEl.appendChild(itemDiv);
+    }
+
+    totalHint.textContent = `Total cases/units: ${total}`;
+    renderExport();
+  }
+
+  function renderExport(){
+    const lines = [];
+    const entries = Array.from(itemMap.entries()).map(([label, qty]) => ({label, qty}));
+    entries.sort((a,b)=>a.label.localeCompare(b.label));
+
+    for(const e of entries){
+      lines.push(`${e.label}: ${e.qty}`);
+    }
+
+    exportArea.textContent = lines.length ? lines.join("\n") : "No items yet.";
+  }
+
+  function renderAll(){
+    renderItems();
+  }
+
+  addBtn.addEventListener('click', () => {
+    const t = (transcriptEl.textContent || "").trim();
+    if(!t){
+      statusText.textContent = "No transcript found. Tap Start Voice and speak first.";
+      return;
+    }
+    const entries = parseTranscriptToEntries(t);
+    if(entries.length === 0){
+      statusText.textContent = "Couldn't detect any \"<product> need <quantity>\" pairs. Use the word \"need\".";
+      return;
+    }
+
+    for(const ent of entries){
+      const label = makeLabel(ent.productSegment);
+      addEntry(label, ent.qty);
+    }
+
+    statusText.textContent = `Added ${entries.length} item(s). Review the grouped list below.`;
+    lastFinalTranscript = "";
+    transcriptEl.textContent = "";
+    renderAll();
+  });
+
+  clearBtn.addEventListener('click', () => {
+    itemMap.clear();
+    renderAll();
+    transcriptEl.textContent = "";
+    lastFinalTranscript = "";
+    statusText.textContent = "List cleared.";
+  });
+
+  sortBtn.addEventListener('click', () => {
+    renderAll();
+  });
+
+  async function copyExport(){
+    const text = exportArea.textContent || "";
+    if(!text.trim() || text.trim() === "No items yet.") return;
+
+    try{
+      await navigator.clipboard.writeText(text);
+      statusText.textContent = "Copied list to clipboard.";
+    }catch(e){
+      statusText.textContent = "Copy failed. Try again (your browser may block clipboard).";
+      console.warn(e);
+    }
+  }
+
+  document.getElementById('copyBtn').addEventListener('click', copyExport);
+
+  document.getElementById('emailBtn').addEventListener('click', () => {
+    const text = exportArea.textContent || "";
+    const subject = encodeURIComponent("PepsiCo Fill List");
+    const body = encodeURIComponent(text);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  });
+
+  /***********************
+   * Init + PWA SW register
+   ***********************/
+  renderAll();
+  initSpeech();
+
+  // Register service worker (PWA install/offline caching)
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js").catch(() => {});
+    });
+  }
+</script>
+
+</body>
+</html>

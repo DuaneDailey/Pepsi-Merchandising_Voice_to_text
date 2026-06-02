@@ -1,0 +1,9 @@
+{
+  "name": "PepsiCo Fill Voice",
+  "short_name": "PepsiCo Fill",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b5fa5",
+  "theme_color": "#0b5fa5",
+  "icons": []
+}
