@@ -9,235 +9,127 @@
   <meta name="apple-mobile-web-app-title" content="PepsiCo Fill" />
   <link rel="manifest" href="manifest.json" />
   <title>PepsiCo Fill</title>
-  <style>
-    :root{
-      --bg:#0b5fa5;
-      --bg2:#073f7a;
-      --card:#ffffff;
-      --text:#0c1b2a;
-      --muted:#5a6b7c;
-      --line:#e7eef6;
-      --danger:#dc3545;
-      --good:#0f9d58;
-      --warn:#f4a700;
-    }
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-    body{
-      margin:0;
-      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:linear-gradient(180deg,var(--bg),var(--bg2));
-      color:var(--text);
-      min-height:100vh;
-    }
+<style>
+:root{
+  --bg:#0b5fa5;--bg2:#073f7a;--card:#fff;--text:#0c1b2a;
+  --muted:#5a6b7c;--line:#e7eef6;--danger:#dc3545;
+  --good:#0f9d58;--warn:#f4a700;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;
+  background:linear-gradient(180deg,var(--bg),var(--bg2));
+  color:var(--text);min-height:100vh;}
+.nav{display:flex;background:rgba(0,0,0,0.25);overflow-x:auto;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.navBtn{flex-shrink:0;padding:11px 14px;color:#fff;background:transparent;
+  border:0;font-weight:700;font-size:12px;cursor:pointer;
+  border-bottom:3px solid transparent;white-space:nowrap;}
+.navBtn.active{border-bottom-color:#fff;}
+.screen{display:none;padding:10px;}
+.screen.active{display:block;}
+.card{background:var(--card);border-radius:14px;padding:14px;
+  margin:10px 0;box-shadow:0 8px 24px rgba(0,0,0,0.12);}
+.cardTitle{font-weight:900;font-size:15px;margin-bottom:10px;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  appearance:none;border:0;border-radius:11px;padding:10px 13px;
+  font-weight:700;font-size:13px;cursor:pointer;user-select:none;
+  transition:transform .06s;}
+.btn:active{transform:translateY(1px);}
+.btn.primary{background:#0b5fa5;color:#fff;}
+.btn.success{background:var(--good);color:#fff;}
+.btn.danger{background:var(--danger);color:#fff;}
+.btn.warn{background:var(--warn);color:#fff;}
+.btn.light{background:#f0f4fa;color:#0b5fa5;}
+.btn.ghost{background:transparent;color:#0b5fa5;border:1px dashed rgba(11,95,165,0.4);}
+.btn.sm{padding:7px 10px;font-size:12px;border-radius:9px;}
+.btn.full{width:100%;}
+input,select,textarea{width:100%;padding:9px 11px;border:1px solid var(--line);
+  border-radius:9px;font-size:14px;font-family:inherit;
+  background:#f7fbff;outline:none;margin:3px 0;}
+label{font-size:12px;font-weight:700;color:var(--muted);display:block;margin-top:7px;}
+.row{display:flex;gap:7px;flex-wrap:wrap;align-items:center;}
+.status{font-size:13px;color:var(--muted);margin:7px 0;line-height:1.4;}
+.transcript{min-height:46px;padding:9px 11px;border:1px solid var(--line);
+  border-radius:9px;font-size:14px;background:#f7fbff;line-height:1.4;}
+.fillList{display:flex;flex-direction:column;gap:7px;}
+.fillItem{display:flex;align-items:center;justify-content:space-between;gap:7px;
+  padding:9px;border-radius:11px;border:1px solid var(--line);background:#fff;}
+.fillItem.oos{border-color:var(--danger);background:#fff8f8;}
+.iLabel{font-weight:800;font-size:13px;line-height:1.2;}
+.iSub{font-size:11px;color:var(--muted);margin-top:2px;}
+.oosFlag{font-size:10px;font-weight:800;color:var(--danger);
+  background:#fde8ea;border-radius:5px;padding:2px 5px;
+  display:inline-block;margin-top:2px;}
+.qtyBox{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.qBtn{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);
+  background:#f0f4fa;font-weight:900;font-size:15px;cursor:pointer;}
+.qNum{min-width:36px;text-align:center;font-weight:900;font-size:15px;}
+.quickGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:7px;}
+.quickItem{padding:9px 7px;border-radius:11px;background:#f0f4fa;
+  border:1px solid var(--line);text-align:center;cursor:pointer;
+  font-size:12px;font-weight:700;color:#0b5fa5;user-select:none;}
+.quickItem:active{background:#dce8f8;}
+.exportBox{width:100%;min-height:100px;padding:9px 11px;border-radius:9px;
+  border:1px solid var(--line);background:#f7fbff;
+  font-family:ui-monospace,monospace;font-size:12px;
+  line-height:1.5;white-space:pre-wrap;}
+.histItem{padding:11px;border-radius:11px;border:1px solid var(--line);
+  background:#fff;margin-bottom:7px;cursor:pointer;}
+.histItem:active{background:#f0f4fa;}
+.histTitle{font-weight:800;font-size:14px;}
+.histSub{font-size:12px;color:var(--muted);margin-top:2px;}
+.histBadge{display:inline-block;font-size:11px;font-weight:800;
+  background:#e8f0fe;color:#0b5fa5;border-radius:7px;
+  padding:2px 7px;margin-top:3px;}
+.modalBack{display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.55);z-index:100;
+  align-items:flex-end;justify-content:center;}
+.modalBack.open{display:flex;}
+.modal{background:#fff;border-radius:20px 20px 0 0;
+  padding:18px 14px 30px;width:100%;max-width:600px;
+  max-height:88vh;overflow-y:auto;}
+.modalTitle{font-weight:900;font-size:15px;margin-bottom:11px;}
+.noteChip{display:inline-block;font-size:12px;background:#fff8e1;
+  border:1px solid #f4a700;border-radius:7px;padding:2px 7px;
+  margin:2px;color:#7a5200;font-weight:600;}
+.timerDisplay{font-size:26px;font-weight:900;color:#0b5fa5;
+  text-align:center;letter-spacing:2px;padding:7px 0;}
+.contactItem{display:flex;align-items:center;justify-content:space-between;
+  padding:9px;border-radius:9px;border:1px solid var(--line);
+  background:#fff;margin-bottom:5px;}
+.totalsBar{background:linear-gradient(135deg,#0b5fa5,#073f7a);
+  border-radius:11px;padding:11px 13px;color:#fff;
+  display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:7px;margin-bottom:9px;}
+.totStat{text-align:center;}
+.totNum{font-size:20px;font-weight:900;}
+.totLbl{font-size:11px;opacity:0.8;}
+.divider{height:1px;background:var(--line);margin:9px 0;}
+.emptyState{text-align:center;padding:22px;color:var(--muted);font-size:13px;}
+.hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4;}
+header{padding:13px 11px 5px;color:#fff;}
+header h1{margin:0;font-size:16px;font-weight:900;}
+header p{margin:3px 0 0;font-size:12px;opacity:0.9;}
 
-    /* NAV */
-    .nav{
-      display:flex;
-      background:rgba(0,0,0,0.25);
-      overflow-x:auto;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:none;
-    }
-    .nav::-webkit-scrollbar{display:none;}
-    .navBtn{
-      flex-shrink:0;
-      padding:12px 16px;
-      color:#fff;
-      background:transparent;
-      border:0;
-      font-weight:700;
-      font-size:13px;
-      cursor:pointer;
-      border-bottom:3px solid transparent;
-      white-space:nowrap;
-    }
-    .navBtn.active{border-bottom-color:#fff;}
-
-    /* SCREENS */
-    .screen{display:none;padding:12px;}
-    .screen.active{display:block;}
-
-    /* CARDS */
-    .card{
-      background:var(--card);
-      border-radius:14px;
-      padding:14px;
-      margin:10px 0;
-      box-shadow:0 8px 24px rgba(0,0,0,0.12);
-    }
-    .cardTitle{font-weight:900;font-size:15px;margin-bottom:10px;}
-
-    /* BUTTONS */
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:6px;
-      appearance:none;border:0;border-radius:12px;
-      padding:11px 14px;font-weight:700;font-size:13px;
-      cursor:pointer;user-select:none;
-      transition:transform .06s ease,opacity .15s ease;
-    }
-    .btn:active{transform:translateY(1px);}
-    .btn.primary{background:#0b5fa5;color:#fff;}
-    .btn.success{background:var(--good);color:#fff;}
-    .btn.danger{background:var(--danger);color:#fff;}
-    .btn.warn{background:var(--warn);color:#fff;}
-    .btn.ghost{background:transparent;color:#0b5fa5;border:1px dashed rgba(11,95,165,0.45);}
-    .btn.light{background:#f0f4fa;color:#0b5fa5;}
-    .btn.sm{padding:8px 10px;font-size:12px;border-radius:10px;}
-    .btn.full{width:100%;}
-
-    /* FORM ELEMENTS */
-    input,select,textarea{
-      width:100%;padding:10px 12px;
-      border:1px solid var(--line);border-radius:10px;
-      font-size:14px;font-family:inherit;
-      background:#f7fbff;outline:none;
-      margin:4px 0;
-    }
-    label{font-size:12px;font-weight:700;color:var(--muted);display:block;margin-top:8px;}
-
-    /* ROW */
-    .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
-    .row.nowrap{flex-wrap:nowrap;}
-
-    /* STATUS */
-    .status{font-size:13px;color:var(--muted);margin:8px 0;line-height:1.4;}
-
-    /* TRANSCRIPT */
-    .transcript{
-      min-height:48px;padding:10px 12px;
-      border:1px solid var(--line);border-radius:10px;
-      font-size:14px;background:#f7fbff;
-      line-height:1.4;color:var(--text);
-    }
-
-    /* FILL LIST ITEMS */
-    .fillList{display:flex;flex-direction:column;gap:8px;}
-    .fillItem{
-      display:flex;align-items:center;justify-content:space-between;gap:8px;
-      padding:10px;border-radius:12px;border:1px solid var(--line);background:#fff;
-      position:relative;
-    }
-    .fillItem.outOfStock{border-color:var(--danger);background:#fff8f8;}
-    .fillItem .iLabel{font-weight:800;font-size:13px;line-height:1.2;}
-    .fillItem .iSub{font-size:11px;color:var(--muted);margin-top:2px;}
-    .fillItem .iFlag{
-      font-size:10px;font-weight:800;color:var(--danger);
-      background:#fde8ea;border-radius:6px;padding:2px 6px;display:inline-block;margin-top:3px;
-    }
-    .qtyBox{display:flex;align-items:center;gap:6px;flex-shrink:0;}
-    .qBtn{
-      width:32px;height:32px;border-radius:9px;
-      border:1px solid var(--line);background:#f0f4fa;
-      font-weight:900;font-size:16px;cursor:pointer;
-    }
-    .qNum{min-width:40px;text-align:center;font-weight:900;font-size:16px;}
-
-    /* QUICK ADD BUTTONS */
-    .quickGrid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
-      gap:8px;
-    }
-    .quickItem{
-      padding:10px 8px;border-radius:12px;
-      background:#f0f4fa;border:1px solid var(--line);
-      text-align:center;cursor:pointer;
-      font-size:12px;font-weight:700;color:#0b5fa5;
-      user-select:none;
-    }
-    .quickItem:active{background:#dce8f8;}
-
-    /* EXPORT BOX */
-    .exportBox{
-      width:100%;min-height:100px;
-      padding:10px 12px;border-radius:10px;
-      border:1px solid var(--line);background:#f7fbff;
-      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-      font-size:12px;line-height:1.5;
-      white-space:pre-wrap;
-    }
-
-    /* HISTORY */
-    .histItem{
-      padding:12px;border-radius:12px;
-      border:1px solid var(--line);background:#fff;
-      margin-bottom:8px;cursor:pointer;
-    }
-    .histItem:active{background:#f0f4fa;}
-    .histTitle{font-weight:800;font-size:14px;}
-    .histSub{font-size:12px;color:var(--muted);margin-top:3px;}
-    .histBadge{
-      display:inline-block;font-size:11px;font-weight:800;
-      background:#e8f0fe;color:#0b5fa5;
-      border-radius:8px;padding:2px 8px;margin-top:4px;
-    }
-
-    /* MODAL */
-    .modalBack{
-      display:none;position:fixed;inset:0;
-      background:rgba(0,0,0,0.55);z-index:100;
-      align-items:flex-end;justify-content:center;
-    }
-    .modalBack.open{display:flex;}
-    .modal{
-      background:#fff;border-radius:20px 20px 0 0;
-      padding:20px 16px 32px;width:100%;max-width:600px;
-      max-height:85vh;overflow-y:auto;
-    }
-    .modalTitle{font-weight:900;font-size:16px;margin-bottom:12px;}
-
-    /* NOTES */
-    .noteChip{
-      display:inline-block;font-size:12px;
-      background:#fff8e1;border:1px solid #f4a700;
-      border-radius:8px;padding:3px 8px;margin:2px;
-      color:#7a5200;font-weight:600;
-    }
-
-    /* TIMER */
-    .timerDisplay{
-      font-size:28px;font-weight:900;
-      color:#0b5fa5;text-align:center;
-      letter-spacing:2px;padding:8px 0;
-    }
-
-    /* CONTACTS */
-    .contactItem{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:10px;border-radius:10px;border:1px solid var(--line);
-      background:#fff;margin-bottom:6px;
-    }
-    .contactName{font-weight:700;font-size:13px;}
-    .contactNum{font-size:12px;color:var(--muted);}
-
-    /* TOTALS BAR */
-    .totalsBar{
-      background:linear-gradient(135deg,#0b5fa5,#073f7a);
-      border-radius:12px;padding:12px 14px;color:#fff;
-      display:flex;justify-content:space-between;align-items:center;
-      flex-wrap:wrap;gap:8px;margin-bottom:10px;
-    }
-    .totStat{text-align:center;}
-    .totNum{font-size:22px;font-weight:900;}
-    .totLbl{font-size:11px;opacity:0.8;}
-
-    header{padding:14px 12px 6px;color:#fff;}
-    header h1{margin:0;font-size:17px;font-weight:900;}
-    header p{margin:4px 0 0;font-size:12px;opacity:0.9;}
-
-    .hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.4;}
-    .divider{height:1px;background:var(--line);margin:10px 0;}
-    .emptyState{text-align:center;padding:24px;color:var(--muted);font-size:13px;}
-
-    .tag{
-      display:inline-block;font-size:11px;font-weight:700;
-      border-radius:8px;padding:2px 8px;margin:2px;
-    }
-    .tag.blue{background:#e8f0fe;color:#0b5fa5;}
-    .tag.green{background:#e6f4ea;color:#137333;}
-    .tag.red{background:#fde8ea;color:#c62828;}
-    .tag.yellow{background:#fff8e1;color:#7a5200;}
-  </style>
+/* Product picker styles */
+.pickerSection{margin-bottom:10px;}
+.pickerLabel{font-size:11px;font-weight:800;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+.searchBox{width:100%;padding:9px 11px;border:1px solid var(--line);
+  border-radius:9px;font-size:14px;background:#f7fbff;
+  outline:none;margin-bottom:8px;}
+.productChip{display:inline-block;padding:5px 10px;margin:3px;
+  border-radius:20px;font-size:12px;font-weight:700;
+  background:#e8f0fe;color:#0b5fa5;cursor:pointer;
+  border:1px solid rgba(11,95,165,0.2);}
+.productChip:active{background:#c5d8f8;}
+.sizeChip{display:inline-block;padding:5px 10px;margin:3px;
+  border-radius:20px;font-size:12px;font-weight:700;
+  background:#e6f4ea;color:#137333;cursor:pointer;
+  border:1px solid rgba(19,115,51,0.2);}
+.sizeChip:active{background:#c3e6cb;}
+</style>
 </head>
 <body>
 
@@ -249,931 +141,1640 @@
 <nav class="nav">
   <button class="navBtn active" onclick="showScreen('sStore')">🏪 Store</button>
   <button class="navBtn" onclick="showScreen('sVoice')">🎤 Voice</button>
-  <button class="navBtn" onclick="showScreen('sQuick')">⚡ Quick Add</button>
-  <button class="navBtn" onclick="showScreen('sList')">📋 Fill List</button>
+  <button class="navBtn" onclick="showScreen('sPicker')">🔍 Pick</button>
+  <button class="navBtn" onclick="showScreen('sQuick')">⚡ Quick</button>
+  <button class="navBtn" onclick="showScreen('sList')">📋 List</button>
   <button class="navBtn" onclick="showScreen('sNotes')">📝 Notes</button>
   <button class="navBtn" onclick="showScreen('sExport')">📤 Export</button>
   <button class="navBtn" onclick="showScreen('sHistory')">🕘 History</button>
   <button class="navBtn" onclick="showScreen('sSettings')">⚙️ Settings</button>
 </nav>
 
-<!-- ============================================================ -->
-<!-- SCREEN: STORE -->
-<!-- ============================================================ -->
+<!-- STORE -->
 <div class="screen active" id="sStore">
   <div class="card">
     <div class="cardTitle">Current Store</div>
     <label>Store Name</label>
-    <div class="row nowrap">
-      <input id="storeNameInput" type="text" placeholder="e.g. Walmart Penfield" />
-      <button class="btn light sm" onclick="pickFromDropdown()">▼ Saved</button>
+    <div class="row">
+      <input id="storeNameInput" type="text" placeholder="e.g. Walmart Penfield" style="flex:1"/>
+      <button class="btn light sm" onclick="pickStore()">▼ Saved</button>
     </div>
     <label>Address</label>
-    <input id="storeAddrInput" type="text" placeholder="e.g. 1234 Main St, Rochester NY" />
+    <input id="storeAddrInput" type="text" placeholder="e.g. 1234 Main St, Rochester NY"/>
     <div style="height:8px"></div>
     <div class="row">
-      <button class="btn primary" onclick="startStore()">✅ Start / Set Store</button>
-      <button class="btn light sm" onclick="saveStoreToDropdown()">💾 Save Store</button>
+      <button class="btn primary" onclick="startStore()">✅ Set Store</button>
+      <button class="btn light sm" onclick="saveStore()">💾 Save Store</button>
     </div>
-    <div class="status" id="storeStatus">No store set yet.</div>
+    <div class="status" id="storeStatus">No store set.</div>
   </div>
-
-  <div class="card" id="timerCard">
+  <div class="card">
     <div class="cardTitle">⏱ Time at Store</div>
     <div class="timerDisplay" id="timerDisplay">00:00:00</div>
-    <div class="row" style="justify-content:center;gap:10px;margin-top:8px;">
+    <div class="row" style="justify-content:center;margin-top:7px;">
       <button class="btn success sm" onclick="startTimer()">▶ Start</button>
       <button class="btn warn sm" onclick="pauseTimer()">⏸ Pause</button>
       <button class="btn light sm" onclick="resetTimer()">↺ Reset</button>
     </div>
   </div>
-
   <div class="card">
-    <div class="cardTitle">📊 Today's Totals</div>
+    <div class="cardTitle">📊 Session Stats</div>
     <div class="totalsBar">
-      <div class="totStat">
-        <div class="totNum" id="statItems">0</div>
-        <div class="totLbl">Line Items</div>
-      </div>
-      <div class="totStat">
-        <div class="totNum" id="statUnits">0</div>
-        <div class="totLbl">Total Units</div>
-      </div>
-      <div class="totStat">
-        <div class="totNum" id="statOOS">0</div>
-        <div class="totLbl">Out of Stock</div>
-      </div>
+      <div class="totStat"><div class="totNum" id="statItems">0</div><div class="totLbl">Line Items</div></div>
+      <div class="totStat"><div class="totNum" id="statUnits">0</div><div class="totLbl">Total Units</div></div>
+      <div class="totStat"><div class="totNum" id="statOOS">0</div><div class="totLbl">Out of Stock</div></div>
     </div>
     <div class="hint" id="statDate"></div>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SCREEN: VOICE -->
-<!-- ============================================================ -->
+<!-- VOICE -->
 <div class="screen" id="sVoice">
   <div class="card">
     <div class="cardTitle">🎤 Voice Entry</div>
-    <button id="micBtn" class="btn primary full" onclick="toggleMic()">
-      🎤 Start Voice
-    </button>
-    <div class="status" id="micStatus">Tap Start Voice, then speak.</div>
-    <div style="height:6px"></div>
+    <button id="micBtn" class="btn primary full" onclick="toggleMic()">🎤 Start Voice</button>
+    <div class="status" id="micStatus">Tap Start Voice then speak.</div>
     <div class="hint"><b>Last transcript:</b></div>
     <div id="transcript" class="transcript"></div>
-    <div class="row" style="margin-top:10px;">
-      <button class="btn success" onclick="addParsed()">✅ Add Parsed Items</button>
+    <div class="row" style="margin-top:9px;">
+      <button class="btn success" onclick="addParsed()">✅ Add Items</button>
       <button class="btn light sm" onclick="clearTranscript()">✕ Clear</button>
     </div>
   </div>
-
   <div class="card">
-    <div class="cardTitle">💬 Voice Cheat Sheet</div>
+    <div class="cardTitle">💬 How to Speak</div>
     <div class="hint">
-      Say: <b>"[Product] [size] [cans/bottles] need [number]"</b><br><br>
-      Examples:<br>
-      • "Pepsi 12 pack cans need 8"<br>
+      Format: <b>"[Brand] [Flavor] [Size] [cans/bottles] need [number]"</b><br><br>
+      <b>Examples:</b><br>
+      • "Pepsi original 12 pack cans need 8"<br>
       • "Diet Pepsi 1.25 liter bottles need 6"<br>
-      • "Mountain Dew 20 oz bottles need 10"<br>
-      • "Gatorade 24 pack need 3"<br>
-      • "Aquafina 20 oz need 12"<br>
-      • "Pepsi Zero 12 pack cans need 4"<br>
-      • "Bubly 12 pack cans need 2"<br><br>
-      You can say multiple in one go:<br>
-      <b>"Pepsi 12 pack cans need 8, Diet Pepsi 2 liter need 4"</b>
+      • "Mountain Dew Code Red 20 oz need 10"<br>
+      • "Gatorade Cool Blue 28 oz need 12"<br>
+      • "Bubly blackberry 12 pack cans need 4"<br>
+      • "Aquafina 20 oz need 24"<br>
+      • "Rockstar original 16 oz need 6"<br>
+      • "Starbucks frappuccino caramel 13.7 oz need 8"<br><br>
+      You can say multiple at once:<br>
+      <b>"Pepsi 12 pack cans need 8, Mountain Dew 2 liter need 4"</b>
     </div>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SCREEN: QUICK ADD -->
-<!-- ============================================================ -->
+<!-- PRODUCT PICKER -->
+<div class="screen" id="sPicker">
+  <div class="card">
+    <div class="cardTitle">🔍 Product Picker</div>
+    <div class="hint">Search or browse — tap a product then pick a size.</div>
+    <input class="searchBox" id="pickerSearch" type="text"
+      placeholder="Search product e.g. Pepsi, Gatorade, Bubly..."
+      oninput="renderPicker()"/>
+    <div id="pickerResults"></div>
+  </div>
+  <!-- Size picker modal triggered by tapping a product -->
+</div>
+
+<!-- QUICK ADD -->
 <div class="screen" id="sQuick">
   <div class="card">
-    <div class="cardTitle">⚡ Quick Add — Tap to add 1</div>
+    <div class="cardTitle">⚡ Quick Add — Tap = +1 &nbsp;|&nbsp; Long Press = custom qty</div>
     <div class="quickGrid" id="quickGrid"></div>
-    <div style="height:10px"></div>
-    <div class="hint">Long-press any button to add a custom quantity.</div>
   </div>
-
   <div class="card">
     <div class="cardTitle">➕ Add Custom Quick Button</div>
-    <label>Product Label</label>
-    <input id="qbLabel" type="text" placeholder="e.g. Pepsi 12pk Cans" />
-    <div class="row" style="margin-top:8px;">
+    <label>Label</label>
+    <input id="qbLabel" type="text" placeholder="e.g. Pepsi 12pk Cans"/>
+    <div style="height:7px"></div>
+    <div class="row">
       <button class="btn primary" onclick="addQuickBtn()">Add Button</button>
-      <button class="btn danger sm" onclick="resetQuickBtns()">Reset All</button>
+      <button class="btn danger sm" onclick="resetQuickBtns()">Reset Defaults</button>
     </div>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SCREEN: FILL LIST -->
-<!-- ============================================================ -->
+<!-- FILL LIST -->
 <div class="screen" id="sList">
   <div class="card">
     <div class="row" style="justify-content:space-between;">
       <div class="cardTitle" style="margin:0;">📋 Fill List</div>
-      <div class="row" style="gap:6px;">
-        <button class="btn light sm" onclick="sortList()">Sort A-Z</button>
-        <button class="btn danger sm" onclick="clearList()">Clear</button>
+      <div class="row" style="gap:5px;">
+        <button class="btn light sm" onclick="renderList()">Sort A-Z</button>
+        <button class="btn danger sm" onclick="clearList()">Clear All</button>
       </div>
     </div>
-    <div class="hint" id="totalHint" style="margin:6px 0 10px;">Total units: 0</div>
+    <div class="hint" id="totalHint" style="margin:5px 0 9px;">Total units: 0</div>
     <div class="fillList" id="fillList"></div>
-    <div class="emptyState" id="emptyState">No items yet. Use Voice or Quick Add.</div>
+    <div class="emptyState" id="emptyState">No items yet.</div>
   </div>
-
   <div class="card">
     <div class="cardTitle">➕ Add Item Manually</div>
-    <label>Product</label>
-    <input id="manualLabel" type="text" placeholder="e.g. Pepsi 12pk Cans" />
+    <label>Product Name</label>
+    <input id="manualLabel" type="text" placeholder="e.g. Pepsi Original 12pk Cans"/>
     <label>Quantity</label>
-    <input id="manualQty" type="number" placeholder="e.g. 8" min="1" />
-    <div style="height:8px"></div>
+    <input id="manualQty" type="number" placeholder="e.g. 8" min="1"/>
+    <div style="height:7px"></div>
     <button class="btn primary" onclick="addManual()">Add to List</button>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SCREEN: NOTES -->
-<!-- ============================================================ -->
+<!-- NOTES -->
 <div class="screen" id="sNotes">
   <div class="card">
     <div class="cardTitle">📝 Store Notes</div>
-    <textarea id="noteText" rows="4" placeholder="e.g. Cooler light broken, back stock low on Diet Pepsi..."></textarea>
-    <div class="row" style="margin-top:8px;">
+    <textarea id="noteText" rows="3"
+      placeholder="e.g. Cooler light broken, back stock low..."></textarea>
+    <div class="row" style="margin-top:7px;">
       <button class="btn primary" onclick="addNote()">Add Note</button>
-      <button class="btn light sm" onclick="startVoiceNote()">🎤 Voice Note</button>
+      <button class="btn light sm" onclick="voiceNote()">🎤 Voice Note</button>
     </div>
     <div class="status" id="noteStatus"></div>
   </div>
-
   <div class="card">
-    <div class="cardTitle">Saved Notes This Visit</div>
+    <div class="cardTitle">Notes This Visit</div>
     <div id="notesList"></div>
     <div class="emptyState" id="notesEmpty">No notes yet.</div>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SCREEN: EXPORT -->
-<!-- ============================================================ -->
+<!-- EXPORT -->
 <div class="screen" id="sExport">
   <div class="card">
-    <div class="cardTitle">📤 Export This List</div>
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
+    <div class="cardTitle">📤 Export</div>
+    <div class="row" style="gap:7px;flex-wrap:wrap;">
       <button class="btn primary" onclick="copyExport()">📋 Copy</button>
       <button class="btn success" onclick="emailExport()">📧 Email</button>
-      <button class="btn warn" onclick="smsExport()">💬 Text/SMS</button>
-      <button class="btn light sm" onclick="saveToHistory()">💾 Save to History</button>
+      <button class="btn warn" onclick="openSMSPicker()">💬 Text</button>
+      <button class="btn light sm" onclick="saveHistory()">💾 Save</button>
     </div>
     <div class="status" id="exportStatus"></div>
-    <div style="height:8px"></div>
+    <div style="height:7px"></div>
     <div id="exportBox" class="exportBox">No items yet.</div>
   </div>
-
   <div class="card">
     <div class="cardTitle">💬 Text Contacts</div>
-    <div class="hint">Add people you text lists to. When you tap "Text/SMS" you pick who to send to.</div>
-    <div style="height:8px"></div>
     <div id="contactsList"></div>
     <div class="divider"></div>
     <label>Name</label>
-    <input id="contactName" type="text" placeholder="e.g. Manager Mike" />
-    <label>Phone Number</label>
-    <input id="contactPhone" type="tel" placeholder="e.g. 5855551234" />
-    <div style="height:8px"></div>
+    <input id="cName" type="text" placeholder="e.g. Manager Mike"/>
+    <label>Phone</label>
+    <input id="cPhone" type="tel" placeholder="e.g. 5855551234"/>
+    <div style="height:7px"></div>
     <button class="btn primary sm" onclick="addContact()">Add Contact</button>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SCREEN: HISTORY -->
-<!-- ============================================================ -->
+<!-- HISTORY -->
 <div class="screen" id="sHistory">
   <div class="card">
     <div class="cardTitle">🕘 Saved Lists</div>
-    <div class="hint">Tap any saved list to view or re-export it.</div>
-    <div style="height:8px"></div>
+    <div class="hint">Tap any list to view, re-export, or delete it.</div>
+    <div style="height:7px"></div>
     <div id="historyList"></div>
-    <div class="emptyState" id="histEmpty">No saved lists yet. Use "Save to History" in Export.</div>
+    <div class="emptyState" id="histEmpty">No saved lists yet.</div>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- SCREEN: SETTINGS -->
-<!-- ============================================================ -->
+<!-- SETTINGS -->
 <div class="screen" id="sSettings">
   <div class="card">
     <div class="cardTitle">⚙️ Settings</div>
-    <div class="hint">Your default email address (for "Email List")</div>
-    <label>My Email</label>
-    <input id="settingEmail" type="email" placeholder="you@email.com" />
-    <div style="height:8px"></div>
-    <button class="btn primary sm" onclick="saveSetting('email')">Save Email</button>
+    <label>My Email (for email export)</label>
+    <input id="settingEmail" type="email" placeholder="you@email.com"/>
+    <div style="height:7px"></div>
+    <button class="btn primary sm" onclick="saveEmail()">Save Email</button>
     <div class="divider"></div>
-    <div class="hint">App version: 2.0 | All data saved locally on this device.</div>
-    <div style="height:8px"></div>
+    <div class="hint">Version 3.0 — All data stored on this device only.</div>
+    <div style="height:7px"></div>
     <button class="btn danger sm" onclick="nukeAll()">⚠️ Delete ALL Data</button>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- MODAL: Store Picker -->
-<!-- ============================================================ -->
+<!-- MODALS -->
+<!-- Store picker -->
 <div class="modalBack" id="storeModal">
   <div class="modal">
     <div class="modalTitle">Saved Stores</div>
-    <div id="storeDropList"></div>
-    <div style="height:10px"></div>
+    <div id="storeModalList"></div>
+    <div style="height:9px"></div>
     <button class="btn light full" onclick="closeModal('storeModal')">Cancel</button>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- MODAL: History Detail -->
-<!-- ============================================================ -->
+<!-- History detail -->
 <div class="modalBack" id="histModal">
   <div class="modal">
     <div class="modalTitle" id="histModalTitle">List Detail</div>
-    <div id="histModalBody" class="exportBox" style="margin-bottom:12px;"></div>
-    <div class="row" style="gap:8px;flex-wrap:wrap;">
-      <button class="btn primary sm" onclick="copyHistModal()">📋 Copy</button>
-      <button class="btn success sm" onclick="emailHistModal()">📧 Email</button>
-      <button class="btn warn sm" onclick="smsHistModal()">💬 Text</button>
-      <button class="btn danger sm" onclick="deleteHistModal()">🗑 Delete</button>
+    <div id="histModalBody" class="exportBox" style="margin-bottom:11px;"></div>
+    <div class="row" style="gap:7px;flex-wrap:wrap;">
+      <button class="btn primary sm" onclick="copyHist()">📋 Copy</button>
+      <button class="btn success sm" onclick="emailHist()">📧 Email</button>
+      <button class="btn warn sm" onclick="smsHist()">💬 Text</button>
+      <button class="btn danger sm" onclick="deleteHist()">🗑 Delete</button>
     </div>
-    <div style="height:10px"></div>
+    <div style="height:9px"></div>
     <button class="btn light full" onclick="closeModal('histModal')">Close</button>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- MODAL: SMS Contact Picker -->
-<!-- ============================================================ -->
+<!-- SMS picker -->
 <div class="modalBack" id="smsModal">
   <div class="modal">
     <div class="modalTitle">Send Text To...</div>
     <div id="smsPickList"></div>
-    <div style="height:10px"></div>
+    <div style="height:9px"></div>
     <button class="btn light full" onclick="closeModal('smsModal')">Cancel</button>
   </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- MODAL: Quick Add Quantity -->
-<!-- ============================================================ -->
+<!-- Qty modal (quick add) -->
 <div class="modalBack" id="qtyModal">
   <div class="modal">
     <div class="modalTitle" id="qtyModalTitle">How many?</div>
-    <input id="qtyModalInput" type="number" placeholder="e.g. 6" min="1" />
-    <div style="height:10px"></div>
+    <input id="qtyModalInput" type="number" placeholder="e.g. 6" min="1"/>
+    <div style="height:9px"></div>
     <div class="row">
-      <button class="btn primary" onclick="confirmQtyModal()">Add</button>
+      <button class="btn primary" onclick="confirmQty()">Add</button>
       <button class="btn light" onclick="closeModal('qtyModal')">Cancel</button>
     </div>
   </div>
 </div>
 
+<!-- Size picker modal -->
+<div class="modalBack" id="sizeModal">
+  <div class="modal">
+    <div class="modalTitle" id="sizeModalTitle">Pick Size</div>
+    <div id="sizeModalSizes" style="margin-bottom:10px;"></div>
+    <div class="hint">Or enter custom quantity after selecting size:</div>
+    <input id="sizeModalQty" type="number" placeholder="Quantity (default 1)" min="1"/>
+    <div style="height:9px"></div>
+    <button class="btn light full" onclick="closeModal('sizeModal')">Cancel</button>
+  </div>
+</div>
+
 <script>
-/* ============================================================
+/* ================================================================
+   FULL PEPSICO PRODUCT DATABASE
+   Format: { brand, line, flavor, category, sizes[], keywords[] }
+   sizes = common retail sizes for that product type
+================================================================ */
+const PRODUCTS = [
+  /* ---- PEPSI SOFT DRINKS ---- */
+  {brand:"Pepsi",line:"",flavor:"Original",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle","24pk cans","6pk bottles","8pk bottles","1L bottle"],
+    kw:["pepsi","regular pepsi","pepsi cola"]},
+  {brand:"Pepsi",line:"",flavor:"Diet",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle","24pk cans","6pk bottles","2pk bottles"],
+    kw:["diet pepsi","pepsi diet"]},
+  {brand:"Pepsi",line:"",flavor:"Zero Sugar",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle","24pk cans","6pk bottles"],
+    kw:["pepsi zero","pepsi zero sugar","pepsi black"]},
+  {brand:"Pepsi",line:"",flavor:"Wild Cherry",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle"],
+    kw:["pepsi wild cherry","wild cherry pepsi","cherry pepsi"]},
+  {brand:"Pepsi",line:"",flavor:"Diet Wild Cherry",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["diet wild cherry pepsi","diet cherry pepsi","pepsi diet wild cherry"]},
+  {brand:"Pepsi",line:"",flavor:"Zero Sugar Wild Cherry",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["pepsi zero wild cherry","pepsi zero sugar wild cherry","zero cherry pepsi"]},
+  {brand:"Pepsi",line:"",flavor:"Real Sugar",cat:"Soft Drink",
+    sizes:["20oz bottle","12pk bottles","1L bottle"],
+    kw:["pepsi real sugar","pepsi throwback","pepsi sugar"]},
+  {brand:"Pepsi",line:"",flavor:"Caffeine Free",cat:"Soft Drink",
+    sizes:["12pk cans","2L bottle","20oz bottle"],
+    kw:["caffeine free pepsi","pepsi caffeine free"]},
+  {brand:"Pepsi",line:"",flavor:"Caffeine Free Diet",cat:"Soft Drink",
+    sizes:["12pk cans","2L bottle"],
+    kw:["caffeine free diet pepsi","diet caffeine free pepsi"]},
+
+  /* ---- MOUNTAIN DEW ---- */
+  {brand:"Mountain Dew",line:"",flavor:"Original",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle","24pk cans","6pk bottles","8pk bottles","1L bottle"],
+    kw:["mountain dew","mtn dew","dew original","regular dew"]},
+  {brand:"Mountain Dew",line:"",flavor:"Diet",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle","24pk cans"],
+    kw:["diet mountain dew","diet dew","diet mtn dew"]},
+  {brand:"Mountain Dew",line:"",flavor:"Zero Sugar",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle"],
+    kw:["mountain dew zero","mtn dew zero","dew zero","dew zero sugar"]},
+  {brand:"Mountain Dew",line:"",flavor:"Code Red",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle"],
+    kw:["code red","mountain dew code red","dew code red","mtn dew code red"]},
+  {brand:"Mountain Dew",line:"",flavor:"Diet Code Red",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["diet code red","diet mountain dew code red"]},
+  {brand:"Mountain Dew",line:"",flavor:"Voltage",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle"],
+    kw:["voltage","mountain dew voltage","dew voltage"]},
+  {brand:"Mountain Dew",line:"",flavor:"LiveWire",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["livewire","live wire","mountain dew livewire","dew livewire"]},
+  {brand:"Mountain Dew",line:"",flavor:"Baja Blast",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["baja blast","mountain dew baja blast","dew baja blast"]},
+  {brand:"Mountain Dew",line:"",flavor:"Major Melon",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["major melon","mountain dew major melon","dew major melon"]},
+  {brand:"Mountain Dew",line:"",flavor:"Frost Bite",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["frost bite","frostbite","mountain dew frost bite","dew frost bite"]},
+  {brand:"Mountain Dew",line:"",flavor:"Purple Thunder",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle"],
+    kw:["purple thunder","mountain dew purple thunder","dew purple thunder"]},
+  {brand:"Mountain Dew",line:"",flavor:"Spark",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["dew spark","mountain dew spark"]},
+  {brand:"Mountain Dew",line:"",flavor:"Maui Burst",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["maui burst","mountain dew maui burst","dew maui burst"]},
+  {brand:"Mountain Dew",line:"",flavor:"Summer Freeze",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle"],
+    kw:["summer freeze","mountain dew summer freeze"]},
+  {brand:"Mountain Dew",line:"",flavor:"Game Fuel Citrus Cherry",cat:"Soft Drink",
+    sizes:["16oz can","12pk cans"],
+    kw:["game fuel citrus cherry","mountain dew game fuel citrus","dew game fuel"]},
+  {brand:"Mountain Dew",line:"",flavor:"Game Fuel Mystic Punch",cat:"Soft Drink",
+    sizes:["16oz can","12pk cans"],
+    kw:["game fuel mystic punch","mountain dew game fuel mystic","dew game fuel mystic"]},
+
+  /* ---- MUG ---- */
+  {brand:"Mug Root Beer",line:"",flavor:"Original",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle","6pk bottles"],
+    kw:["mug root beer","mug","root beer"]},
+  {brand:"Mug Root Beer",line:"",flavor:"Zero Sugar",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["mug root beer zero","mug zero","zero sugar root beer"]},
+  {brand:"Mug Cream Soda",line:"",flavor:"Original",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["mug cream soda","cream soda"]},
+
+  /* ---- STARRY ---- */
+  {brand:"Starry",line:"",flavor:"Lemon Lime",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle","24pk cans"],
+    kw:["starry","starry lemon lime","starry soda"]},
+  {brand:"Starry",line:"",flavor:"Zero Sugar Lemon Lime",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["starry zero","starry zero sugar","starry zero lemon lime"]},
+
+  /* ---- CRUSH ---- */
+  {brand:"Crush",line:"",flavor:"Orange",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle"],
+    kw:["crush orange","orange crush"]},
+  {brand:"Crush",line:"",flavor:"Grape",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["crush grape","grape crush"]},
+  {brand:"Crush",line:"",flavor:"Strawberry",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["crush strawberry","strawberry crush"]},
+  {brand:"Crush",line:"",flavor:"Watermelon",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle"],
+    kw:["crush watermelon","watermelon crush"]},
+  {brand:"Crush",line:"",flavor:"Peach",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["crush peach","peach crush"]},
+  {brand:"Crush",line:"",flavor:"Pineapple",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle"],
+    kw:["crush pineapple","pineapple crush"]},
+
+  /* ---- SCHWEPPES ---- */
+  {brand:"Schweppes",line:"",flavor:"Ginger Ale",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle","1.25L bottle"],
+    kw:["schweppes ginger ale","schweppes ginger","ginger ale"]},
+  {brand:"Schweppes",line:"",flavor:"Club Soda",cat:"Soft Drink",
+    sizes:["12pk cans","1L bottle","2L bottle"],
+    kw:["schweppes club soda","club soda"]},
+  {brand:"Schweppes",line:"",flavor:"Tonic Water",cat:"Soft Drink",
+    sizes:["12pk cans","1L bottle","2L bottle"],
+    kw:["schweppes tonic water","tonic water"]},
+  {brand:"Schweppes",line:"",flavor:"Seltzer Water",cat:"Soft Drink",
+    sizes:["12pk cans","1L bottle","2L bottle"],
+    kw:["schweppes seltzer","seltzer water"]},
+
+  /* ---- OTHER SOFT DRINKS ---- */
+  {brand:"Manzanita Sol",line:"",flavor:"Apple Soda",cat:"Soft Drink",
+    sizes:["12pk cans","20oz bottle","2L bottle"],
+    kw:["manzanita sol","manzanita","apple soda"]},
+  {brand:"Caleb's Kola",line:"",flavor:"Original Kola",cat:"Soft Drink",
+    sizes:["12oz bottle","4pk bottles"],
+    kw:["calebs kola","caleb kola","kola"]},
+
+  /* ---- GATORADE ---- */
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Fruit Punch",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","32oz bottle","64oz bottle","12pk 12oz","6pk 16.9oz"],
+    kw:["gatorade fruit punch","gatorade punch"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Cool Blue",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","32oz bottle","64oz bottle","12pk 12oz"],
+    kw:["gatorade cool blue","cool blue gatorade","gatorade blue"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Lemon Lime",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","32oz bottle","64oz bottle","12pk 12oz"],
+    kw:["gatorade lemon lime","gatorade lemon","lemon lime gatorade"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Orange",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","32oz bottle","64oz bottle","12pk 12oz"],
+    kw:["gatorade orange","orange gatorade"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Grape",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","32oz bottle","64oz bottle","12pk 12oz"],
+    kw:["gatorade grape","grape gatorade"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Glacier Freeze",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","32oz bottle","64oz bottle","12pk 12oz"],
+    kw:["gatorade glacier freeze","glacier freeze","gatorade glacier"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Glacier Cherry",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","32oz bottle","12pk 12oz"],
+    kw:["gatorade glacier cherry","glacier cherry"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Berry",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","32oz bottle","12pk 12oz"],
+    kw:["gatorade berry","berry gatorade"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Riptide Rush",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","32oz bottle","12pk 12oz"],
+    kw:["gatorade riptide rush","riptide rush","riptide"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Fierce Grape",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","32oz bottle","12pk 12oz"],
+    kw:["gatorade fierce grape","fierce grape"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Tropical Mango",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","32oz bottle","12pk 12oz"],
+    kw:["gatorade tropical mango","tropical mango gatorade"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Strawberry Watermelon",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","12pk 12oz"],
+    kw:["gatorade strawberry watermelon","strawberry watermelon gatorade"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Frost Arctic Blitz",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","12pk 12oz"],
+    kw:["gatorade frost arctic blitz","arctic blitz","frost arctic"]},
+  {brand:"Gatorade",line:"Thirst Quencher",flavor:"Lime Cucumber",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle"],
+    kw:["gatorade lime cucumber","lime cucumber"]},
+  /* G2 */
+  {brand:"Gatorade",line:"G2",flavor:"Fruit Punch",cat:"Sports Drink",
+    sizes:["20oz bottle","12pk 12oz"],
+    kw:["g2 fruit punch","gatorade g2 fruit punch","g2 punch"]},
+  {brand:"Gatorade",line:"G2",flavor:"Grape",cat:"Sports Drink",
+    sizes:["20oz bottle","12pk 12oz"],
+    kw:["g2 grape","gatorade g2 grape"]},
+  {brand:"Gatorade",line:"G2",flavor:"Lemon Lime",cat:"Sports Drink",
+    sizes:["20oz bottle","12pk 12oz"],
+    kw:["g2 lemon lime","gatorade g2 lemon lime"]},
+  {brand:"Gatorade",line:"G2",flavor:"Orange",cat:"Sports Drink",
+    sizes:["20oz bottle","12pk 12oz"],
+    kw:["g2 orange","gatorade g2 orange"]},
+  /* Gatorade Zero */
+  {brand:"Gatorade",line:"Zero",flavor:"Fruit Punch",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","12pk 12oz"],
+    kw:["gatorade zero fruit punch","gatorade zero punch"]},
+  {brand:"Gatorade",line:"Zero",flavor:"Glacier Freeze",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","12pk 12oz"],
+    kw:["gatorade zero glacier freeze","gatorade zero glacier"]},
+  {brand:"Gatorade",line:"Zero",flavor:"Berry",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","12pk 12oz"],
+    kw:["gatorade zero berry"]},
+  {brand:"Gatorade",line:"Zero",flavor:"Orange",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","12pk 12oz"],
+    kw:["gatorade zero orange"]},
+  {brand:"Gatorade",line:"Zero",flavor:"Grape",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","12pk 12oz"],
+    kw:["gatorade zero grape"]},
+  {brand:"Gatorade",line:"Zero",flavor:"Lemon Lime",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","12pk 12oz"],
+    kw:["gatorade zero lemon lime"]},
+  {brand:"Gatorade",line:"Zero",flavor:"Cool Blue",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","12pk 12oz"],
+    kw:["gatorade zero cool blue","gatorade zero blue"]},
+  {brand:"Gatorade",line:"Zero",flavor:"Glacier Cherry",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle","12pk 12oz"],
+    kw:["gatorade zero glacier cherry"]},
+  {brand:"Gatorade",line:"Zero",flavor:"Watermelon Splash",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle"],
+    kw:["gatorade zero watermelon","gatorade zero watermelon splash"]},
+  {brand:"Gatorade",line:"Zero",flavor:"Strawberry Kiwi",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle"],
+    kw:["gatorade zero strawberry kiwi"]},
+  {brand:"Gatorade",line:"Zero",flavor:"Apple Burst",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle"],
+    kw:["gatorade zero apple burst","gatorade zero apple"]},
+  {brand:"Gatorade",line:"Zero",flavor:"Lime Cucumber",cat:"Sports Drink",
+    sizes:["20oz bottle","28oz bottle"],
+    kw:["gatorade zero lime cucumber"]},
+
+  /* ---- AQUAFINA ---- */
+  {brand:"Aquafina",line:"Purified Water",flavor:"Original",cat:"Water",
+    sizes:["20oz bottle","24pk 16.9oz","16.9oz bottle","1L bottle","1.5L bottle","6pk 16.9oz","32pk 16.9oz"],
+    kw:["aquafina","aquafina water","aqua fina"]},
+
+  /* ---- LIFEWTR ---- */
+  {brand:"LIFEWTR",line:"Premium Water",flavor:"Original",cat:"Water",
+    sizes:["1L bottle","700mL bottle","6pk 700mL"],
+    kw:["lifewtr","life water","lifewtr original"]},
+  {brand:"LIFEWTR",line:"Premium Water",flavor:"Berry",cat:"Water",
+    sizes:["1L bottle","700mL bottle"],
+    kw:["lifewtr berry","life water berry"]},
+  {brand:"LIFEWTR",line:"Premium Water",flavor:"Grapefruit",cat:"Water",
+    sizes:["1L bottle","700mL bottle"],
+    kw:["lifewtr grapefruit","life water grapefruit"]},
+  {brand:"LIFEWTR",line:"Premium Water",flavor:"Lemon Lime",cat:"Water",
+    sizes:["1L bottle","700mL bottle"],
+    kw:["lifewtr lemon lime","life water lemon lime"]},
+  {brand:"LIFEWTR",line:"Premium Water",flavor:"Orange Mango",cat:"Water",
+    sizes:["1L bottle","700mL bottle"],
+    kw:["lifewtr orange mango","life water orange mango"]},
+
+  /* ---- PROPEL ---- */
+  {brand:"Propel",line:"Electrolyte Water",flavor:"Berry",cat:"Enhanced Water",
+    sizes:["16.9oz bottle","6pk 16.9oz","12pk 16.9oz"],
+    kw:["propel berry","propel water berry"]},
+  {brand:"Propel",line:"Electrolyte Water",flavor:"Lemon",cat:"Enhanced Water",
+    sizes:["16.9oz bottle","6pk 16.9oz","12pk 16.9oz"],
+    kw:["propel lemon","propel water lemon"]},
+  {brand:"Propel",line:"Electrolyte Water",flavor:"Grape",cat:"Enhanced Water",
+    sizes:["16.9oz bottle","6pk 16.9oz","12pk 16.9oz"],
+    kw:["propel grape","propel water grape"]},
+  {brand:"Propel",line:"Electrolyte Water",flavor:"Kiwi Strawberry",cat:"Enhanced Water",
+    sizes:["16.9oz bottle","6pk 16.9oz"],
+    kw:["propel kiwi strawberry","propel kiwi"]},
+  {brand:"Propel",line:"Electrolyte Water",flavor:"Black Cherry",cat:"Enhanced Water",
+    sizes:["16.9oz bottle","6pk 16.9oz"],
+    kw:["propel black cherry","propel cherry"]},
+  {brand:"Propel",line:"Electrolyte Water",flavor:"Watermelon",cat:"Enhanced Water",
+    sizes:["16.9oz bottle","6pk 16.9oz"],
+    kw:["propel watermelon"]},
+  {brand:"Propel",line:"Electrolyte Water",flavor:"Peach",cat:"Enhanced Water",
+    sizes:["16.9oz bottle","6pk 16.9oz"],
+    kw:["propel peach"]},
+  {brand:"Propel",line:"Electrolyte Water",flavor:"Mandarin Orange",cat:"Enhanced Water",
+    sizes:["16.9oz bottle","6pk 16.9oz"],
+    kw:["propel mandarin orange","propel orange","propel mandarin"]},
+  {brand:"Propel",line:"Electrolyte Water",flavor:"Raspberry Lemonade",cat:"Enhanced Water",
+    sizes:["16.9oz bottle","6pk 16.9oz"],
+    kw:["propel raspberry lemonade","propel raspberry"]},
+
+  /* ---- BUBLY ---- */
+  {brand:"bubly",line:"Sparkling Water",flavor:"Blackberry",cat:"Sparkling Water",
+    sizes:["12oz can","12pk cans","18pk cans","24pk cans","8pk cans"],
+    kw:["bubly blackberry","blackberry bubly"]},
+  {brand:"bubly",line:"Sparkling Water",flavor:"Cherry",cat:"Sparkling Water",
+    sizes:["12oz can","12pk cans","18pk cans","24pk cans","8pk cans"],
+    kw:["bubly cherry","cherry bubly"]},
+  {brand:"bubly",line:"Sparkling Water",flavor:"Lime",cat:"Sparkling Water",
+    sizes:["12oz can","12pk cans","18pk cans","24pk cans","8pk cans"],
+    kw:["bubly lime","lime bubly"]},
+  {brand:"bubly",line:"Sparkling Water",flavor:"Grapefruit",cat:"Sparkling Water",
+    sizes:["12oz can","12pk cans","18pk cans","24pk cans","8pk cans"],
+    kw:["bubly grapefruit","grapefruit bubly"]},
+  {brand:"bubly",line:"Sparkling Water",flavor:"Mango",cat:"Sparkling Water",
+    sizes:["12oz can","12pk cans","18pk cans","24pk cans","8pk cans"],
+    kw:["bubly mango","mango bubly"]},
+  {brand:"bubly",line:"Sparkling Water",flavor:"Strawberry",cat:"Sparkling Water",
+    sizes:["12oz can","12pk cans","18pk cans","24pk cans","8pk cans"],
+    kw:["bubly strawberry","strawberry bubly"]},
+  {brand:"bubly",line:"Sparkling Water",flavor:"Watermelon",cat:"Sparkling Water",
+    sizes:["12oz can","12pk cans","18pk cans","24pk cans","8pk cans"],
+    kw:["bubly watermelon","watermelon bubly"]},
+  {brand:"bubly",line:"Sparkling Water",flavor:"Pineapple",cat:"Sparkling Water",
+    sizes:["12oz can","12pk cans","18pk cans","8pk cans"],
+    kw:["bubly pineapple","pineapple bubly"]},
+  {brand:"bubly",line:"Sparkling Water",flavor:"Blood Orange Grapefruit",cat:"Sparkling Water",
+    sizes:["12oz can","12pk cans","8pk cans"],
+    kw:["bubly blood orange","bubly blood orange grapefruit"]},
+  {brand:"bubly",line:"Sparkling Water",flavor:"White Peach Ginger",cat:"Sparkling Water",
+    sizes:["12oz can","12pk cans","8pk cans"],
+    kw:["bubly white peach ginger","bubly peach ginger"]},
+
+  /* ---- ROCKSTAR ---- */
+  {brand:"Rockstar",line:"Energy",flavor:"Original",cat:"Energy Drink",
+    sizes:["16oz can","24oz can","4pk 16oz"],
+    kw:["rockstar original","rockstar energy original","rockstar"]},
+  {brand:"Rockstar",line:"Energy",flavor:"Sugar Free",cat:"Energy Drink",
+    sizes:["16oz can","24oz can"],
+    kw:["rockstar sugar free","rockstar zero","rockstar sf"]},
+  {brand:"Rockstar",line:"Punched",flavor:"Fruit Punch",cat:"Energy Drink",
+    sizes:["16oz can","24oz can"],
+    kw:["rockstar punched fruit punch","rockstar punch"]},
+  {brand:"Rockstar",line:"Punched",flavor:"Punched Peach",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar punched peach","rockstar peach"]},
+  {brand:"Rockstar",line:"Pure Zero",flavor:"Watermelon Kiwi",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar pure zero watermelon kiwi","rockstar watermelon kiwi"]},
+  {brand:"Rockstar",line:"Pure Zero",flavor:"Fruit Punch",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar pure zero fruit punch","rockstar pure zero punch"]},
+  {brand:"Rockstar",line:"Pure Zero",flavor:"Grape",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar pure zero grape","rockstar grape"]},
+  {brand:"Rockstar",line:"Pure Zero",flavor:"Silver Ice",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar pure zero silver ice","rockstar silver ice"]},
+  {brand:"Rockstar",line:"Pure Zero",flavor:"Mandarin Orange",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar pure zero mandarin","rockstar mandarin orange"]},
+  {brand:"Rockstar",line:"Pure Zero",flavor:"Limon Pepino",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar pure zero limon pepino","rockstar limon pepino"]},
+  {brand:"Rockstar",line:"Recovery",flavor:"Lemonade",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar recovery lemonade","rockstar lemonade"]},
+  {brand:"Rockstar",line:"Recovery",flavor:"Orangeade",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar recovery orangeade","rockstar orangeade"]},
+  {brand:"Rockstar",line:"Boom",flavor:"Whipped Strawberry",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar boom whipped strawberry","rockstar whipped strawberry"]},
+  {brand:"Rockstar",line:"Boom",flavor:"Whipped Orange",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar boom whipped orange","rockstar whipped orange"]},
+  {brand:"Rockstar",line:"Focus",flavor:"Mixed Berry",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar focus mixed berry","rockstar focus berry"]},
+  {brand:"Rockstar",line:"Focus",flavor:"White Peach",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar focus white peach","rockstar white peach"]},
+  {brand:"Rockstar",line:"Xdurance",flavor:"Blue Raz",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar xdurance blue raz","rockstar blue raz"]},
+  {brand:"Rockstar",line:"Xdurance",flavor:"Kiwi Strawberry",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["rockstar xdurance kiwi strawberry","rockstar kiwi strawberry"]},
+
+  /* ---- AMP ---- */
+  {brand:"AMP Energy",line:"",flavor:"Original",cat:"Energy Drink",
+    sizes:["16oz can","24oz can"],
+    kw:["amp original","amp energy original","amp"]},
+  {brand:"AMP Energy",line:"",flavor:"Sugar Free",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["amp sugar free","amp zero","amp energy sugar free"]},
+  {brand:"AMP Energy",line:"",flavor:"Tropical Punch",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["amp tropical punch","amp tropical"]},
+  {brand:"AMP Energy",line:"",flavor:"Cherry",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["amp cherry","amp energy cherry"]},
+  {brand:"AMP Energy",line:"",flavor:"Blueberry",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["amp blueberry","amp energy blueberry"]},
+  {brand:"AMP Energy",line:"",flavor:"Watermelon",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["amp watermelon","amp energy watermelon"]},
+
+  /* ---- NO FEAR ---- */
+  {brand:"No Fear",line:"",flavor:"Original",cat:"Energy Drink",
+    sizes:["16oz can"],
+    kw:["no fear","no fear energy"]},
+
+  /* ---- STARBUCKS RTD ---- */
+  {brand:"Starbucks RTD",line:"Frappuccino",flavor:"Caramel",cat:"Coffee Drink",
+    sizes:["13.7oz bottle","4pk 9.5oz","15pk 9.5oz"],
+    kw:["starbucks frappuccino caramel","frappuccino caramel","starbucks caramel frapp"]},
+  {brand:"Starbucks RTD",line:"Frappuccino",flavor:"Coffee",cat:"Coffee Drink",
+    sizes:["13.7oz bottle","4pk 9.5oz","15pk 9.5oz"],
+    kw:["starbucks frappuccino coffee","frappuccino coffee","starbucks coffee frapp"]},
+  {brand:"Starbucks RTD",line:"Frappuccino",flavor:"Mocha",cat:"Coffee Drink",
+    sizes:["13.7oz bottle","4pk 9.5oz","15pk 9.5oz"],
+    kw:["starbucks frappuccino mocha","frappuccino mocha","starbucks mocha frapp"]},
+  {brand:"Starbucks RTD",line:"Frappuccino",flavor:"Vanilla",cat:"Coffee Drink",
+    sizes:["13.7oz bottle","4pk 9.5oz","15pk 9.5oz"],
+    kw:["starbucks frappuccino vanilla","frappuccino vanilla","starbucks vanilla frapp"]},
+  {brand:"Starbucks RTD",line:"Frappuccino",flavor:"Java Chip",cat:"Coffee Drink",
+    sizes:["13.7oz bottle","4pk 9.5oz"],
+    kw:["starbucks frappuccino java chip","frappuccino java chip","java chip"]},
+  {brand:"Starbucks RTD",line:"Frappuccino",flavor:"White Chocolate Mocha",cat:"Coffee Drink",
+    sizes:["13.7oz bottle","4pk 9.5oz"],
+    kw:["starbucks frappuccino white chocolate mocha","white chocolate mocha frapp"]},
+  {brand:"Starbucks RTD",line:"Frappuccino",flavor:"Pumpkin Spice",cat:"Coffee Drink",
+    sizes:["13.7oz bottle"],
+    kw:["starbucks frappuccino pumpkin spice","pumpkin spice frapp"]},
+  {brand:"Starbucks RTD",line:"Cold Brew",flavor:"Black",cat:"Coffee Drink",
+    sizes:["11oz can","12pk 11oz"],
+    kw:["starbucks cold brew black","starbucks cold brew","cold brew black"]},
+  {brand:"Starbucks RTD",line:"Cold Brew",flavor:"Vanilla Sweet Cream",cat:"Coffee Drink",
+    sizes:["11oz can","12pk 11oz"],
+    kw:["starbucks cold brew vanilla sweet cream","cold brew vanilla sweet cream","starbucks vanilla cold brew"]},
+  {brand:"Starbucks RTD",line:"Cold Brew",flavor:"Nitro Cold Brew",cat:"Coffee Drink",
+    sizes:["9.6oz can"],
+    kw:["starbucks nitro cold brew","nitro cold brew","starbucks nitro"]},
+  {brand:"Starbucks RTD",line:"Doubleshot Energy",flavor:"Coffee",cat:"Coffee Drink",
+    sizes:["15oz can"],
+    kw:["starbucks doubleshot energy coffee","doubleshot coffee","starbucks doubleshot coffee"]},
+  {brand:"Starbucks RTD",line:"Doubleshot Energy",flavor:"Caramel",cat:"Coffee Drink",
+    sizes:["15oz can"],
+    kw:["starbucks doubleshot energy caramel","doubleshot caramel"]},
+  {brand:"Starbucks RTD",line:"Doubleshot Energy",flavor:"Vanilla",cat:"Coffee Drink",
+    sizes:["15oz can"],
+    kw:["starbucks doubleshot energy vanilla","doubleshot vanilla"]},
+  {brand:"Starbucks RTD",line:"Doubleshot Energy",flavor:"Mocha",cat:"Coffee Drink",
+    sizes:["15oz can"],
+    kw:["starbucks doubleshot energy mocha","doubleshot mocha"]},
+  {brand:"Starbucks RTD",line:"Doubleshot Energy",flavor:"Hazelnut",cat:"Coffee Drink",
+    sizes:["15oz can"],
+    kw:["starbucks doubleshot energy hazelnut","doubleshot hazelnut"]},
+  {brand:"Starbucks RTD",line:"Iced Coffee",flavor:"Caramel",cat:"Coffee Drink",
+    sizes:["11oz bottle","6pk 11oz"],
+    kw:["starbucks iced coffee caramel","starbucks iced caramel"]},
+  {brand:"Starbucks RTD",line:"Iced Coffee",flavor:"Mocha",cat:"Coffee Drink",
+    sizes:["11oz bottle","6pk 11oz"],
+    kw:["starbucks iced coffee mocha","starbucks iced mocha"]},
+  {brand:"Starbucks RTD",line:"Iced Coffee",flavor:"Vanilla",cat:"Coffee Drink",
+    sizes:["11oz bottle","6pk 11oz"],
+    kw:["starbucks iced coffee vanilla","starbucks iced vanilla"]},
+  {brand:"Starbucks RTD",line:"Iced Coffee",flavor:"Black",cat:"Coffee Drink",
+    sizes:["11oz bottle","6pk 11oz"],
+    kw:["starbucks iced coffee black","starbucks iced black coffee"]},
+  {brand:"Starbucks RTD",line:"Iced Coffee",flavor:"Unsweetened",cat:"Coffee Drink",
+    sizes:["11oz bottle","6pk 11oz"],
+    kw:["starbucks iced coffee unsweetened","starbucks unsweetened iced coffee"]},
+  {brand:"Starbucks RTD",line:"Tripleshot Energy",flavor:"French Vanilla",cat:"Coffee Drink",
+    sizes:["15oz can"],
+    kw:["starbucks tripleshot french vanilla","tripleshot french vanilla"]},
+  {brand:"Starbucks RTD",line:"Tripleshot Energy",flavor:"Caramel",cat:"Coffee Drink",
+    sizes:["15oz can"],
+    kw:["starbucks tripleshot caramel","tripleshot caramel"]},
+  {brand:"Starbucks RTD",line:"Tripleshot Energy",flavor:"Mocha",cat:"Coffee Drink",
+    sizes:["15oz can"],
+    kw:["starbucks tripleshot mocha","tripleshot mocha"]},
+  {brand:"Starbucks RTD",line:"Tripleshot Energy",flavor:"Caffe Mocha",cat:"Coffee Drink",
+    sizes:["15oz can"],
+    kw:["starbucks tripleshot caffe mocha","tripleshot caffe mocha"]},
+
+  /* ---- TEA ---- */
+  {brand:"Brisk",line:"Brisk Iced Tea",flavor:"Lemon",cat:"Tea",
+    sizes:["20oz bottle","1L bottle","2L bottle","12pk cans","6pk 16.9oz"],
+    kw:["brisk lemon","brisk iced tea lemon","brisk lemon iced tea"]},
+  {brand:"Brisk",line:"Brisk Iced Tea",flavor:"Raspberry",cat:"Tea",
+    sizes:["20oz bottle","1L bottle","2L bottle","12pk cans"],
+    kw:["brisk raspberry","brisk iced tea raspberry"]},
+  {brand:"Brisk",line:"Brisk Iced Tea",flavor:"Peach",cat:"Tea",
+    sizes:["20oz bottle","1L bottle","2L bottle","12pk cans"],
+    kw:["brisk peach","brisk iced tea peach"]},
+  {brand:"Brisk",line:"Brisk Iced Tea",flavor:"Sweet Tea",cat:"Tea",
+    sizes:["20oz bottle","1L bottle","2L bottle","12pk cans"],
+    kw:["brisk sweet tea","brisk sweetened tea"]},
+  {brand:"Brisk",line:"Brisk Iced Tea",flavor:"Half & Half",cat:"Tea",
+    sizes:["20oz bottle","1L bottle","12pk cans"],
+    kw:["brisk half and half","brisk half half","brisk half"]},
+  {brand:"Brisk",line:"Brisk Iced Tea",flavor:"Strawberry Melon",cat:"Tea",
+    sizes:["20oz bottle","1L bottle"],
+    kw:["brisk strawberry melon","brisk strawberry watermelon"]},
+  {brand:"Brisk",line:"Brisk Iced Tea",flavor:"Zero Sugar Lemon",cat:"Tea",
+    sizes:["20oz bottle","12pk cans"],
+    kw:["brisk zero sugar lemon","brisk zero lemon"]},
+  {brand:"Lipton Iced Tea",line:"Lipton Iced Tea",flavor:"Lemon",cat:"Tea",
+    sizes:["20oz bottle","1L bottle","2L bottle","12pk cans"],
+    kw:["lipton lemon","lipton iced tea lemon"]},
+  {brand:"Lipton Iced Tea",line:"Lipton Iced Tea",flavor:"Peach",cat:"Tea",
+    sizes:["20oz bottle","1L bottle","2L bottle","12pk cans"],
+    kw:["lipton peach","lipton iced tea peach"]},
+  {brand:"Lipton Iced Tea",line:"Lipton Iced Tea",flavor:"Raspberry",cat:"Tea",
+    sizes:["20oz bottle","1L bottle","2L bottle","12pk cans"],
+    kw:["lipton raspberry","lipton iced tea raspberry"]},
+  {brand:"Lipton Iced Tea",line:"Lipton Iced Tea",flavor:"Diet Lemon",cat:"Tea",
+    sizes:["20oz bottle","1L bottle","2L bottle","12pk cans"],
+    kw:["lipton diet lemon","lipton diet iced tea"]},
+  {brand:"Lipton Iced Tea",line:"Lipton Iced Tea",flavor:"Green Tea Citrus",cat:"Tea",
+    sizes:["20oz bottle","1L bottle","12pk cans"],
+    kw:["lipton green tea citrus","lipton green tea"]},
+  {brand:"Lipton Iced Tea",line:"Lipton Iced Tea",flavor:"Diet Green Tea Citrus",cat:"Tea",
+    sizes:["20oz bottle","1L bottle","12pk cans"],
+    kw:["lipton diet green tea citrus","lipton diet green tea"]},
+  {brand:"Pure Leaf",line:"Pure Leaf Tea",flavor:"Sweet Tea",cat:"Tea",
+    sizes:["18.5oz bottle","64oz bottle","12pk 18.5oz"],
+    kw:["pure leaf sweet tea","pure leaf sweetened"]},
+  {brand:"Pure Leaf",line:"Pure Leaf Tea",flavor:"Lemon Tea",cat:"Tea",
+    sizes:["18.5oz bottle","64oz bottle","12pk 18.5oz"],
+    kw:["pure leaf lemon tea","pure leaf lemon"]},
+  {brand:"Pure Leaf",line:"Pure Leaf Tea",flavor:"Peach Tea",cat:"Tea",
+    sizes:["18.5oz bottle","64oz bottle","12pk 18.5oz"],
+    kw:["pure leaf peach tea","pure leaf peach"]},
+  {brand:"Pure Leaf",line:"Pure Leaf Tea",flavor:"Raspberry Tea",cat:"Tea",
+    sizes:["18.5oz bottle","64oz bottle","12pk 18.5oz"],
+    kw:["pure leaf raspberry tea","pure leaf raspberry"]},
+  {brand:"Pure Leaf",line:"Pure Leaf Tea",flavor:"Unsweetened Tea",cat:"Tea",
+    sizes:["18.5oz bottle","64oz bottle","12pk 18.5oz"],
+    kw:["pure leaf unsweetened","pure leaf unsweetened tea"]},
+  {brand:"Pure Leaf",line:"Pure Leaf Tea",flavor:"Extra Sweet Tea",cat:"Tea",
+    sizes:["18.5oz bottle","64oz bottle"],
+    kw:["pure leaf extra sweet tea","pure leaf extra sweet"]},
+  {brand:"Pure Leaf",line:"Pure Leaf Tea",flavor:"Green Tea",cat:"Tea",
+    sizes:["18.5oz bottle","64oz bottle"],
+    kw:["pure leaf green tea"]},
+  {brand:"Pure Leaf",line:"Pure Leaf Tea",flavor:"Honey Green Tea",cat:"Tea",
+    sizes:["18.5oz bottle","64oz bottle"],
+    kw:["pure leaf honey green tea","pure leaf honey green"]},
+  {brand:"Pure Leaf",line:"Pure Leaf Tea",flavor:"Zero Sugar Sweet Tea",cat:"Tea",
+    sizes:["18.5oz bottle","64oz bottle"],
+    kw:["pure leaf zero sugar sweet tea","pure leaf zero sweet tea"]},
+
+  /* ---- TROPICANA ---- */
+  {brand:"Tropicana",line:"",flavor:"Orange Juice",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle","52oz bottle","59oz bottle","6pk 10oz","11.5oz can"],
+    kw:["tropicana orange juice","tropicana oj","tropicana orange"]},
+  {brand:"Tropicana",line:"",flavor:"Calcium Orange Juice",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle","52oz bottle","59oz bottle"],
+    kw:["tropicana calcium orange juice","tropicana calcium orange","tropicana calcium oj"]},
+  {brand:"Tropicana",line:"",flavor:"Apple Juice",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle","6pk 10oz"],
+    kw:["tropicana apple juice","tropicana apple"]},
+  {brand:"Tropicana",line:"",flavor:"Grape Juice",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle"],
+    kw:["tropicana grape juice","tropicana grape"]},
+  {brand:"Tropicana",line:"",flavor:"Lemonade",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle","52oz bottle","59oz bottle","12pk cans"],
+    kw:["tropicana lemonade"]},
+  {brand:"Tropicana",line:"",flavor:"Light Lemonade",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle","52oz bottle"],
+    kw:["tropicana light lemonade"]},
+  {brand:"Tropicana",line:"",flavor:"Trop50 Lemonade",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle"],
+    kw:["trop50 lemonade","tropicana trop50 lemonade"]},
+  {brand:"Tropicana",line:"",flavor:"Fruit Punch",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle","6pk 10oz"],
+    kw:["tropicana fruit punch","tropicana punch"]},
+  {brand:"Tropicana",line:"",flavor:"Cranberry Cocktail",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle"],
+    kw:["tropicana cranberry","tropicana cranberry cocktail"]},
+  {brand:"Tropicana",line:"",flavor:"Island Punch",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle"],
+    kw:["tropicana island punch"]},
+  {brand:"Tropicana",line:"",flavor:"Orange Pineapple",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle"],
+    kw:["tropicana orange pineapple"]},
+  {brand:"Tropicana",line:"",flavor:"Orange Strawberry Banana",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle"],
+    kw:["tropicana orange strawberry banana"]},
+  {brand:"Tropicana",line:"",flavor:"Red Grapefruit",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle"],
+    kw:["tropicana red grapefruit","tropicana grapefruit"]},
+  {brand:"Tropicana",line:"",flavor:"Watermelon",cat:"Juice",
+    sizes:["12oz bottle","32oz bottle"],
+    kw:["tropicana watermelon"]},
+
+  /* ---- NAKED JUICE ---- */
+  {brand:"Naked Juice",line:"",flavor:"Green Machine",cat:"Juice/Smoothie",
+    sizes:["15.2oz bottle","32oz bottle"],
+    kw:["naked green machine","naked juice green machine"]},
+  {brand:"Naked Juice",line:"",flavor:"Blue Machine",cat:"Juice/Smoothie",
+    sizes:["15.2oz bottle","32oz bottle"],
+    kw:["naked blue machine","naked juice blue machine"]},
+  {brand:"Naked Juice",line:"",flavor:"Red Machine",cat:"Juice/Smoothie",
+    sizes:["15.2oz bottle","32oz bottle"],
+    kw:["naked red machine","naked juice red machine"]},
+  {brand:"Naked Juice",line:"",flavor:"Berry Blast",cat:"Juice/Smoothie",
+    sizes:["15.2oz bottle","32oz bottle"],
+    kw:["naked berry blast","naked juice berry blast"]},
+  {brand:"Naked Juice",line:"",flavor:"Mighty Mango",cat:"Juice/Smoothie",
+    sizes:["15.2oz bottle","32oz bottle"],
+    kw:["naked mighty mango","naked juice mighty mango","naked mango"]},
+  {brand:"Naked Juice",line:"",flavor:"Strawberry Banana",cat:"Juice/Smoothie",
+    sizes:["15.2oz bottle","32oz bottle"],
+    kw:["naked strawberry banana","naked juice strawberry banana"]},
+  {brand:"Naked Juice",line:"",flavor:"Power C Machine",cat:"Juice/Smoothie",
+    sizes:["15.2oz bottle","32oz bottle"],
+    kw:["naked power c","naked power c machine","naked juice power c"]},
+  {brand:"Naked Juice",line:"",flavor:"Protein Zone",cat:"Juice/Smoothie",
+    sizes:["15.2oz bottle"],
+    kw:["naked protein zone","naked juice protein zone"]},
+  {brand:"Naked Juice",line:"",flavor:"Kale Blazer",cat:"Juice/Smoothie",
+    sizes:["15.2oz bottle"],
+    kw:["naked kale blazer","naked juice kale blazer"]},
+  {brand:"Naked Juice",line:"",flavor:"Rainbow Machine",cat:"Juice/Smoothie",
+    sizes:["15.2oz bottle"],
+    kw:["naked rainbow machine","naked juice rainbow machine"]},
+  {brand:"Naked Juice",line:"",flavor:"Orange Carrot",cat:"Juice/Smoothie",
+    sizes:["15.2oz bottle"],
+    kw:["naked orange carrot","naked juice orange carrot"]},
+
+  /* ---- FRUIT WORKS ---- */
+  {brand:"Fruit Works",line:"",flavor:"Fruit Punch",cat:"Juice",
+    sizes:["64oz bottle","32oz bottle"],
+    kw:["fruit works fruit punch","fruit works punch"]},
+  {brand:"Fruit Works",line:"",flavor:"Lemonade",cat:"Juice",
+    sizes:["64oz bottle","32oz bottle"],
+    kw:["fruit works lemonade"]},
+  {brand:"Fruit Works",line:"",flavor:"Pink Lemonade",cat:"Juice",
+    sizes:["64oz bottle","32oz bottle"],
+    kw:["fruit works pink lemonade"]},
+  {brand:"Fruit Works",line:"",flavor:"Strawberry Lemonade",cat:"Juice",
+    sizes:["64oz bottle","32oz bottle"],
+    kw:["fruit works strawberry lemonade"]},
+
+  /* ---- IZZE ---- */
+  {brand:"IZZE",line:"Sparkling Juice",flavor:"Apple",cat:"Sparkling Juice",
+    sizes:["12oz can","8.4oz bottle","4pk 8.4oz","24pk 8.4oz"],
+    kw:["izze apple","izze sparkling apple"]},
+  {brand:"IZZE",line:"Sparkling Juice",flavor:"Blackberry",cat:"Sparkling Juice",
+    sizes:["12oz can","8.4oz bottle","4pk 8.4oz"],
+    kw:["izze blackberry","izze sparkling blackberry"]},
+  {brand:"IZZE",line:"Sparkling Juice",flavor:"Grapefruit",cat:"Sparkling Juice",
+    sizes:["12oz can","8.4oz bottle","4pk 8.4oz"],
+    kw:["izze grapefruit","izze sparkling grapefruit"]},
+  {brand:"IZZE",line:"Sparkling Juice",flavor:"Clementine",cat:"Sparkling Juice",
+    sizes:["12oz can","8.4oz bottle","4pk 8.4oz"],
+    kw:["izze clementine","izze sparkling clementine"]},
+  {brand:"IZZE",line:"Sparkling Juice",flavor:"Peach",cat:"Sparkling Juice",
+    sizes:["12oz can","8.4oz bottle","4pk 8.4oz"],
+    kw:["izze peach","izze sparkling peach"]},
+  {brand:"IZZE",line:"Sparkling Juice",flavor:"Pomegranate",cat:"Sparkling Juice",
+    sizes:["12oz can","8.4oz bottle","4pk 8.4oz"],
+    kw:["izze pomegranate","izze sparkling pomegranate"]},
+  {brand:"IZZE",line:"Sparkling Juice",flavor:"Cherry Lime",cat:"Sparkling Juice",
+    sizes:["12oz can","8.4oz bottle","4pk 8.4oz"],
+    kw:["izze cherry lime","izze sparkling cherry lime"]},
+
+  /* ---- O.N.E. COCONUT WATER ---- */
+  {brand:"O.N.E. Coconut Water",line:"",flavor:"Original Coconut Water",cat:"Coconut Water",
+    sizes:["11.2oz bottle","33.8oz bottle"],
+    kw:["one coconut water","one original coconut water","coconut water original"]},
+  {brand:"O.N.E. Coconut Water",line:"",flavor:"Mango Coconut Water",cat:"Coconut Water",
+    sizes:["11.2oz bottle"],
+    kw:["one mango coconut water","coconut water mango"]},
+  {brand:"O.N.E. Coconut Water",line:"",flavor:"Pineapple Coconut Water",cat:"Coconut Water",
+    sizes:["11.2oz bottle"],
+    kw:["one pineapple coconut water","coconut water pineapple"]},
+
+  /* ---- KEVITA ---- */
+  {brand:"KeVita",line:"",flavor:"Sparkling Probiotic Lemon Cayenne",cat:"Functional",
+    sizes:["15.2oz bottle"],
+    kw:["kevita lemon cayenne","kevita sparkling lemon cayenne"]},
+  {brand:"KeVita",line:"",flavor:"Sparkling Probiotic Mango Coconut",cat:"Functional",
+    sizes:["15.2oz bottle"],
+    kw:["kevita mango coconut","kevita sparkling mango coconut"]},
+  {brand:"KeVita",line:"",flavor:"Sparkling Probiotic Mojita Lime Mint Coconut",cat:"Functional",
+    sizes:["15.2oz bottle"],
+    kw:["kevita mojita lime mint coconut","kevita mojita"]},
+  {brand:"KeVita",line:"",flavor:"Apple Cider Vinegar Tonic Lemon Cayenne",cat:"Functional",
+    sizes:["15.2oz bottle"],
+    kw:["kevita apple cider vinegar","kevita acv lemon cayenne"]},
+
+  /* ---- MUSCLE MILK ---- */
+  {brand:"Muscle Milk",line:"Protein Shake",flavor:"Chocolate",cat:"Protein Drink",
+    sizes:["11oz bottle","14oz bottle","4pk 11oz"],
+    kw:["muscle milk chocolate","muscle milk protein chocolate"]},
+  {brand:"Muscle Milk",line:"Protein Shake",flavor:"Vanilla",cat:"Protein Drink",
+    sizes:["11oz bottle","14oz bottle","4pk 11oz"],
+    kw:["muscle milk vanilla","muscle milk protein vanilla"]},
+  {brand:"Muscle Milk",line:"Protein Shake",flavor:"Strawberry",cat:"Protein Drink",
+    sizes:["11oz bottle","14oz bottle"],
+    kw:["muscle milk strawberry"]},
+  {brand:"Muscle Milk",line:"Protein Shake",flavor:"Cookies N Cream",cat:"Protein Drink",
+    sizes:["11oz bottle","14oz bottle"],
+    kw:["muscle milk cookies and cream","muscle milk cookies n cream"]},
+  {brand:"Muscle Milk",line:"Protein Shake",flavor:"Banana Creme",cat:"Protein Drink",
+    sizes:["11oz bottle","14oz bottle"],
+    kw:["muscle milk banana creme","muscle milk banana cream"]},
+
+  /* ---- EVOLVE ---- */
+  {brand:"Evolve",line:"Plant-Based Protein",flavor:"Ideal Chocolate",cat:"Protein Drink",
+    sizes:["11oz bottle","4pk 11oz"],
+    kw:["evolve chocolate","evolve plant based chocolate","evolve protein chocolate"]},
+  {brand:"Evolve",line:"Plant-Based Protein",flavor:"Ideal Vanilla",cat:"Protein Drink",
+    sizes:["11oz bottle","4pk 11oz"],
+    kw:["evolve vanilla","evolve plant based vanilla","evolve protein vanilla"]}
+];
+
+/* ================================================================
+   BUILD KEYWORD INDEX for fast fuzzy matching
+================================================================ */
+const KW_INDEX = [];
+PRODUCTS.forEach((p,i)=>{
+  p.kw.forEach(kw=>{
+    KW_INDEX.push({kw: kw.toLowerCase(), idx: i});
+  });
+  // Also index brand+flavor combo
+  const auto = (p.brand+" "+p.flavor).toLowerCase();
+  KW_INDEX.push({kw: auto, idx: i});
+  if(p.line){
+    const auto2 = (p.brand+" "+p.line+" "+p.flavor).toLowerCase();
+    KW_INDEX.push({kw: auto2, idx: i});
+  }
+});
+
+/* ================================================================
+   MATCH FUNCTION
+   Takes a string, returns best matching product or null
+================================================================ */
+function matchProduct(text){
+  text = text.toLowerCase()
+    .replace(/mountain\s*dew/g,"mountain dew")
+    .replace(/\bmtn\s*dew\b/g,"mountain dew")
+    .replace(/\bdew\b/g,"mountain dew")
+    .replace(/\bzero\s*sugar\b/g,"zero")
+    .replace(/diet\s*pepsi/g,"diet pepsi")
+    .replace(/\bfrapp(uccino)?\b/g,"frappuccino")
+    .replace(/\bG\s*2\b/gi,"g2")
+    .replace(/\bamp\b/gi,"amp energy")
+    .replace(/\blipton\b/gi,"lipton iced tea")
+    .trim();
+
+  let bestScore = -1;
+  let bestIdx = -1;
+
+  KW_INDEX.forEach(entry=>{
+    const score = similarity(text, entry.kw);
+    if(score > bestScore){
+      bestScore = score;
+      bestIdx = entry.idx;
+    }
+  });
+
+  if(bestScore > 0.35) return PRODUCTS[bestIdx];
+  return null;
+}
+
+/* Simple similarity: intersection of words */
+function similarity(a, b){
+  const wa = new Set(a.split(/\s+/).filter(w=>w.length>1));
+  const wb = new Set(b.split(/\s+/).filter(w=>w.length>1));
+  if(!wa.size || !wb.size) return 0;
+  let common = 0;
+  wa.forEach(w=>{ if(wb.has(w)) common++; });
+  return common / Math.max(wa.size, wb.size);
+}
+
+/* Make canonical label from product + size + container */
+function makeLabel(product, size, container){
+  let label = product.brand;
+  if(product.line) label += " "+product.line;
+  if(product.flavor && product.flavor !== "Original") label += " — "+product.flavor;
+  if(size) label += " | "+size;
+  if(container && !size.toLowerCase().includes(container.toLowerCase())) label += " ("+container+")";
+  return label;
+}
+
+/* ================================================================
    STATE
-   ============================================================ */
-let currentStore = { name: "", address: "" };
-let itemMap = new Map();   // label -> { qty, oos }
+================================================================ */
+let currentStore = {name:"",address:""};
+let itemMap = new Map(); // label -> {qty, oos}
 let notes = [];
 let timerInterval = null;
 let timerSeconds = 0;
 let timerRunning = false;
-let currentHistItem = null;  // for history modal
-let currentQtyLabel = null;  // for qty modal
+let currentHistItem = null;
+let currentQtyLabel = null;
+let currentPickerProduct = null;
+let smsTextOverride = null;
 
-/* ============================================================
-   STORAGE HELPERS
-   ============================================================ */
-function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
-function load(key, def){ const v=localStorage.getItem(key); return v ? JSON.parse(v) : def; }
+/* ================================================================
+   STORAGE
+================================================================ */
+function save(k,v){localStorage.setItem(k,JSON.stringify(v));}
+function load(k,d){const v=localStorage.getItem(k);return v?JSON.parse(v):d;}
 
-/* ============================================================
+/* ================================================================
    NAVIGATION
-   ============================================================ */
+================================================================ */
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.navBtn').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  // highlight correct nav button
-  const idx = ['sStore','sVoice','sQuick','sList','sNotes','sExport','sHistory','sSettings'].indexOf(id);
-  document.querySelectorAll('.navBtn')[idx].classList.add('active');
-  if(id==='sExport') renderExport();
-  if(id==='sHistory') renderHistory();
-  if(id==='sList') renderList();
+  const ids=['sStore','sVoice','sPicker','sQuick','sList','sNotes','sExport','sHistory','sSettings'];
+  const idx=ids.indexOf(id);
+  if(idx>=0) document.querySelectorAll('.navBtn')[idx].classList.add('active');
+  if(id==='sExport'){renderExport();}
+  if(id==='sHistory'){renderHistory();}
+  if(id==='sList'){renderList();}
+  if(id==='sPicker'){renderPicker();}
 }
 
-/* ============================================================
+/* ================================================================
    MODALS
-   ============================================================ */
-function openModal(id){ document.getElementById(id).classList.add('open'); }
-function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+================================================================ */
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-/* ============================================================
+/* ================================================================
    STORE
-   ============================================================ */
+================================================================ */
 function startStore(){
-  const name = document.getElementById('storeNameInput').value.trim();
-  const addr = document.getElementById('storeAddrInput').value.trim();
-  if(!name){ document.getElementById('storeStatus').textContent="Please enter a store name."; return; }
-  currentStore = { name, address: addr };
-  itemMap.clear();
-  notes = [];
-  timerSeconds = 0;
-  timerRunning = false;
-  clearInterval(timerInterval);
-  document.getElementById('timerDisplay').textContent = "00:00:00";
-  document.getElementById('storeStatus').textContent = `✅ Store set: ${name}`;
-  document.getElementById('headerSub').textContent = `${name}${addr ? ' — '+addr:''}`;
-  renderList();
-  renderNotes();
-  updateStats();
+  const name=document.getElementById('storeNameInput').value.trim();
+  const addr=document.getElementById('storeAddrInput').value.trim();
+  if(!name){document.getElementById('storeStatus').textContent="Enter a store name first.";return;}
+  currentStore={name,address:addr};
+  itemMap.clear(); notes=[];
+  timerSeconds=0; timerRunning=false; clearInterval(timerInterval);
+  document.getElementById('timerDisplay').textContent="00:00:00";
+  document.getElementById('storeStatus').textContent="✅ Store set: "+name;
+  document.getElementById('headerSub').textContent=name+(addr?" — "+addr:"");
+  renderList(); renderNotes(); updateStats();
 }
 
-function saveStoreToDropdown(){
-  const name = document.getElementById('storeNameInput').value.trim();
-  const addr = document.getElementById('storeAddrInput').value.trim();
-  if(!name){ alert("Enter a store name first."); return; }
-  let stores = load('savedStores', []);
+function saveStore(){
+  const name=document.getElementById('storeNameInput').value.trim();
+  const addr=document.getElementById('storeAddrInput').value.trim();
+  if(!name){alert("Enter a store name first.");return;}
+  let stores=load('savedStores',[]);
   if(!stores.find(s=>s.name===name)){
-    stores.push({ name, address: addr });
-    save('savedStores', stores);
+    stores.push({name,address:addr});
+    save('savedStores',stores);
   }
-  document.getElementById('storeStatus').textContent = `💾 "${name}" saved to dropdown.`;
+  document.getElementById('storeStatus').textContent="💾 \""+name+"\" saved.";
 }
 
-function pickFromDropdown(){
-  const stores = load('savedStores', []);
-  const list = document.getElementById('storeDropList');
-  list.innerHTML = "";
-  if(!stores.length){
-    list.innerHTML = '<div class="emptyState">No saved stores yet.</div>';
-  } else {
-    stores.forEach((s,i)=>{
-      const d = document.createElement('div');
-      d.className = "histItem";
-      d.innerHTML = `<div class="histTitle">${s.name}</div><div class="histSub">${s.address||'No address'}</div>`;
-      d.onclick = ()=>{
-        document.getElementById('storeNameInput').value = s.name;
-        document.getElementById('storeAddrInput').value = s.address||"";
-        closeModal('storeModal');
-      };
-      // delete button
-      const del = document.createElement('button');
-      del.className = "btn danger sm";
-      del.style = "margin-top:6px;";
-      del.textContent = "🗑 Remove";
-      del.onclick = (e)=>{
-        e.stopPropagation();
-        stores.splice(i,1);
-        save('savedStores',stores);
-        pickFromDropdown();
-      };
-      d.appendChild(del);
-      list.appendChild(d);
-    });
-  }
+function pickStore(){
+  const stores=load('savedStores',[]);
+  const list=document.getElementById('storeModalList');
+  list.innerHTML="";
+  if(!stores.length){list.innerHTML='<div class="emptyState">No saved stores yet.</div>';openModal('storeModal');return;}
+  stores.forEach((s,i)=>{
+    const d=document.createElement('div');
+    d.className="histItem";
+    d.innerHTML=`<div class="histTitle">${s.name}</div><div class="histSub">${s.address||"No address"}</div>`;
+    d.onclick=()=>{
+      document.getElementById('storeNameInput').value=s.name;
+      document.getElementById('storeAddrInput').value=s.address||"";
+      closeModal('storeModal');
+    };
+    const del=document.createElement('button');
+    del.className="btn danger sm";del.style.marginTop="6px";del.textContent="🗑 Remove";
+    del.onclick=(e)=>{e.stopPropagation();stores.splice(i,1);save('savedStores',stores);pickStore();};
+    d.appendChild(del);
+    list.appendChild(d);
+  });
   openModal('storeModal');
 }
 
-/* ============================================================
+/* ================================================================
    TIMER
-   ============================================================ */
+================================================================ */
 function startTimer(){
-  if(timerRunning) return;
-  timerRunning = true;
-  timerInterval = setInterval(()=>{
+  if(timerRunning)return;timerRunning=true;
+  timerInterval=setInterval(()=>{
     timerSeconds++;
     const h=Math.floor(timerSeconds/3600);
     const m=Math.floor((timerSeconds%3600)/60);
     const s=timerSeconds%60;
-    document.getElementById('timerDisplay').textContent =
+    document.getElementById('timerDisplay').textContent=
       String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
   },1000);
 }
-function pauseTimer(){
-  timerRunning = false;
-  clearInterval(timerInterval);
-}
-function resetTimer(){
-  pauseTimer();
-  timerSeconds = 0;
-  document.getElementById('timerDisplay').textContent = "00:00:00";
-}
+function pauseTimer(){timerRunning=false;clearInterval(timerInterval);}
+function resetTimer(){pauseTimer();timerSeconds=0;document.getElementById('timerDisplay').textContent="00:00:00";}
 
-/* ============================================================
+/* ================================================================
    STATS
-   ============================================================ */
+================================================================ */
 function updateStats(){
-  const entries = Array.from(itemMap.values());
-  const items = entries.length;
-  const units = entries.reduce((a,v)=>a+v.qty, 0);
-  const oos = entries.filter(v=>v.oos).length;
-  document.getElementById('statItems').textContent = items;
-  document.getElementById('statUnits').textContent = units;
-  document.getElementById('statOOS').textContent = oos;
-  const now = new Date();
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  document.getElementById('statDate').textContent =
-    days[now.getDay()] + ', ' + now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  const vals=Array.from(itemMap.values());
+  document.getElementById('statItems').textContent=vals.length;
+  document.getElementById('statUnits').textContent=vals.reduce((a,v)=>a+v.qty,0);
+  document.getElementById('statOOS').textContent=vals.filter(v=>v.oos).length;
+  const now=new Date();
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  document.getElementById('statDate').textContent=
+    days[now.getDay()]+', '+now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
 }
 
-/* ============================================================
-   SPEECH RECOGNITION
-   ============================================================ */
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recognition = null;
-let micOn = false;
-let lastTranscript = "";
+/* ================================================================
+   SPEECH
+================================================================ */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let recognition=null;
+let micOn=false;
+let lastTranscript="";
 
 function initSpeech(){
   if(!SR){
-    document.getElementById('micStatus').textContent = "Voice not supported. Use Safari on iPhone.";
-    document.getElementById('micBtn').disabled = true;
-    return;
+    document.getElementById('micStatus').textContent="Voice not supported. Use Safari on iPhone.";
+    document.getElementById('micBtn').disabled=true;return;
   }
-  recognition = new SR();
-  recognition.lang = "en-US";
-  recognition.interimResults = true;
-  recognition.continuous = false;
-
-  recognition.onstart = ()=>{
+  recognition=new SR();
+  recognition.lang="en-US";recognition.interimResults=true;recognition.continuous=false;
+  recognition.onstart=()=>{
     micOn=true;
-    document.getElementById('micBtn').textContent = "🔴 Listening... (tap to stop)";
-    document.getElementById('micStatus').textContent = "Listening. Speak now.";
+    document.getElementById('micBtn').textContent="🔴 Listening... (tap to stop)";
+    document.getElementById('micStatus').textContent="Listening. Speak now.";
   };
-  recognition.onerror = (e)=>{
+  recognition.onerror=(e)=>{
     micOn=false;
-    document.getElementById('micBtn').textContent = "🎤 Start Voice";
-    document.getElementById('micStatus').textContent = "Error: "+e.error+". Try again.";
+    document.getElementById('micBtn').textContent="🎤 Start Voice";
+    document.getElementById('micStatus').textContent="Error: "+e.error+". Try again.";
   };
-  recognition.onend = ()=>{
+  recognition.onend=()=>{
     micOn=false;
-    document.getElementById('micBtn').textContent = "🎤 Start Voice";
-    if(lastTranscript) document.getElementById('micStatus').textContent = "Done. Tap \"Add Parsed Items\".";
-    else document.getElementById('micStatus').textContent = "Stopped. Tap Start Voice to try again.";
+    document.getElementById('micBtn').textContent="🎤 Start Voice";
+    document.getElementById('micStatus').textContent=
+      lastTranscript?"Done — tap \"Add Items\".":"Stopped. Tap Start Voice to try again.";
   };
-  recognition.onresult = (ev)=>{
-    let interim="", final="";
+  recognition.onresult=(ev)=>{
+    let interim="",final="";
     for(let i=ev.resultIndex;i<ev.results.length;i++){
       const t=ev.results[i][0].transcript;
-      if(ev.results[i].isFinal) final+=t;
-      else interim+=t;
+      if(ev.results[i].isFinal)final+=t;else interim+=t;
     }
     const text=(final||interim).trim();
-    document.getElementById('transcript').textContent = text;
-    if(final.trim()) lastTranscript=final.trim();
+    document.getElementById('transcript').textContent=text;
+    if(final.trim())lastTranscript=final.trim();
   };
 }
 
 function toggleMic(){
-  if(!recognition) return;
-  if(micOn){ recognition.stop(); return; }
-  lastTranscript="";
-  document.getElementById('transcript').textContent="";
-  try{ recognition.start(); }
-  catch(e){ document.getElementById('micStatus').textContent="Wait a moment then try again."; }
+  if(!recognition)return;
+  if(micOn){recognition.stop();return;}
+  lastTranscript="";document.getElementById('transcript').textContent="";
+  try{recognition.start();}
+  catch(e){document.getElementById('micStatus').textContent="Wait a moment and try again.";}
 }
 
 function clearTranscript(){
-  document.getElementById('transcript').textContent="";
-  lastTranscript="";
+  document.getElementById('transcript').textContent="";lastTranscript="";
 }
 
-/* ============================================================
-   PARSING
-   ============================================================ */
-function wordToDigits(s){
-  s=(s||"").toLowerCase();
-  const units={"zero":0,"one":1,"two":2,"three":3,"four":4,"five":5,"six":6,"seven":7,"eight":8,"nine":9,"ten":10,"eleven":11,"twelve":12,"thirteen":13,"fourteen":14,"fifteen":15,"sixteen":16,"seventeen":17,"eighteen":18,"nineteen":19};
-  const tens={"twenty":20,"thirty":30,"forty":40,"fifty":50,"sixty":60,"seventy":70,"eighty":80,"ninety":90};
-  s=s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\s+(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g,(_,t,u)=>String(tens[t]+units[u]));
-  s=s.replace(/\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g,(_,w)=>String(units[w]));
-  s=s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\b/g,(_,w)=>String(tens[w]));
+/* ================================================================
+   PARSING VOICE
+================================================================ */
+function wordToNum(s){
+  const u={zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,
+    ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,
+    seventeen:17,eighteen:18,nineteen:19};
+  const t={twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
+  s=s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\s+(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g,
+    (_,a,b)=>String(t[a]+u[b]));
+  s=s.replace(/\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g,
+    (_,w)=>String(u[w]));
+  s=s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\b/g,
+    (_,w)=>String(t[w]));
   return s;
 }
 
-function normalizeText(s){
-  s=(s||"").toLowerCase();
-  s=s.replace(/zero\s*sugar/g,"zero");
-  s=s.replace(/diet\s*pepsi/g,"diet pepsi");
-  s=s.replace(/mountain\s*dew/g,"mountain dew");
-  s=s.replace(/\bone\s+and\s+(a\s+)?quarter\b/g,"1.25");
-  s=s.replace(/\bbottles?\b/g,"bottles");
-  s=s.replace(/\bcans?\b/g,"cans");
-  s=s.replace(/ounces\b/g,"oz");
-  s=s.replace(/liters?\b/g,"liter");
-  s=s.replace(/[()]/g," ");
-  s=s.replace(/[,;]+/g,",");
-  s=s.replace(/\s+/g," ").trim();
-  s=wordToDigits(s);
-  return s;
+function detectSizeFromText(seg){
+  const s=seg.toLowerCase();
+  const pack=s.match(/(\d+)\s*(pack|pk|case)\b/);
+  if(pack) return pack[1]+"pk";
+  const lit=s.match(/(\d+(?:\.\d+)?)\s*(l|lt|liter|liters)\b/);
+  if(lit) return String(parseFloat(lit[1]))+"L";
+  const oz=s.match(/(\d+(?:\.\d+)?)\s*(oz|ounce|ounces)\b/);
+  if(oz) return oz[1].replace(/\.0$/,"")+"oz";
+  return "";
 }
 
-function detectContainer(seg){
+function detectContainerFromText(seg){
   if(/\b(bottle|bottles)\b/.test(seg)) return "bottles";
   if(/\b(can|cans)\b/.test(seg)) return "cans";
   return "";
 }
 
-function detectSize(seg){
-  const pack=seg.match(/(\d+)\s*(pack|pk|case)\b/);
-  if(pack) return pack[1]+"pk";
-  const lit=seg.match(/(\d+(?:\.\d+)?)\s*(l|lt|liter)\b/);
-  if(lit) return String(parseFloat(lit[1]))+"L";
-  const oz=seg.match(/(\d+(?:\.\d+)?)\s*(oz|ounce)\b/);
-  if(oz) return oz[1].replace(/\.0$/,"")+"oz";
-  return "unknown";
-}
-
-function detectBrand(seg){
-  const s=seg.toLowerCase();
-  if(s.includes("gatorade")){
-    let v="";
-    if(s.includes("zero"))v="Zero";
-    else if(s.includes("fierce"))v="Fierce";
-    else if(s.includes("thirst"))v="Thirst Quencher";
-    return {brand:"Gatorade",variant:v};
-  }
-  if(s.includes("aquafina")) return {brand:"Aquafina",variant:""};
-  if(s.includes("propel")) return {brand:"Propel",variant:s.includes("zero")?"Zero":""};
-  if(s.includes("bubly")){
-    let v="";
-    if(s.includes("blackberry")||s.includes("berry"))v="Berry";
-    else if(s.includes("grapefruit"))v="Grapefruit";
-    else if(s.includes("lime"))v="Lime";
-    else if(s.includes("lemon"))v="Lemon";
-    else if(s.includes("cherry"))v="Cherry";
-    else if(s.includes("peach"))v="Peach";
-    else if(s.includes("apple"))v="Apple";
-    else if(s.includes("mango"))v="Mango";
-    else if(s.includes("strawberry"))v="Strawberry";
-    return {brand:"Bubly",variant:v};
-  }
-  if(s.includes("mountain dew")){
-    let v="";
-    if(s.includes("baja blast"))v=s.includes("zero")?"Baja Blast Zero":"Baja Blast";
-    else if(s.includes("code red"))v="Code Red";
-    else if(s.includes("voltage"))v="Voltage";
-    else if(s.includes("zero")||s.includes("0 sugar"))v="Zero";
-    else if(s.includes("live wire"))v="Live Wire";
-    else if(s.includes("major melon"))v="Major Melon";
-    return {brand:"Mountain Dew",variant:v};
-  }
-  if(s.includes("pepsi")){
-    let v="";
-    if(s.includes("diet"))v="Diet";
-    else if(s.includes("zero"))v="Zero Sugar";
-    else if(s.includes("wild cherry"))v="Wild Cherry";
-    else if(s.includes("cherry"))v="Cherry";
-    else if(s.includes("vanilla"))v="Vanilla";
-    else if(s.includes("mango"))v="Mango";
-    return {brand:"Pepsi",variant:v};
-  }
-  if(s.includes("mug")) return {brand:"Mug",variant:"Root Beer"};
-  if(s.includes("tropicana")){
-    let v="";
-    if(s.includes("orange"))v="Orange";
-    else if(s.includes("lemon"))v="Lemon";
-    else if(s.includes("grape"))v="Grape";
-    else if(s.includes("apple"))v="Apple";
-    return {brand:"Tropicana",variant:v};
-  }
-  if(s.includes("starry")) return {brand:"Starry",variant:s.includes("zero")?"Zero":""};
-  if(s.includes("lipton")){
-    let v="";
-    if(s.includes("green"))v="Green Tea";
-    else if(s.includes("peach"))v="Peach Tea";
-    else v="Iced Tea";
-    return {brand:"Lipton",variant:v};
-  }
-  if(s.includes("rockstar")) return {brand:"Rockstar",variant:""};
-  return {brand:"",variant:""};
-}
-
-function makeLabel(seg){
-  const s=normalizeText(seg);
-  const size=detectSize(s);
-  const container=detectContainer(s);
-  const bi=detectBrand(s);
-  let base=bi.brand||(seg.replace(/\bneed\b.*/,"").trim()||"Unknown");
-  if(bi.variant) base+=` (${bi.variant})`;
-  let label=`${base} | ${size}`;
-  if(container) label+=` — ${container}`;
-  return label;
-}
-
-function parseTranscript(text){
-  text=normalizeText(text);
+function parseVoice(transcript){
+  let text=transcript.toLowerCase();
   text=text.replace(/\band\b/g,",").replace(/\s*,\s*/g,",");
+  text=wordToNum(text);
+
   const re=/(.+?)\b(?:need|needs|want|add|fill)\b\s*(\d+)\b/gmi;
-  const out=[];
-  let m;
+  const out=[];let m;
   while((m=re.exec(text))!==null){
     const seg=(m[1]||"").trim();
     const qty=parseInt(m[2],10);
-    if(seg&&qty>0) out.push({label:makeLabel(seg),qty});
+    if(!seg||!(qty>0))continue;
+
+    const product=matchProduct(seg);
+    const size=detectSizeFromText(seg);
+    const container=detectContainerFromText(seg);
+
+    if(product){
+      // Use matched size if it matches one of the product's sizes,
+      // otherwise just use what was said
+      const sizeLabel=size||(container?container:"");
+      out.push({label:makeLabel(product,sizeLabel,container),qty});
+    } else {
+      // Fallback: use raw text as label
+      const raw=seg.replace(/(\d+)\s*(pack|pk|case|l|oz|liter)\b/g,"").trim();
+      const sizeLabel=size||(container?"");
+      let label=raw+(sizeLabel?" | "+sizeLabel:"")+(container&&!sizeLabel?" ("+container+")":"");
+      out.push({label:label||seg,qty});
+    }
   }
   return out;
 }
 
-/* ============================================================
+/* ================================================================
    ADD TO LIST
-   ============================================================ */
-function addToList(label, qty, oos=false){
+================================================================ */
+function addToList(label,qty,oos=false){
   const prev=itemMap.get(label)||{qty:0,oos:false};
-  itemMap.set(label,{qty:prev.qty+qty, oos: prev.oos||oos});
-  renderList();
-  updateStats();
+  itemMap.set(label,{qty:prev.qty+qty,oos:prev.oos||oos});
+  renderList();updateStats();
 }
 
 function addParsed(){
   const t=(document.getElementById('transcript').textContent||"").trim();
-  if(!t){ document.getElementById('micStatus').textContent="No transcript. Tap Start Voice first."; return; }
-  const entries=parseTranscript(t);
+  if(!t){document.getElementById('micStatus').textContent="No transcript. Tap Start Voice first.";return;}
+  const entries=parseVoice(t);
   if(!entries.length){
-    document.getElementById('micStatus').textContent='No items found. Say "<Product> need <Qty>".';
-    return;
+    document.getElementById('micStatus').textContent='Nothing detected. Say "<Product> need <Qty>".';return;
   }
   entries.forEach(e=>addToList(e.label,e.qty));
-  document.getElementById('micStatus').textContent=`✅ Added ${entries.length} item(s).`;
-  document.getElementById('transcript').textContent="";
-  lastTranscript="";
+  document.getElementById('micStatus').textContent="✅ Added "+entries.length+" item(s).";
+  document.getElementById('transcript').textContent="";lastTranscript="";
   showScreen('sList');
 }
 
 function addManual(){
   const label=document.getElementById('manualLabel').value.trim();
   const qty=parseInt(document.getElementById('manualQty').value,10);
-  if(!label||!(qty>0)){ alert("Enter both a product name and quantity."); return; }
+  if(!label||!(qty>0)){alert("Enter both a product name and quantity.");return;}
   addToList(label,qty);
-  document.getElementById('manualLabel').value="";
-  document.getElementById('manualQty').value="";
+  document.getElementById('manualLabel').value="";document.getElementById('manualQty').value="";
 }
 
-/* ============================================================
+/* ================================================================
    RENDER LIST
-   ============================================================ */
+================================================================ */
 function renderList(){
   const list=document.getElementById('fillList');
   const empty=document.getElementById('emptyState');
   list.innerHTML="";
   const entries=Array.from(itemMap.entries()).sort((a,b)=>a[0].localeCompare(b[0]));
-  if(!entries.length){ empty.style.display="block"; document.getElementById('totalHint').textContent="Total units: 0"; return; }
+  if(!entries.length){empty.style.display="block";document.getElementById('totalHint').textContent="Total units: 0";return;}
   empty.style.display="none";
   let total=0;
   entries.forEach(([label,val])=>{
     total+=val.qty;
     const d=document.createElement('div');
-    d.className="fillItem"+(val.oos?" outOfStock":"");
+    d.className="fillItem"+(val.oos?" oos":"");
+    const safeLabel=label.replace(/'/g,"\\'");
     d.innerHTML=`
       <div style="flex:1 1 auto;">
         <div class="iLabel">${label}</div>
-        ${val.oos?'<span class="iFlag">OUT OF STOCK</span>':''}
+        ${val.oos?'<span class="oosFlag">⚠️ OUT OF STOCK</span>':''}
       </div>
       <div class="qtyBox">
-        <button class="qBtn" onclick="changeQty('${label}',-1)">–</button>
+        <button class="qBtn" onclick="changeQty('${safeLabel}',-1)">–</button>
         <div class="qNum">${val.qty}</div>
-        <button class="qBtn" onclick="changeQty('${label}',1)">+</button>
-        <button class="btn warn sm" onclick="toggleOOS('${label}')" title="Toggle Out of Stock">⚠️</button>
-        <button class="btn danger sm" onclick="removeItem('${label}')" title="Remove">✕</button>
+        <button class="qBtn" onclick="changeQty('${safeLabel}',1)">+</button>
+        <button class="btn warn sm" onclick="toggleOOS('${safeLabel}')">⚠️</button>
+        <button class="btn danger sm" onclick="removeItem('${safeLabel}')">✕</button>
       </div>`;
     list.appendChild(d);
   });
-  document.getElementById('totalHint').textContent=`Total units: ${total} across ${entries.length} line item(s)`;
+  document.getElementById('totalHint').textContent=
+    "Total units: "+total+" across "+entries.length+" line item(s)";
   updateStats();
   renderExportQuiet();
 }
 
-function changeQty(label, delta){
-  const prev=itemMap.get(label);
-  if(!prev) return;
+function changeQty(label,delta){
+  const prev=itemMap.get(label);if(!prev)return;
   const next=prev.qty+delta;
-  if(next<=0){ itemMap.delete(label); }
-  else { itemMap.set(label,{...prev,qty:next}); }
+  if(next<=0)itemMap.delete(label);
+  else itemMap.set(label,{...prev,qty:next});
   renderList();
 }
-
-function removeItem(label){
-  itemMap.delete(label);
-  renderList();
-}
-
+function removeItem(label){itemMap.delete(label);renderList();}
 function toggleOOS(label){
-  const prev=itemMap.get(label);
-  if(!prev) return;
-  itemMap.set(label,{...prev,oos:!prev.oos});
-  renderList();
+  const prev=itemMap.get(label);if(!prev)return;
+  itemMap.set(label,{...prev,oos:!prev.oos});renderList();
 }
-
-function sortList(){
-  renderList();
-}
-
 function clearList(){
-  if(!confirm("Clear the entire fill list?")) return;
-  itemMap.clear();
-  renderList();
+  if(!confirm("Clear the entire fill list?"))return;
+  itemMap.clear();renderList();
 }
 
-/* ============================================================
-   QUICK ADD BUTTONS
-   ============================================================ */
+/* ================================================================
+   PRODUCT PICKER
+================================================================ */
+function renderPicker(){
+  const q=(document.getElementById('pickerSearch').value||"").toLowerCase().trim();
+  const results=document.getElementById('pickerResults');
+  results.innerHTML="";
+
+  // Group by category
+  const cats={};
+  PRODUCTS.forEach((p,i)=>{
+    const searchStr=(p.brand+" "+p.line+" "+p.flavor+" "+p.cat+" "+p.kw.join(" ")).toLowerCase();
+    if(!q||searchStr.includes(q)){
+      if(!cats[p.cat])cats[p.cat]=[];
+      cats[p.cat].push({p,i});
+    }
+  });
+
+  const catOrder=["Soft Drink","Sports Drink","Water","Enhanced Water","Sparkling Water",
+    "Energy Drink","Tea","Juice","Juice/Smoothie","Sparkling Juice","Coffee Drink",
+    "Coconut Water","Protein Drink","Functional"];
+
+  catOrder.forEach(cat=>{
+    if(!cats[cat])return;
+    const section=document.createElement('div');
+    section.className="pickerSection";
+    section.innerHTML=`<div class="pickerLabel">${cat}</div>`;
+    cats[cat].forEach(({p,i})=>{
+      const chip=document.createElement('span');
+      chip.className="productChip";
+      let label=p.brand;
+      if(p.line&&p.line!==p.brand)label+=" "+p.line;
+      if(p.flavor&&p.flavor!=="Original"&&p.flavor!==p.brand)label+=" — "+p.flavor;
+      chip.textContent=label;
+      chip.onclick=()=>openSizePicker(i);
+      section.appendChild(chip);
+    });
+    results.appendChild(section);
+  });
+
+  if(!results.children.length){
+    results.innerHTML='<div class="emptyState">No products match your search.</div>';
+  }
+}
+
+function openSizePicker(productIdx){
+  currentPickerProduct=productIdx;
+  const p=PRODUCTS[productIdx];
+  const title=document.getElementById('sizeModalTitle');
+  let t=p.brand;
+  if(p.line&&p.line!==p.brand)t+=" "+p.line;
+  if(p.flavor&&p.flavor!=="Original")t+=" — "+p.flavor;
+  title.textContent="Pick Size: "+t;
+
+  const sizesEl=document.getElementById('sizeModalSizes');
+  sizesEl.innerHTML="";
+  p.sizes.forEach(size=>{
+    const chip=document.createElement('span');
+    chip.className="sizeChip";
+    chip.textContent=size;
+    chip.onclick=()=>{
+      const qty=parseInt(document.getElementById('sizeModalQty').value,10)||1;
+      const label=makeLabel(p,size,"");
+      addToList(label,qty);
+      closeModal('sizeModal');
+      document.getElementById('sizeModalQty').value="";
+      showScreen('sList');
+    };
+    sizesEl.appendChild(chip);
+  });
+  document.getElementById('sizeModalQty').value="";
+  openModal('sizeModal');
+}
+
+/* ================================================================
+   QUICK ADD
+================================================================ */
 const DEFAULT_QUICK=[
-  "Pepsi 12pk Cans","Pepsi 12pk Bottles","Diet Pepsi 12pk Cans",
-  "Pepsi Zero 12pk Cans","Pepsi 2L","Diet Pepsi 2L",
-  "Pepsi 20oz Bottles","Mountain Dew 12pk Cans","Mountain Dew 2L",
-  "Gatorade 20oz","Aquafina 20oz","Bubly 12pk Cans"
+  "Pepsi 12pk Cans","Pepsi 20oz Bottle","Diet Pepsi 12pk Cans",
+  "Pepsi Zero 12pk Cans","Pepsi 2L Bottle","Diet Pepsi 2L Bottle",
+  "Mountain Dew 12pk Cans","Mountain Dew 20oz Bottle","Mountain Dew 2L Bottle",
+  "Gatorade Fruit Punch 20oz","Gatorade Cool Blue 20oz","Aquafina 20oz Bottle",
+  "Bubly Blackberry 12pk Cans","Rockstar Original 16oz Can"
 ];
 
-function loadQuickBtns(){
-  return load('quickBtns', DEFAULT_QUICK);
-}
-
 function renderQuickBtns(){
-  const btns=loadQuickBtns();
-  const grid=document.getElementById('quickGrid');
-  grid.innerHTML="";
-  btns.forEach((label,idx)=>{
+  const btns=load('quickBtns',DEFAULT_QUICK);
+  const grid=document.getElementById('quickGrid');grid.innerHTML="";
+  btns.forEach(label=>{
     const d=document.createElement('div');
-    d.className="quickItem";
-    d.textContent=label+" (+1)";
-    d.onclick=()=> addToList(label,1);
+    d.className="quickItem";d.textContent=label+" (+1)";
+    d.onclick=()=>addToList(label,1);
+    let pressTimer;
+    d.addEventListener('touchstart',()=>{
+      pressTimer=setTimeout(()=>{
+        currentQtyLabel=label;
+        document.getElementById('qtyModalTitle').textContent="How many "+label+"?";
+        document.getElementById('qtyModalInput').value="";
+        openModal('qtyModal');
+      },600);
+    });
+    d.addEventListener('touchend',()=>clearTimeout(pressTimer));
+    d.addEventListener('touchmove',()=>clearTimeout(pressTimer));
     d.oncontextmenu=(e)=>{
       e.preventDefault();
       currentQtyLabel=label;
-      document.getElementById('qtyModalTitle').textContent=`How many ${label}?`;
+      document.getElementById('qtyModalTitle').textContent="How many "+label+"?";
       document.getElementById('qtyModalInput').value="";
       openModal('qtyModal');
     };
-    // long press for mobile
-    let pressTimer;
-    d.addEventListener('touchstart',()=>{ pressTimer=setTimeout(()=>{ currentQtyLabel=label; document.getElementById('qtyModalTitle').textContent=`How many ${label}?`; document.getElementById('qtyModalInput').value=""; openModal('qtyModal'); },600); });
-    d.addEventListener('touchend',()=>clearTimeout(pressTimer));
-    d.addEventListener('touchmove',()=>clearTimeout(pressTimer));
     grid.appendChild(d);
   });
 }
 
 function addQuickBtn(){
   const label=document.getElementById('qbLabel').value.trim();
-  if(!label){ alert("Enter a label."); return; }
-  const btns=loadQuickBtns();
-  if(!btns.includes(label)) btns.push(label);
-  save('quickBtns',btns);
-  document.getElementById('qbLabel').value="";
+  if(!label){alert("Enter a label.");return;}
+  const btns=load('quickBtns',DEFAULT_QUICK);
+  if(!btns.includes(label))btns.push(label);
+  save('quickBtns',btns);document.getElementById('qbLabel').value="";
   renderQuickBtns();
 }
 
 function resetQuickBtns(){
-  if(!confirm("Reset quick buttons to defaults?")) return;
-  save('quickBtns',DEFAULT_QUICK);
-  renderQuickBtns();
+  if(!confirm("Reset quick buttons to defaults?"))return;
+  save('quickBtns',DEFAULT_QUICK);renderQuickBtns();
 }
 
-function confirmQtyModal(){
+function confirmQty(){
   const qty=parseInt(document.getElementById('qtyModalInput').value,10);
-  if(!(qty>0)){ alert("Enter a valid quantity."); return; }
-  if(currentQtyLabel) addToList(currentQtyLabel,qty);
+  if(!(qty>0)){alert("Enter a valid quantity.");return;}
+  if(currentQtyLabel)addToList(currentQtyLabel,qty);
   closeModal('qtyModal');
 }
 
-/* ============================================================
+/* ================================================================
    NOTES
-   ============================================================ */
+================================================================ */
 function addNote(){
   const text=document.getElementById('noteText').value.trim();
-  if(!text){ document.getElementById('noteStatus').textContent="Enter a note first."; return; }
-  notes.push({ text, time: new Date().toLocaleTimeString() });
+  if(!text){document.getElementById('noteStatus').textContent="Enter a note first.";return;}
+  notes.push({text,time:new Date().toLocaleTimeString()});
   document.getElementById('noteText').value="";
   document.getElementById('noteStatus').textContent="✅ Note added.";
   renderNotes();
 }
 
-function startVoiceNote(){
-  if(!recognition){ alert("Voice not supported."); return; }
-  recognition.onend=()=>{
-    micOn=false;
-    const t=(document.getElementById('transcript').textContent||"").trim();
-    if(t){ notes.push({text:t, time:new Date().toLocaleTimeString()}); renderNotes(); document.getElementById('noteStatus').textContent="✅ Voice note added."; }
-    // re-init so voice works again on voice screen
-    initSpeech();
-  };
-  try{ recognition.start(); document.getElementById('noteStatus').textContent="Listening for note..."; }
-  catch(e){ document.getElementById('noteStatus').textContent="Wait a moment and try again."; }
+function voiceNote(){
+  if(!recognition){alert("Voice not supported.");return;}
+  try{
+    recognition.onend=()=>{
+      micOn=false;
+      const t=(document.getElementById('transcript').textContent||"").trim();
+      if(t){notes.push({text:t,time:new Date().toLocaleTimeString()});renderNotes();}
+      initSpeech();
+    };
+    recognition.start();
+    document.getElementById('noteStatus').textContent="Listening for note...";
+  }catch(e){document.getElementById('noteStatus').textContent="Wait a moment and try again.";}
 }
 
 function renderNotes(){
   const list=document.getElementById('notesList');
   const empty=document.getElementById('notesEmpty');
   list.innerHTML="";
-  if(!notes.length){ empty.style.display="block"; return; }
+  if(!notes.length){empty.style.display="block";return;}
   empty.style.display="none";
   notes.forEach((n,i)=>{
     const d=document.createElement('div');
-    d.style="padding:8px 0;border-bottom:1px solid var(--line);";
-    d.innerHTML=`<span class="noteChip">${n.time}</span> ${n.text} <button class="btn danger sm" style="float:right;" onclick="deleteNote(${i})">✕</button>`;
+    d.style="padding:7px 0;border-bottom:1px solid var(--line);";
+    d.innerHTML=`<span class="noteChip">${n.time}</span> ${n.text}
+      <button class="btn danger sm" style="float:right;" onclick="deleteNote(${i})">✕</button>`;
     list.appendChild(d);
   });
 }
 
-function deleteNote(i){
-  notes.splice(i,1);
-  renderNotes();
-}
+function deleteNote(i){notes.splice(i,1);renderNotes();}
 
-/* ============================================================
+/* ================================================================
    EXPORT
-   ============================================================ */
-function buildExportText(){
+================================================================ */
+function buildExport(){
   const now=new Date();
   const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const dateStr=days[now.getDay()]+', '+now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
   const timeStr=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  const timerVal=document.getElementById('timerDisplay').textContent;
-
+  const timer=document.getElementById('timerDisplay').textContent;
   let lines=[];
   lines.push("===================================");
   lines.push("  PEPSICO FILL LIST");
   lines.push("===================================");
-  if(currentStore.name) lines.push(`Store: ${currentStore.name}`);
-  if(currentStore.address) lines.push(`Address: ${currentStore.address}`);
-  lines.push(`Date: ${dateStr}`);
-  lines.push(`Time: ${timeStr}`);
-  lines.push(`Time at Store: ${timerVal}`);
+  if(currentStore.name)lines.push("Store: "+currentStore.name);
+  if(currentStore.address)lines.push("Address: "+currentStore.address);
+  lines.push("Date: "+dateStr);
+  lines.push("Time: "+timeStr);
+  lines.push("Time at Store: "+timer);
   lines.push("-----------------------------------");
-
   const entries=Array.from(itemMap.entries()).sort((a,b)=>a[0].localeCompare(b[0]));
-  if(!entries.length){
-    lines.push("No items.");
-  } else {
+  if(!entries.length){lines.push("No items.");}
+  else{
     let total=0;
     entries.forEach(([label,val])=>{
       total+=val.qty;
-      lines.push(`${val.oos?"[OOS] ":""}${label}: ${val.qty}`);
+      lines.push((val.oos?"[OOS] ":"")+label+": "+val.qty);
     });
     lines.push("-----------------------------------");
-    lines.push(`TOTAL UNITS: ${total}`);
+    lines.push("TOTAL UNITS: "+total);
   }
-
   if(notes.length){
     lines.push("-----------------------------------");
     lines.push("NOTES:");
-    notes.forEach(n=>lines.push(`• [${n.time}] ${n.text}`));
+    notes.forEach(n=>lines.push("• ["+n.time+"] "+n.text));
   }
-
   lines.push("===================================");
   return lines.join("\n");
 }
 
 function renderExport(){
-  document.getElementById('exportBox').textContent=buildExportText();
+  document.getElementById('exportBox').textContent=buildExport();
 }
 function renderExportQuiet(){
   const el=document.getElementById('exportBox');
-  if(el) el.textContent=buildExportText();
+  if(el)el.textContent=buildExport();
 }
 
 async function copyExport(){
-  const text=buildExportText();
   try{
-    await navigator.clipboard.writeText(text);
-    document.getElementById('exportStatus').textContent="✅ Copied to clipboard.";
-  }catch(e){
-    document.getElementById('exportStatus').textContent="Copy failed. Try selecting text manually.";
-  }
+    await navigator.clipboard.writeText(buildExport());
+    document.getElementById('exportStatus').textContent="✅ Copied.";
+  }catch(e){document.getElementById('exportStatus').textContent="Copy failed. Select text manually.";}
 }
 
 function emailExport(){
-  const text=buildExportText();
   const email=load('settings',{}).email||"";
-  const subject=encodeURIComponent(`PepsiCo Fill List — ${currentStore.name||'Store'}`);
-  const body=encodeURIComponent(text);
-  window.location.href=`mailto:${email}?subject=${subject}&body=${body}`;
+  const subject=encodeURIComponent("PepsiCo Fill List — "+(currentStore.name||"Store"));
+  const body=encodeURIComponent(buildExport());
+  window.location.href="mailto:"+email+"?subject="+subject+"&body="+body;
 }
 
-function smsExport(){
+function openSMSPicker(textOverride){
+  smsTextOverride=textOverride||null;
   const contacts=load('contacts',[]);
-  const list=document.getElementById('smsPickList');
-  list.innerHTML="";
+  const list=document.getElementById('smsPickList');list.innerHTML="";
   if(!contacts.length){
-    list.innerHTML='<div class="emptyState">No contacts saved. Add contacts below first.</div>';
-  } else {
+    list.innerHTML='<div class="emptyState">No contacts. Add contacts in the Export tab.</div>';
+  }else{
     contacts.forEach(c=>{
       const d=document.createElement('div');
       d.className="contactItem";
-      d.style.cursor="pointer";
-      d.innerHTML=`<div><div class="contactName">${c.name}</div><div class="contactNum">${c.phone}</div></div><button class="btn primary sm">Send</button>`;
+      d.innerHTML=`<div><div class="contactName">${c.name}</div><div class="contactNum">${c.phone}</div></div>
+        <button class="btn primary sm">Send</button>`;
       d.querySelector('button').onclick=()=>{
-        const text=encodeURIComponent(buildExportText());
-        window.location.href=`sms:${c.phone}&body=${text}`;
+        const text=encodeURIComponent(smsTextOverride||buildExport());
+        window.location.href="sms:"+c.phone+"&body="+text;
         closeModal('smsModal');
       };
       list.appendChild(d);
@@ -1182,190 +1783,141 @@ function smsExport(){
   openModal('smsModal');
 }
 
-/* ============================================================
-   SAVE TO HISTORY
-   ============================================================ */
-function saveToHistory(){
-  const text=buildExportText();
+/* ================================================================
+   HISTORY
+================================================================ */
+function saveHistory(){
+  const text=buildExport();
   const now=new Date();
   const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const entry={
-    id: Date.now(),
-    store: currentStore.name||"Unknown Store",
-    address: currentStore.address||"",
-    date: days[now.getDay()]+', '+now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}),
-    time: now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),
-    items: itemMap.size,
-    units: Array.from(itemMap.values()).reduce((a,v)=>a+v.qty,0),
+    id:Date.now(),
+    store:currentStore.name||"Unknown Store",
+    address:currentStore.address||"",
+    date:days[now.getDay()]+', '+now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}),
+    time:now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),
+    items:itemMap.size,
+    units:Array.from(itemMap.values()).reduce((a,v)=>a+v.qty,0),
     text
   };
   let history=load('history',[]);
-  history.unshift(entry);
-  save('history',history);
+  history.unshift(entry);save('history',history);
   document.getElementById('exportStatus').textContent="✅ Saved to History.";
 }
 
-/* ============================================================
-   HISTORY
-   ============================================================ */
 function renderHistory(){
   const list=document.getElementById('historyList');
   const empty=document.getElementById('histEmpty');
   const history=load('history',[]);
   list.innerHTML="";
-  if(!history.length){ empty.style.display="block"; return; }
+  if(!history.length){empty.style.display="block";return;}
   empty.style.display="none";
   history.forEach(entry=>{
-    const d=document.createElement('div');
-    d.className="histItem";
-    d.innerHTML=`
-      <div class="histTitle">${entry.store}</div>
-      <div class="histSub">${entry.address||''}</div>
+    const d=document.createElement('div');d.className="histItem";
+    d.innerHTML=`<div class="histTitle">${entry.store}</div>
+      <div class="histSub">${entry.address||""}</div>
       <div class="histSub">${entry.date} at ${entry.time}</div>
       <span class="histBadge">${entry.items} items · ${entry.units} units</span>`;
-    d.onclick=()=> openHistModal(entry);
+    d.onclick=()=>{
+      currentHistItem=entry;
+      document.getElementById('histModalTitle').textContent=entry.store+" — "+entry.date;
+      document.getElementById('histModalBody').textContent=entry.text;
+      openModal('histModal');
+    };
     list.appendChild(d);
   });
 }
 
-function openHistModal(entry){
-  currentHistItem=entry;
-  document.getElementById('histModalTitle').textContent=`${entry.store} — ${entry.date}`;
-  document.getElementById('histModalBody').textContent=entry.text;
-  openModal('histModal');
+async function copyHist(){
+  if(!currentHistItem)return;
+  try{await navigator.clipboard.writeText(currentHistItem.text);alert("Copied!");}
+  catch(e){alert("Copy failed.");}
 }
 
-async function copyHistModal(){
-  if(!currentHistItem) return;
-  try{
-    await navigator.clipboard.writeText(currentHistItem.text);
-    alert("Copied!");
-  }catch(e){ alert("Copy failed."); }
-}
-
-function emailHistModal(){
-  if(!currentHistItem) return;
-  const subject=encodeURIComponent(`PepsiCo Fill — ${currentHistItem.store} — ${currentHistItem.date}`);
+function emailHist(){
+  if(!currentHistItem)return;
+  const subject=encodeURIComponent("PepsiCo Fill — "+currentHistItem.store+" — "+currentHistItem.date);
   const body=encodeURIComponent(currentHistItem.text);
-  window.location.href=`mailto:?subject=${subject}&body=${body}`;
+  window.location.href="mailto:?subject="+subject+"&body="+body;
 }
 
-function smsHistModal(){
-  if(!currentHistItem) return;
-  const contacts=load('contacts',[]);
-  const list=document.getElementById('smsPickList');
-  list.innerHTML="";
-  if(!contacts.length){
-    list.innerHTML='<div class="emptyState">No contacts saved. Go to Export tab to add contacts.</div>';
-  } else {
-    contacts.forEach(c=>{
-      const d=document.createElement('div');
-      d.className="contactItem";
-      d.innerHTML=`<div><div class="contactName">${c.name}</div><div class="contactNum">${c.phone}</div></div><button class="btn primary sm">Send</button>`;
-      d.querySelector('button').onclick=()=>{
-        const text=encodeURIComponent(currentHistItem.text);
-        window.location.href=`sms:${c.phone}&body=${text}`;
-        closeModal('smsModal');
-      };
-      list.appendChild(d);
-    });
-  }
+function smsHist(){
+  if(!currentHistItem)return;
   closeModal('histModal');
-  openModal('smsModal');
+  openSMSPicker(currentHistItem.text);
 }
 
-function deleteHistModal(){
-  if(!currentHistItem) return;
-  if(!confirm("Delete this saved list permanently?")) return;
+function deleteHist(){
+  if(!currentHistItem)return;
+  if(!confirm("Delete this saved list permanently?"))return;
   let history=load('history',[]);
   history=history.filter(h=>h.id!==currentHistItem.id);
-  save('history',history);
-  closeModal('histModal');
-  currentHistItem=null;
-  renderHistory();
+  save('history',history);closeModal('histModal');
+  currentHistItem=null;renderHistory();
 }
 
-/* ============================================================
+/* ================================================================
    CONTACTS
-   ============================================================ */
+================================================================ */
 function addContact(){
-  const name=document.getElementById('contactName').value.trim();
-  const phone=document.getElementById('contactPhone').value.trim().replace(/\D/g,'');
-  if(!name||!phone){ alert("Enter both name and phone number."); return; }
+  const name=document.getElementById('cName').value.trim();
+  const phone=document.getElementById('cPhone').value.trim().replace(/\D/g,'');
+  if(!name||!phone){alert("Enter both name and phone number.");return;}
   let contacts=load('contacts',[]);
-  contacts.push({name,phone});
-  save('contacts',contacts);
-  document.getElementById('contactName').value="";
-  document.getElementById('contactPhone').value="";
+  contacts.push({name,phone});save('contacts',contacts);
+  document.getElementById('cName').value="";document.getElementById('cPhone').value="";
   renderContacts();
 }
 
 function renderContacts(){
   const contacts=load('contacts',[]);
-  const list=document.getElementById('contactsList');
-  list.innerHTML="";
+  const list=document.getElementById('contactsList');list.innerHTML="";
   contacts.forEach((c,i)=>{
-    const d=document.createElement('div');
-    d.className="contactItem";
-    d.innerHTML=`
-      <div>
-        <div class="contactName">${c.name}</div>
-        <div class="contactNum">${c.phone}</div>
-      </div>
+    const d=document.createElement('div');d.className="contactItem";
+    d.innerHTML=`<div><div class="contactName">${c.name}</div>
+      <div class="contactNum">${c.phone}</div></div>
       <button class="btn danger sm" onclick="deleteContact(${i})">🗑</button>`;
     list.appendChild(d);
   });
 }
 
 function deleteContact(i){
-  let contacts=load('contacts',[]);
-  contacts.splice(i,1);
-  save('contacts',contacts);
-  renderContacts();
+  let contacts=load('contacts',[]);contacts.splice(i,1);
+  save('contacts',contacts);renderContacts();
 }
 
-/* ============================================================
+/* ================================================================
    SETTINGS
-   ============================================================ */
-function saveSetting(key){
+================================================================ */
+function saveEmail(){
   let settings=load('settings',{});
-  if(key==='email') settings.email=document.getElementById('settingEmail').value.trim();
-  save('settings',settings);
-  alert("Saved!");
+  settings.email=document.getElementById('settingEmail').value.trim();
+  save('settings',settings);alert("Email saved!");
 }
 
 function loadSettings(){
-  const settings=load('settings',{});
-  if(settings.email) document.getElementById('settingEmail').value=settings.email;
+  const s=load('settings',{});
+  if(s.email)document.getElementById('settingEmail').value=s.email;
 }
 
 function nukeAll(){
-  if(!confirm("This will delete ALL your data including history, stores, and contacts. Are you sure?")) return;
-  if(!confirm("Really delete everything? This cannot be undone.")) return;
-  localStorage.clear();
-  location.reload();
+  if(!confirm("Delete ALL data including history, stores, and contacts?"))return;
+  if(!confirm("Really? This cannot be undone."))return;
+  localStorage.clear();location.reload();
 }
 
-/* ============================================================
+/* ================================================================
    INIT
-   ============================================================ */
+================================================================ */
 function init(){
-  initSpeech();
-  renderQuickBtns();
-  renderContacts();
-  renderNotes();
-  renderList();
-  loadSettings();
-  updateStats();
-
-  // Register PWA service worker
+  initSpeech();renderQuickBtns();renderContacts();
+  renderNotes();renderList();loadSettings();updateStats();
   if("serviceWorker" in navigator){
     window.addEventListener("load",()=>{
       navigator.serviceWorker.register("./sw.js").catch(()=>{});
     });
   }
 }
-
 init();
 </script>
 </body>
