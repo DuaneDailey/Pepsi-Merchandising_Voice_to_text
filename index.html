@@ -27,45 +27,52 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-s
 .card{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px;
   box-shadow:0 4px 16px rgba(0,0,0,0.15);}
 .ct{font-weight:900;font-size:15px;margin-bottom:10px;color:#0b5fa5;}
-input,select,textarea{display:block;width:100%;padding:10px 12px;
+input,textarea{display:block;width:100%;padding:10px 12px;
   border:1.5px solid #d0dce8;border-radius:10px;font-size:15px;
   font-family:inherit;background:#f7fbff;margin-top:5px;
-  -webkit-appearance:none;outline:none;}
+  -webkit-appearance:none;outline:none;color:#111;}
 input:focus,textarea:focus{border-color:#0b5fa5;}
 label{font-size:12px;font-weight:700;color:#5a6b7c;margin-top:10px;display:block;}
 .btn{display:inline-flex;align-items:center;justify-content:center;
   gap:5px;border:none;border-radius:11px;padding:11px 15px;
   font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;
-  -webkit-appearance:none;transition:opacity .15s;}
-.btn:active{opacity:0.75;}
+  -webkit-appearance:none;transition:opacity .15s;text-align:center;}
+.btn:active{opacity:0.7;}
 .bp{background:#0b5fa5;color:#fff;}
 .bg{background:#0f9d58;color:#fff;}
 .br{background:#dc3545;color:#fff;}
-.bw{background:#f4a700;color:#fff;}
+.bw{background:#f4a700;color:#111;}
 .bl{background:#f0f4fa;color:#0b5fa5;}
-.bfull{width:100%;margin-top:8px;}
+.bfull{width:100%;margin-top:8px;display:flex;}
 .bsm{padding:8px 11px;font-size:12px;border-radius:9px;}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;}
-.st{font-size:13px;color:#5a6b7c;margin-top:8px;line-height:1.4;
-  padding:8px;background:#f0f4fa;border-radius:8px;}
+.msgbox{font-size:13px;margin-top:8px;line-height:1.4;
+  padding:9px 12px;border-radius:9px;display:none;}
+.msgbox.show{display:block;}
+.msgok{background:#e6f4ea;color:#137333;}
+.msgerr{background:#fde8ea;color:#c62828;}
+.msginfo{background:#e8f0fe;color:#1a56db;}
 .tbox{min-height:50px;padding:10px 12px;border:1.5px solid #d0dce8;
   border-radius:10px;font-size:14px;background:#f7fbff;
-  line-height:1.4;margin-top:6px;color:#111;}
-.fitem{display:flex;align-items:center;justify-content:space-between;
-  gap:8px;padding:10px;border-radius:11px;border:1.5px solid #e0eaf4;
+  line-height:1.4;margin-top:6px;color:#111;word-break:break-word;}
+.fitem{display:flex;align-items:center;gap:8px;padding:10px;
+  border-radius:11px;border:1.5px solid #e0eaf4;
   background:#fff;margin-bottom:8px;}
 .fitem.oos{border-color:#dc3545;background:#fff5f5;}
-.flabel{font-weight:800;font-size:13px;line-height:1.25;flex:1;}
+.flabel{font-weight:800;font-size:13px;line-height:1.25;flex:1;min-width:0;
+  word-break:break-word;}
 .fsub{font-size:11px;color:#dc3545;font-weight:700;margin-top:2px;}
-.qbox{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.qbox{display:flex;align-items:center;gap:5px;flex-shrink:0;}
 .qbtn{width:32px;height:32px;border-radius:9px;border:1.5px solid #d0dce8;
   background:#f0f4fa;font-size:16px;font-weight:900;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;}
-.qnum{min-width:36px;text-align:center;font-weight:900;font-size:16px;}
+  display:flex;align-items:center;justify-content:center;
+  -webkit-appearance:none;}
+.qnum{min-width:34px;text-align:center;font-weight:900;font-size:16px;}
 .qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px;}
 .qchip{padding:10px 8px;border-radius:11px;background:#f0f4fa;
   border:1.5px solid #d0dce8;text-align:center;cursor:pointer;
-  font-size:12px;font-weight:700;color:#0b5fa5;user-select:none;}
+  font-size:12px;font-weight:700;color:#0b5fa5;user-select:none;
+  -webkit-user-select:none;}
 .qchip:active{background:#dce8f8;}
 .pchip{display:inline-block;padding:6px 11px;margin:3px;
   border-radius:20px;font-size:12px;font-weight:700;
@@ -75,9 +82,9 @@ label{font-size:12px;font-weight:700;color:#5a6b7c;margin-top:10px;display:block
   border-radius:20px;font-size:12px;font-weight:700;
   background:#e6f4ea;color:#137333;cursor:pointer;border:1px solid #b7e0c4;}
 .schip:active{background:#b7e0c4;}
-.catlabel{font-size:11px;font-weight:800;color:#5a6b7c;
+.catlbl{font-size:11px;font-weight:800;color:#5a6b7c;
   text-transform:uppercase;letter-spacing:.5px;margin:12px 0 5px;display:block;}
-.ebox{width:100%;min-height:120px;padding:10px 12px;border-radius:10px;
+.ebox{width:100%;min-height:100px;padding:10px 12px;border-radius:10px;
   border:1.5px solid #d0dce8;background:#f7fbff;
   font-family:ui-monospace,monospace;font-size:12px;
   line-height:1.55;white-space:pre-wrap;margin-top:8px;color:#111;}
@@ -92,8 +99,8 @@ label{font-size:12px;font-weight:700;color:#5a6b7c;margin-top:10px;display:block
   z-index:200;align-items:flex-end;justify-content:center;}
 .mback.on{display:flex;}
 .modal{background:#fff;border-radius:20px 20px 0 0;
-  padding:20px 16px 36px;width:100%;max-width:600px;
-  max-height:85vh;overflow-y:auto;}
+  padding:20px 16px 40px;width:100%;max-width:600px;
+  max-height:88vh;overflow-y:auto;}
 .mtitle{font-weight:900;font-size:16px;margin-bottom:12px;color:#0b5fa5;}
 .sbar{background:linear-gradient(135deg,#0b5fa5,#073f7a);
   border-radius:12px;padding:12px 14px;color:#fff;
@@ -101,79 +108,80 @@ label{font-size:12px;font-weight:700;color:#5a6b7c;margin-top:10px;display:block
 .sstat{text-align:center;}
 .snum{font-size:22px;font-weight:900;}
 .slbl{font-size:11px;opacity:.8;}
-.timer{font-size:28px;font-weight:900;color:#0b5fa5;
+.timerEl{font-size:28px;font-weight:900;color:#0b5fa5;
   text-align:center;letter-spacing:2px;padding:8px 0;}
-.nitem{padding:8px 0;border-bottom:1px solid #e0eaf4;font-size:13px;}
+.nitem{padding:8px 0;border-bottom:1px solid #e0eaf4;font-size:13px;
+  display:flex;align-items:flex-start;gap:8px;}
 .ntag{display:inline-block;font-size:11px;background:#fff8e1;
   border:1px solid #f4a700;border-radius:6px;padding:2px 7px;
-  color:#7a5200;font-weight:700;margin-right:5px;}
+  color:#7a5200;font-weight:700;flex-shrink:0;}
 .citem{display:flex;align-items:center;justify-content:space-between;
   padding:9px;border-radius:9px;border:1.5px solid #e0eaf4;
   background:#fff;margin-bottom:6px;}
 .cname{font-weight:700;font-size:13px;}
 .cnum{font-size:12px;color:#5a6b7c;}
-.div{height:1px;background:#e0eaf4;margin:12px 0;}
+.divider{height:1px;background:#e0eaf4;margin:12px 0;}
 .hint{font-size:12px;color:#5a6b7c;line-height:1.4;margin-top:6px;}
 .empty{text-align:center;padding:24px;color:#5a6b7c;font-size:13px;}
-
-/* ---- STORE LAYOUT STYLES ---- */
-.layoutRow{display:flex;align-items:center;gap:8px;
-  padding:10px;border-radius:11px;border:1.5px solid #e0eaf4;
-  background:#fff;margin-bottom:8px;}
-.layoutIcon{font-size:20px;flex-shrink:0;width:32px;text-align:center;}
-.layoutCat{font-weight:800;font-size:13px;flex:1;}
-.layoutAisle{font-size:12px;color:#5a6b7c;margin-top:2px;}
-.layoutInput{flex:1;margin:0!important;font-size:13px!important;
-  padding:7px 10px!important;}
-.layoutSave{flex-shrink:0;}
-.layoutBadge{display:inline-block;background:#0b5fa5;color:#fff;
-  font-size:11px;font-weight:800;border-radius:8px;
-  padding:3px 9px;margin-left:6px;}
-.layoutCustom{display:flex;align-items:center;gap:8px;
-  padding:10px;border-radius:11px;border:1.5px dashed #c5d8f8;
+/* Layout styles */
+.layrow{display:flex;align-items:center;gap:8px;padding:10px;
+  border-radius:11px;border:1.5px solid #e0eaf4;background:#fff;margin-bottom:8px;}
+.layicon{font-size:20px;width:28px;text-align:center;flex-shrink:0;}
+.layinfo{flex:1;min-width:0;}
+.layname{font-weight:800;font-size:13px;}
+.layloc{font-size:12px;color:#0b5fa5;margin-top:2px;font-weight:700;}
+.laynone{font-size:12px;color:#aaa;margin-top:2px;}
+.layinp{flex:0 0 110px;margin:0!important;font-size:13px!important;
+  padding:8px 10px!important;}
+.custrow{display:flex;align-items:center;gap:8px;padding:10px;
+  border-radius:11px;border:1.5px dashed #c5d8f8;
   background:#f7fbff;margin-bottom:8px;}
+.custinfo{flex:1;min-width:0;}
+.custname{font-weight:800;font-size:13px;}
+.custdetail{font-size:12px;color:#5a6b7c;margin-top:2px;}
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <h1>🥤 PepsiCo Fill</h1>
-  <p id="hSub">No store selected</p>
+  <p id="hSub">No store selected — go to 🏪 Store tab</p>
 </div>
 
 <nav class="nav">
-  <button class="nb on"  onclick="go('sStore',this)">🏪 Store</button>
-  <button class="nb" onclick="go('sLayout',this)">🗺️ Layout</button>
-  <button class="nb" onclick="go('sVoice',this)">🎤 Voice</button>
-  <button class="nb" onclick="go('sPick',this)">🔍 Pick</button>
-  <button class="nb" onclick="go('sQuick',this)">⚡ Quick</button>
-  <button class="nb" onclick="go('sList',this)">📋 List</button>
-  <button class="nb" onclick="go('sNotes',this)">📝 Notes</button>
-  <button class="nb" onclick="go('sExport',this)">📤 Export</button>
-  <button class="nb" onclick="go('sHistory',this)">🕘 History</button>
-  <button class="nb" onclick="go('sSet',this)">⚙️ Settings</button>
+  <button class="nb on"  onclick="go('sStore',0)">🏪 Store</button>
+  <button class="nb" onclick="go('sLayout',1)">🗺️ Layout</button>
+  <button class="nb" onclick="go('sVoice',2)">🎤 Voice</button>
+  <button class="nb" onclick="go('sPick',3)">🔍 Pick</button>
+  <button class="nb" onclick="go('sQuick',4)">⚡ Quick</button>
+  <button class="nb" onclick="go('sList',5)">📋 List</button>
+  <button class="nb" onclick="go('sNotes',6)">📝 Notes</button>
+  <button class="nb" onclick="go('sExport',7)">📤 Export</button>
+  <button class="nb" onclick="go('sHistory',8)">🕘 History</button>
+  <button class="nb" onclick="go('sSet',9)">⚙️ Settings</button>
 </nav>
 
-<!-- ===== STORE ===== -->
+<!-- STORE -->
 <div class="sc on" id="sStore">
   <div class="card">
     <div class="ct">🏪 Current Store</div>
     <label>Store Name</label>
-    <div class="row" style="margin-top:5px;">
-      <input id="iName" type="text" placeholder="e.g. Walmart Penfield" style="flex:1;margin:0;"/>
-      <button class="btn bl bsm" onclick="openModal('mStores')">▼ Saved</button>
+    <div style="display:flex;gap:8px;margin-top:5px;">
+      <input id="iName" type="text" placeholder="e.g. Walmart Penfield"
+        style="flex:1;margin:0;"/>
+      <button class="btn bl bsm" onclick="openSavedStores()">▼ Saved</button>
     </div>
     <label>Address</label>
     <input id="iAddr" type="text" placeholder="e.g. 1234 Main St, Rochester NY"/>
     <div class="row">
       <button class="btn bp" onclick="setStore()">✅ Set Store</button>
-      <button class="btn bl bsm" onclick="saveStore()">💾 Save Store</button>
+      <button class="btn bl bsm" onclick="saveStoreToDB()">💾 Save Store</button>
     </div>
-    <div class="st" id="stSt">Enter a store name and tap Set Store to begin.</div>
+    <div class="msgbox" id="storeMsg"></div>
   </div>
   <div class="card">
     <div class="ct">⏱ Time at Store</div>
-    <div class="timer" id="timerEl">00:00:00</div>
+    <div class="timerEl" id="timerEl">00:00:00</div>
     <div class="row" style="justify-content:center;margin-top:6px;">
       <button class="btn bg bsm" onclick="timerStart()">▶ Start</button>
       <button class="btn bw bsm" onclick="timerPause()">⏸ Pause</button>
@@ -183,58 +191,65 @@ label{font-size:12px;font-weight:700;color:#5a6b7c;margin-top:10px;display:block
   <div class="card">
     <div class="ct">📊 Session Stats</div>
     <div class="sbar">
-      <div class="sstat"><div class="snum" id="stItems">0</div><div class="slbl">Line Items</div></div>
-      <div class="sstat"><div class="snum" id="stUnits">0</div><div class="slbl">Total Units</div></div>
-      <div class="sstat"><div class="snum" id="stOOS">0</div><div class="slbl">Out of Stock</div></div>
+      <div class="sstat">
+        <div class="snum" id="stItems">0</div>
+        <div class="slbl">Line Items</div>
+      </div>
+      <div class="sstat">
+        <div class="snum" id="stUnits">0</div>
+        <div class="slbl">Total Units</div>
+      </div>
+      <div class="sstat">
+        <div class="snum" id="stOOS">0</div>
+        <div class="slbl">Out of Stock</div>
+      </div>
     </div>
     <div class="hint" id="stDate"></div>
   </div>
 </div>
 
-<!-- ===== STORE LAYOUT ===== -->
+<!-- LAYOUT -->
 <div class="sc" id="sLayout">
   <div class="card">
-    <div class="ct">🗺️ Store Layout</div>
-    <div class="hint" id="layoutStoreName"
-      style="font-size:13px;font-weight:700;color:#0b5fa5;margin-bottom:10px;">
-      Set a store first (🏪 Store tab), then save aisle locations here.
+    <div class="ct">🗺️ Store Layout — Aisle Locations</div>
+    <div class="msgbox msginfo show" id="layoutMsg">
+      Set a store first (🏪 Store tab), then enter aisle numbers here.
     </div>
     <div class="hint" style="margin-bottom:12px;">
-      Enter the aisle number or location for each category at this store.
-      Saved automatically per store.
+      Type the aisle number or location for each product category.
+      Tap Save next to each one. Saved per store automatically.
     </div>
-    <div id="layoutRows"></div>
+    <div id="layRows"></div>
   </div>
-
   <div class="card">
-    <div class="ct">➕ Add Custom Location</div>
-    <div class="hint" style="margin-bottom:8px;">
-      Add any extra location not listed above
-      (e.g. "Endcap Aisle 5", "Cooler Section B", "Back Stock Room").
+    <div class="ct">📌 Custom Locations</div>
+    <div class="hint" style="margin-bottom:10px;">
+      Add extra spots like endcaps, cooler sections, back stock, displays, etc.
     </div>
     <label>Location Name</label>
-    <input id="customLocName" type="text" placeholder="e.g. Endcap Aisle 5"/>
-    <label>Details / Notes</label>
-    <input id="customLocDetail" type="text" placeholder="e.g. Pepsi displays here"/>
-    <button class="btn bp bfull" onclick="addCustomLoc()">Add Custom Location</button>
-    <div style="margin-top:12px;" id="customLocList"></div>
+    <input id="custName" type="text" placeholder="e.g. Endcap Aisle 12"/>
+    <label>Details</label>
+    <input id="custDetail" type="text"
+      placeholder="e.g. Pepsi display, seasonal items"/>
+    <button class="btn bp bfull" onclick="addCustomLoc()">
+      ➕ Add Custom Location
+    </button>
+    <div style="margin-top:12px;" id="custList"></div>
   </div>
-
   <div class="card">
-    <div class="ct">📋 Current Layout Summary</div>
-    <div class="hint" style="margin-bottom:8px;">
-      This is what gets added to your exported fill list.
-    </div>
-    <div class="ebox" id="layoutSummary">Set a store to see its layout.</div>
+    <div class="ct">📋 Layout Summary</div>
+    <div class="ebox" id="laySummary">No layout saved yet.</div>
   </div>
 </div>
 
-<!-- ===== VOICE ===== -->
+<!-- VOICE -->
 <div class="sc" id="sVoice">
   <div class="card">
     <div class="ct">🎤 Voice Entry</div>
-    <button class="btn bp bfull" id="micBtn" onclick="micToggle()">🎤 Start Voice</button>
-    <div class="st" id="micSt">Tap Start Voice then speak clearly.</div>
+    <button class="btn bp bfull" id="micBtn" onclick="micToggle()">
+      🎤 Start Voice
+    </button>
+    <div class="msgbox" id="micMsg"></div>
     <div class="hint" style="margin-top:8px;"><b>Last heard:</b></div>
     <div class="tbox" id="tbox"></div>
     <div class="row">
@@ -245,7 +260,8 @@ label{font-size:12px;font-weight:700;color:#5a6b7c;margin-top:10px;display:block
   <div class="card">
     <div class="ct">💬 How to Speak</div>
     <div class="hint">
-      Say: <b>[Brand] [Flavor] [Size] [cans or bottles] need [number]</b><br><br>
+      Format: <b>[Brand] [Flavor] [Size] [cans/bottles] need [number]</b>
+      <br><br>
       Examples:<br>
       • "Pepsi 12 pack cans need 8"<br>
       • "Diet Pepsi 1.25 liter bottles need 6"<br>
@@ -255,58 +271,60 @@ label{font-size:12px;font-weight:700;color:#5a6b7c;margin-top:10px;display:block
       • "Aquafina 20 oz need 24"<br>
       • "Rockstar original 16 oz need 6"<br>
       • "Starbucks frappuccino caramel need 8"<br><br>
-      Multiple at once:<br>
+      Say multiple at once:<br>
       <b>"Pepsi 12 pack cans need 8, Mountain Dew 2 liter need 4"</b>
     </div>
   </div>
 </div>
 
-<!-- ===== PRODUCT PICKER ===== -->
+<!-- PICK -->
 <div class="sc" id="sPick">
   <div class="card">
     <div class="ct">🔍 Browse &amp; Pick Products</div>
     <input id="pickSearch" type="text"
-      placeholder="Search: Pepsi, Gatorade, Bubly..."
+      placeholder="Search: Pepsi, Gatorade, Bubly, Rockstar..."
       oninput="renderPicker()"/>
     <div style="margin-top:10px;" id="pickResults"></div>
   </div>
 </div>
 
-<!-- ===== QUICK ADD ===== -->
+<!-- QUICK -->
 <div class="sc" id="sQuick">
   <div class="card">
     <div class="ct">⚡ Quick Add</div>
     <div class="hint" style="margin-bottom:10px;">
-      Tap = add 1 &nbsp;|&nbsp; Long-press = custom qty
+      Tap = add 1 &nbsp;|&nbsp; Long-press (hold) = enter custom qty
     </div>
     <div class="qgrid" id="qgrid"></div>
   </div>
   <div class="card">
-    <div class="ct">➕ Add Custom Button</div>
-    <label>Label</label>
+    <div class="ct">➕ Add Custom Quick Button</div>
+    <label>Button Label</label>
     <input id="qbLbl" type="text" placeholder="e.g. Pepsi 12pk Cans"/>
     <div class="row">
       <button class="btn bp" onclick="addQB()">Add Button</button>
-      <button class="btn br bsm" onclick="resetQB()">Reset Defaults</button>
+      <button class="btn br bsm" onclick="resetQB()">Reset to Defaults</button>
     </div>
   </div>
 </div>
 
-<!-- ===== FILL LIST ===== -->
+<!-- LIST -->
 <div class="sc" id="sList">
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <div class="ct" style="margin:0;">📋 Fill List</div>
       <button class="btn br bsm" onclick="clearList()">Clear All</button>
     </div>
-    <div class="hint" id="listHint" style="margin:6px 0 10px;">No items yet.</div>
+    <div class="hint" id="listHint" style="margin:6px 0 10px;">
+      No items yet.
+    </div>
     <div id="listEl"></div>
     <div class="empty" id="listEmpty">
       No items yet. Use Voice, Pick, or Quick Add tabs.
     </div>
   </div>
   <div class="card">
-    <div class="ct">➕ Add Manually</div>
+    <div class="ct">➕ Add Item Manually</div>
     <label>Product Name</label>
     <input id="mLabel" type="text" placeholder="e.g. Pepsi Original 12pk Cans"/>
     <label>Quantity</label>
@@ -315,7 +333,7 @@ label{font-size:12px;font-weight:700;color:#5a6b7c;margin-top:10px;display:block
   </div>
 </div>
 
-<!-- ===== NOTES ===== -->
+<!-- NOTES -->
 <div class="sc" id="sNotes">
   <div class="card">
     <div class="ct">📝 Add Note</div>
@@ -326,7 +344,7 @@ label{font-size:12px;font-weight:700;color:#5a6b7c;margin-top:10px;display:block
       <button class="btn bp" onclick="addNote()">Add Note</button>
       <button class="btn bl bsm" onclick="voiceNote()">🎤 Voice Note</button>
     </div>
-    <div class="st" id="noteSt" style="display:none;"></div>
+    <div class="msgbox" id="noteMsg"></div>
   </div>
   <div class="card">
     <div class="ct">Notes This Visit</div>
@@ -335,72 +353,86 @@ label{font-size:12px;font-weight:700;color:#5a6b7c;margin-top:10px;display:block
   </div>
 </div>
 
-<!-- ===== EXPORT ===== -->
+<!-- EXPORT -->
 <div class="sc" id="sExport">
   <div class="card">
-    <div class="ct">📤 Export List</div>
+    <div class="ct">📤 Export This List</div>
     <div class="row">
       <button class="btn bp" onclick="doCopy()">📋 Copy</button>
       <button class="btn bg" onclick="doEmail()">📧 Email</button>
-      <button class="btn bw" onclick="openModal('mSMS')">💬 Text</button>
-      <button class="btn bl bsm" onclick="doSave()">💾 Save</button>
+      <button class="btn bw" onclick="openSMSModal()">💬 Text/SMS</button>
+      <button class="btn bl bsm" onclick="doSave()">💾 Save to History</button>
     </div>
-    <div class="st" id="expSt" style="display:none;"></div>
+    <div class="msgbox" id="expMsg"></div>
     <div class="ebox" id="ebox">No items yet.</div>
   </div>
   <div class="card">
     <div class="ct">💬 Text Contacts</div>
+    <div class="hint" style="margin-bottom:8px;">
+      Add contacts to quickly text your fill list to your manager or yourself.
+    </div>
     <div id="cList"></div>
-    <div class="div"></div>
+    <div class="divider"></div>
     <label>Name</label>
     <input id="cName" type="text" placeholder="e.g. Manager Mike"/>
-    <label>Phone Number</label>
+    <label>Phone Number (digits only)</label>
     <input id="cPhone" type="tel" placeholder="e.g. 5855551234"/>
     <button class="btn bp bsm" style="margin-top:8px;" onclick="addContact()">
       Add Contact
     </button>
+    <div class="msgbox" id="contactMsg"></div>
   </div>
 </div>
 
-<!-- ===== HISTORY ===== -->
+<!-- HISTORY -->
 <div class="sc" id="sHistory">
   <div class="card">
     <div class="ct">🕘 Saved Lists</div>
     <div class="hint">Tap any list to view, copy, email, text, or delete it.</div>
     <div style="margin-top:10px;" id="histList"></div>
-    <div class="empty" id="histEmpty">No saved lists yet. Use Save in Export tab.</div>
+    <div class="empty" id="histEmpty">
+      No saved lists yet. Tap "Save to History" in the Export tab.
+    </div>
   </div>
 </div>
 
-<!-- ===== SETTINGS ===== -->
+<!-- SETTINGS -->
 <div class="sc" id="sSet">
   <div class="card">
     <div class="ct">⚙️ Settings</div>
-    <label>My Email (used for email export)</label>
+    <label>My Email Address (for email export)</label>
     <input id="setEmail" type="email" placeholder="you@email.com"/>
     <button class="btn bp bsm" style="margin-top:8px;" onclick="saveEmail()">
       Save Email
     </button>
-    <div class="div"></div>
-    <div class="hint">Version 4.0 — All data stored on this device only.</div>
-    <button class="btn br bsm" style="margin-top:10px;" onclick="nukeAll()">
-      ⚠️ Delete ALL Data
+    <div class="divider"></div>
+    <div class="hint">
+      Version 5.0 — All data is stored on this device only.
+      Nothing is sent to any server.
+    </div>
+    <button class="btn br bsm" style="margin-top:12px;" onclick="nukeAll()">
+      ⚠️ Delete ALL App Data
     </button>
   </div>
 </div>
 
-<!-- ===== MODALS ===== -->
+<!-- MODALS -->
+<!-- Saved stores -->
 <div class="mback" id="mStores">
   <div class="modal">
-    <div class="mtitle">Saved Stores</div>
-    <div id="mStoreList"></div>
-    <button class="btn bl bfull" onclick="closeModal('mStores')">Cancel</button>
+    <div class="mtitle">📍 Saved Stores</div>
+    <div id="mStoreList">
+      <div class="empty">No saved stores yet.</div>
+    </div>
+    <button class="btn bl bfull" style="margin-top:12px;"
+      onclick="closeModal('mStores')">Cancel</button>
   </div>
 </div>
 
+<!-- History detail -->
 <div class="mback" id="mHist">
   <div class="modal">
-    <div class="mtitle" id="mHistTitle">List Detail</div>
+    <div class="mtitle" id="mHistTitle">Saved List</div>
     <div class="ebox" id="mHistBody"
       style="margin-bottom:12px;max-height:40vh;overflow-y:auto;"></div>
     <div class="row">
@@ -414,41 +446,47 @@ label{font-size:12px;font-weight:700;color:#5a6b7c;margin-top:10px;display:block
   </div>
 </div>
 
+<!-- SMS picker -->
 <div class="mback" id="mSMS">
   <div class="modal">
-    <div class="mtitle">Send Text To...</div>
+    <div class="mtitle">💬 Send Text To...</div>
     <div id="mSMSList"></div>
     <button class="btn bl bfull" onclick="closeModal('mSMS')">Cancel</button>
   </div>
 </div>
 
+<!-- Size picker -->
 <div class="mback" id="mSize">
   <div class="modal">
     <div class="mtitle" id="mSizeTitle">Pick a Size</div>
     <div id="mSizeSizes" style="margin-bottom:12px;"></div>
-    <label>Quantity (default is 1)</label>
-    <input id="mSizeQty" type="number" placeholder="e.g. 6" min="1"/>
+    <label>Quantity (leave blank for 1)</label>
+    <input id="mSizeQty" type="number" placeholder="1" min="1"/>
     <button class="btn bl bfull" style="margin-top:10px;"
       onclick="closeModal('mSize')">Cancel</button>
   </div>
 </div>
 
+<!-- Custom qty for quick add -->
 <div class="mback" id="mQty">
   <div class="modal">
     <div class="mtitle" id="mQtyTitle">How many?</div>
     <input id="mQtyIn" type="number" placeholder="e.g. 6" min="1"/>
     <div class="row" style="margin-top:10px;">
-      <button class="btn bp" onclick="confirmQty()">Add</button>
+      <button class="btn bp" onclick="confirmQty()">✅ Add</button>
       <button class="btn bl" onclick="closeModal('mQty')">Cancel</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ================================================================
-   PRODUCT DATABASE
-================================================================ */
+/* ============================================================
+   PRODUCT DATABASE — Full PepsiCo Portfolio
+   b=brand, l=product line, f=flavor, c=category
+   s=sizes, k=keywords for voice matching
+============================================================ */
 var DB=[
+  /* PEPSI */
   {b:"Pepsi",l:"",f:"Original",c:"Soft Drink",
    s:["12pk cans","20oz bottle","2L bottle","1.25L bottle","24pk cans","6pk bottles","8pk bottles","1L bottle"],
    k:["pepsi","pepsi original","regular pepsi","pepsi cola"]},
@@ -476,6 +514,7 @@ var DB=[
   {b:"Pepsi",l:"",f:"Caffeine Free Diet",c:"Soft Drink",
    s:["12pk cans","2L bottle"],
    k:["caffeine free diet pepsi","diet caffeine free pepsi"]},
+  /* MOUNTAIN DEW */
   {b:"Mountain Dew",l:"",f:"Original",c:"Soft Drink",
    s:["12pk cans","20oz bottle","2L bottle","1.25L bottle","24pk cans","6pk bottles","8pk bottles"],
    k:["mountain dew","mtn dew","dew","dew original"]},
@@ -524,6 +563,7 @@ var DB=[
   {b:"Mountain Dew",l:"",f:"Game Fuel Mystic Punch",c:"Soft Drink",
    s:["16oz can","12pk cans"],
    k:["game fuel mystic punch","mountain dew game fuel mystic"]},
+  /* MUG */
   {b:"Mug Root Beer",l:"",f:"Original",c:"Soft Drink",
    s:["12pk cans","20oz bottle","2L bottle","1.25L bottle","6pk bottles"],
    k:["mug root beer","mug","root beer"]},
@@ -533,12 +573,14 @@ var DB=[
   {b:"Mug Cream Soda",l:"",f:"Original",c:"Soft Drink",
    s:["12pk cans","20oz bottle","2L bottle"],
    k:["mug cream soda","cream soda"]},
+  /* STARRY */
   {b:"Starry",l:"",f:"Lemon Lime",c:"Soft Drink",
    s:["12pk cans","20oz bottle","2L bottle","1.25L bottle","24pk cans"],
    k:["starry","starry lemon lime","starry soda"]},
   {b:"Starry",l:"",f:"Zero Sugar",c:"Soft Drink",
    s:["12pk cans","20oz bottle","2L bottle"],
    k:["starry zero","starry zero sugar","starry zero lemon lime"]},
+  /* CRUSH */
   {b:"Crush",l:"",f:"Orange",c:"Soft Drink",
    s:["12pk cans","20oz bottle","2L bottle","1.25L bottle"],
    k:["crush orange","orange crush"]},
@@ -557,6 +599,7 @@ var DB=[
   {b:"Crush",l:"",f:"Pineapple",c:"Soft Drink",
    s:["12pk cans","20oz bottle"],
    k:["crush pineapple","pineapple crush"]},
+  /* SCHWEPPES */
   {b:"Schweppes",l:"",f:"Ginger Ale",c:"Soft Drink",
    s:["12pk cans","20oz bottle","2L bottle","1.25L bottle"],
    k:["schweppes ginger ale","ginger ale","schweppes ginger"]},
@@ -575,6 +618,7 @@ var DB=[
   {b:"Caleb's Kola",l:"",f:"Original Kola",c:"Soft Drink",
    s:["12oz bottle","4pk bottles"],
    k:["calebs kola","caleb kola","kola"]},
+  /* GATORADE TQ */
   {b:"Gatorade",l:"Thirst Quencher",f:"Fruit Punch",c:"Sports Drink",
    s:["20oz bottle","28oz bottle","32oz bottle","64oz bottle","12pk 12oz"],
    k:["gatorade fruit punch","gatorade punch","gatorade thirst quencher fruit punch"]},
@@ -617,6 +661,7 @@ var DB=[
   {b:"Gatorade",l:"Thirst Quencher",f:"Lime Cucumber",c:"Sports Drink",
    s:["20oz bottle","28oz bottle"],
    k:["gatorade lime cucumber","lime cucumber"]},
+  /* GATORADE G2 */
   {b:"Gatorade",l:"G2",f:"Fruit Punch",c:"Sports Drink",
    s:["20oz bottle","12pk 12oz"],
    k:["g2 fruit punch","gatorade g2 fruit punch","g2 punch"]},
@@ -629,6 +674,7 @@ var DB=[
   {b:"Gatorade",l:"G2",f:"Orange",c:"Sports Drink",
    s:["20oz bottle","12pk 12oz"],
    k:["g2 orange","gatorade g2 orange"]},
+  /* GATORADE ZERO */
   {b:"Gatorade",l:"Zero",f:"Fruit Punch",c:"Sports Drink",
    s:["20oz bottle","28oz bottle","12pk 12oz"],
    k:["gatorade zero fruit punch","gatorade zero punch"]},
@@ -665,6 +711,7 @@ var DB=[
   {b:"Gatorade",l:"Zero",f:"Lime Cucumber",c:"Sports Drink",
    s:["20oz bottle","28oz bottle"],
    k:["gatorade zero lime cucumber"]},
+  /* WATER */
   {b:"Aquafina",l:"",f:"Purified Water",c:"Water",
    s:["20oz bottle","16.9oz bottle","1L bottle","1.5L bottle","6pk 16.9oz","24pk 16.9oz","32pk 16.9oz"],
    k:["aquafina","aquafina water"]},
@@ -672,44 +719,35 @@ var DB=[
    s:["1L bottle","700mL bottle","6pk 700mL"],
    k:["lifewtr","life water","lifewtr original"]},
   {b:"LIFEWTR",l:"",f:"Berry",c:"Water",
-   s:["1L bottle","700mL bottle"],
-   k:["lifewtr berry","life water berry"]},
+   s:["1L bottle","700mL bottle"],k:["lifewtr berry","life water berry"]},
   {b:"LIFEWTR",l:"",f:"Grapefruit",c:"Water",
-   s:["1L bottle","700mL bottle"],
-   k:["lifewtr grapefruit","life water grapefruit"]},
+   s:["1L bottle","700mL bottle"],k:["lifewtr grapefruit"]},
   {b:"LIFEWTR",l:"",f:"Lemon Lime",c:"Water",
-   s:["1L bottle","700mL bottle"],
-   k:["lifewtr lemon lime","life water lemon lime"]},
+   s:["1L bottle","700mL bottle"],k:["lifewtr lemon lime"]},
   {b:"LIFEWTR",l:"",f:"Orange Mango",c:"Water",
-   s:["1L bottle","700mL bottle"],
-   k:["lifewtr orange mango","life water orange mango"]},
+   s:["1L bottle","700mL bottle"],k:["lifewtr orange mango"]},
+  /* PROPEL */
   {b:"Propel",l:"Electrolyte Water",f:"Berry",c:"Enhanced Water",
-   s:["16.9oz bottle","6pk 16.9oz","12pk 16.9oz"],
-   k:["propel berry","propel water berry"]},
+   s:["16.9oz bottle","6pk 16.9oz","12pk 16.9oz"],k:["propel berry"]},
   {b:"Propel",l:"Electrolyte Water",f:"Lemon",c:"Enhanced Water",
-   s:["16.9oz bottle","6pk 16.9oz","12pk 16.9oz"],
-   k:["propel lemon","propel water lemon"]},
+   s:["16.9oz bottle","6pk 16.9oz","12pk 16.9oz"],k:["propel lemon"]},
   {b:"Propel",l:"Electrolyte Water",f:"Grape",c:"Enhanced Water",
-   s:["16.9oz bottle","6pk 16.9oz","12pk 16.9oz"],
-   k:["propel grape","propel water grape"]},
+   s:["16.9oz bottle","6pk 16.9oz","12pk 16.9oz"],k:["propel grape"]},
   {b:"Propel",l:"Electrolyte Water",f:"Kiwi Strawberry",c:"Enhanced Water",
-   s:["16.9oz bottle","6pk 16.9oz"],
-   k:["propel kiwi strawberry","propel kiwi"]},
+   s:["16.9oz bottle","6pk 16.9oz"],k:["propel kiwi strawberry","propel kiwi"]},
   {b:"Propel",l:"Electrolyte Water",f:"Black Cherry",c:"Enhanced Water",
-   s:["16.9oz bottle","6pk 16.9oz"],
-   k:["propel black cherry","propel cherry"]},
+   s:["16.9oz bottle","6pk 16.9oz"],k:["propel black cherry","propel cherry"]},
   {b:"Propel",l:"Electrolyte Water",f:"Watermelon",c:"Enhanced Water",
-   s:["16.9oz bottle","6pk 16.9oz"],
-   k:["propel watermelon"]},
+   s:["16.9oz bottle","6pk 16.9oz"],k:["propel watermelon"]},
   {b:"Propel",l:"Electrolyte Water",f:"Peach",c:"Enhanced Water",
-   s:["16.9oz bottle","6pk 16.9oz"],
-   k:["propel peach"]},
+   s:["16.9oz bottle","6pk 16.9oz"],k:["propel peach"]},
   {b:"Propel",l:"Electrolyte Water",f:"Mandarin Orange",c:"Enhanced Water",
    s:["16.9oz bottle","6pk 16.9oz"],
    k:["propel mandarin orange","propel orange","propel mandarin"]},
   {b:"Propel",l:"Electrolyte Water",f:"Raspberry Lemonade",c:"Enhanced Water",
    s:["16.9oz bottle","6pk 16.9oz"],
    k:["propel raspberry lemonade","propel raspberry"]},
+  /* BUBLY */
   {b:"bubly",l:"",f:"Blackberry",c:"Sparkling Water",
    s:["12oz can","12pk cans","18pk cans","24pk cans","8pk cans"],
    k:["bubly blackberry","blackberry bubly"]},
@@ -740,6 +778,7 @@ var DB=[
   {b:"bubly",l:"",f:"White Peach Ginger",c:"Sparkling Water",
    s:["12oz can","12pk cans","8pk cans"],
    k:["bubly white peach ginger","bubly peach ginger"]},
+  /* ROCKSTAR */
   {b:"Rockstar",l:"Energy",f:"Original",c:"Energy Drink",
    s:["16oz can","24oz can","4pk 16oz"],
    k:["rockstar original","rockstar energy","rockstar"]},
@@ -776,7 +815,8 @@ var DB=[
   {b:"Rockstar",l:"Xdurance",f:"Blue Raz",c:"Energy Drink",
    s:["16oz can"],k:["rockstar xdurance blue raz","rockstar blue raz"]},
   {b:"Rockstar",l:"Xdurance",f:"Kiwi Strawberry",c:"Energy Drink",
-   s:["16oz can"],k:["rockstar xdurance kiwi strawberry","rockstar kiwi strawberry"]},
+   s:["16oz can"],k:["rockstar xdurance kiwi strawberry"]},
+  /* AMP */
   {b:"AMP Energy",l:"",f:"Original",c:"Energy Drink",
    s:["16oz can","24oz can"],k:["amp original","amp energy original","amp"]},
   {b:"AMP Energy",l:"",f:"Sugar Free",c:"Energy Drink",
@@ -784,13 +824,14 @@ var DB=[
   {b:"AMP Energy",l:"",f:"Tropical Punch",c:"Energy Drink",
    s:["16oz can"],k:["amp tropical punch","amp tropical"]},
   {b:"AMP Energy",l:"",f:"Cherry",c:"Energy Drink",
-   s:["16oz can"],k:["amp cherry","amp energy cherry"]},
+   s:["16oz can"],k:["amp cherry"]},
   {b:"AMP Energy",l:"",f:"Blueberry",c:"Energy Drink",
    s:["16oz can"],k:["amp blueberry"]},
   {b:"AMP Energy",l:"",f:"Watermelon",c:"Energy Drink",
    s:["16oz can"],k:["amp watermelon"]},
   {b:"No Fear",l:"",f:"Original",c:"Energy Drink",
    s:["16oz can"],k:["no fear","no fear energy"]},
+  /* STARBUCKS */
   {b:"Starbucks",l:"Frappuccino",f:"Caramel",c:"Coffee",
    s:["13.7oz bottle","4pk 9.5oz","15pk 9.5oz"],
    k:["starbucks frappuccino caramel","frappuccino caramel","starbucks caramel frapp"]},
@@ -845,6 +886,7 @@ var DB=[
    s:["15oz can"],k:["starbucks tripleshot caramel"]},
   {b:"Starbucks",l:"Tripleshot Energy",f:"Mocha",c:"Coffee",
    s:["15oz can"],k:["starbucks tripleshot mocha"]},
+  /* TEA */
   {b:"Brisk",l:"Iced Tea",f:"Lemon",c:"Tea",
    s:["20oz bottle","1L bottle","2L bottle","12pk cans"],
    k:["brisk lemon","brisk iced tea lemon"]},
@@ -907,6 +949,7 @@ var DB=[
   {b:"Pure Leaf",l:"",f:"Zero Sugar Sweet Tea",c:"Tea",
    s:["18.5oz bottle","64oz bottle"],
    k:["pure leaf zero sugar sweet tea","pure leaf zero sweet tea"]},
+  /* JUICE */
   {b:"Tropicana",l:"",f:"Orange Juice",c:"Juice",
    s:["12oz bottle","32oz bottle","52oz bottle","59oz bottle","6pk 10oz"],
    k:["tropicana orange juice","tropicana oj","tropicana orange"]},
@@ -961,8 +1004,7 @@ var DB=[
    s:["15.2oz bottle","32oz bottle"],
    k:["naked mighty mango","naked mango"]},
   {b:"Naked Juice",l:"",f:"Strawberry Banana",c:"Juice/Smoothie",
-   s:["15.2oz bottle","32oz bottle"],
-   k:["naked strawberry banana"]},
+   s:["15.2oz bottle","32oz bottle"],k:["naked strawberry banana"]},
   {b:"Naked Juice",l:"",f:"Power C Machine",c:"Juice/Smoothie",
    s:["15.2oz bottle","32oz bottle"],
    k:["naked power c","naked power c machine"]},
@@ -982,27 +1024,22 @@ var DB=[
    s:["64oz bottle","32oz bottle"],k:["fruit works pink lemonade"]},
   {b:"Fruit Works",l:"",f:"Strawberry Lemonade",c:"Juice",
    s:["64oz bottle","32oz bottle"],k:["fruit works strawberry lemonade"]},
+  /* IZZE */
   {b:"IZZE",l:"Sparkling Juice",f:"Apple",c:"Sparkling Juice",
-   s:["12oz can","8.4oz bottle","4pk 8.4oz"],
-   k:["izze apple","izze sparkling apple"]},
+   s:["12oz can","8.4oz bottle","4pk 8.4oz"],k:["izze apple","izze sparkling apple"]},
   {b:"IZZE",l:"Sparkling Juice",f:"Blackberry",c:"Sparkling Juice",
-   s:["12oz can","8.4oz bottle","4pk 8.4oz"],
-   k:["izze blackberry"]},
+   s:["12oz can","8.4oz bottle","4pk 8.4oz"],k:["izze blackberry"]},
   {b:"IZZE",l:"Sparkling Juice",f:"Grapefruit",c:"Sparkling Juice",
-   s:["12oz can","8.4oz bottle","4pk 8.4oz"],
-   k:["izze grapefruit"]},
+   s:["12oz can","8.4oz bottle","4pk 8.4oz"],k:["izze grapefruit"]},
   {b:"IZZE",l:"Sparkling Juice",f:"Clementine",c:"Sparkling Juice",
-   s:["12oz can","8.4oz bottle","4pk 8.4oz"],
-   k:["izze clementine"]},
+   s:["12oz can","8.4oz bottle","4pk 8.4oz"],k:["izze clementine"]},
   {b:"IZZE",l:"Sparkling Juice",f:"Peach",c:"Sparkling Juice",
-   s:["12oz can","8.4oz bottle","4pk 8.4oz"],
-   k:["izze peach"]},
+   s:["12oz can","8.4oz bottle","4pk 8.4oz"],k:["izze peach"]},
   {b:"IZZE",l:"Sparkling Juice",f:"Pomegranate",c:"Sparkling Juice",
-   s:["12oz can","8.4oz bottle","4pk 8.4oz"],
-   k:["izze pomegranate"]},
+   s:["12oz can","8.4oz bottle","4pk 8.4oz"],k:["izze pomegranate"]},
   {b:"IZZE",l:"Sparkling Juice",f:"Cherry Lime",c:"Sparkling Juice",
-   s:["12oz can","8.4oz bottle","4pk 8.4oz"],
-   k:["izze cherry lime"]},
+   s:["12oz can","8.4oz bottle","4pk 8.4oz"],k:["izze cherry lime"]},
+  /* COCONUT WATER */
   {b:"O.N.E. Coconut Water",l:"",f:"Original",c:"Coconut Water",
    s:["11.2oz bottle","33.8oz bottle"],
    k:["one coconut water","one original coconut water","coconut water"]},
@@ -1010,6 +1047,7 @@ var DB=[
    s:["11.2oz bottle"],k:["one mango coconut water","coconut water mango"]},
   {b:"O.N.E. Coconut Water",l:"",f:"Pineapple",c:"Coconut Water",
    s:["11.2oz bottle"],k:["one pineapple coconut water","coconut water pineapple"]},
+  /* KEVITA */
   {b:"KeVita",l:"",f:"Sparkling Probiotic Lemon Cayenne",c:"Functional",
    s:["15.2oz bottle"],k:["kevita lemon cayenne","kevita sparkling lemon"]},
   {b:"KeVita",l:"",f:"Sparkling Probiotic Mango Coconut",c:"Functional",
@@ -1018,6 +1056,7 @@ var DB=[
    s:["15.2oz bottle"],k:["kevita mojita lime mint coconut","kevita mojita"]},
   {b:"KeVita",l:"",f:"Apple Cider Vinegar Tonic Lemon Cayenne",c:"Functional",
    s:["15.2oz bottle"],k:["kevita apple cider vinegar","kevita acv"]},
+  /* PROTEIN */
   {b:"Muscle Milk",l:"Protein Shake",f:"Chocolate",c:"Protein",
    s:["11oz bottle","14oz bottle","4pk 11oz"],
    k:["muscle milk chocolate","muscle milk protein chocolate"]},
@@ -1039,9 +1078,9 @@ var DB=[
    k:["evolve vanilla","evolve plant based vanilla"]}
 ];
 
-/* ================================================================
+/* ============================================================
    SEARCH INDEX
-================================================================ */
+============================================================ */
 var IDX=[];
 DB.forEach(function(p,i){
   p.k.forEach(function(kw){IDX.push({kw:kw.toLowerCase(),i:i});});
@@ -1052,14 +1091,14 @@ DB.forEach(function(p,i){
 function matchProduct(text){
   text=text.toLowerCase()
     .replace(/\bmtn\s*dew\b/g,'mountain dew')
-    .replace(/\bdew\b(?!\s*\w)/g,'mountain dew')
+    .replace(/\bdew\b(?!\s*[a-z])/g,'mountain dew')
     .replace(/\bfrapp\b/g,'frappuccino')
     .replace(/zero\s*sugar/g,'zero').trim();
   var best=-1,bestI=-1;
-  IDX.forEach(function(e){
-    var sc=sim(text,e.kw);
-    if(sc>best){best=sc;bestI=e.i;}
-  });
+  for(var j=0;j<IDX.length;j++){
+    var sc=sim(text,IDX[j].kw);
+    if(sc>best){best=sc;bestI=IDX[j].i;}
+  }
   return best>0.3?DB[bestI]:null;
 }
 
@@ -1067,9 +1106,9 @@ function sim(a,b){
   var wa=a.split(/\s+/).filter(function(w){return w.length>1;});
   var wb=b.split(/\s+/).filter(function(w){return w.length>1;});
   if(!wa.length||!wb.length)return 0;
-  var wbSet={};wb.forEach(function(w){wbSet[w]=1;});
-  var common=0;wa.forEach(function(w){if(wbSet[w])common++;});
-  return common/Math.max(wa.length,wb.length);
+  var set={};wb.forEach(function(w){set[w]=1;});
+  var c=0;wa.forEach(function(w){if(set[w])c++;});
+  return c/Math.max(wa.length,wb.length);
 }
 
 function makeLabel(p,size,container){
@@ -1081,9 +1120,9 @@ function makeLabel(p,size,container){
   return label;
 }
 
-/* ================================================================
-   STATE
-================================================================ */
+/* ============================================================
+   APP STATE
+============================================================ */
 var store={name:'',address:''};
 var items={};
 var notes=[];
@@ -1093,16 +1132,229 @@ var currentProd=null;
 var currentQBLabel=null;
 var smsTxtOverride=null;
 
-/* ================================================================
-   STORAGE
-================================================================ */
-function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
-function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+/* ============================================================
+   STORAGE — tested and reliable
+============================================================ */
+function sv(key,val){
+  try{localStorage.setItem(key,JSON.stringify(val));}
+  catch(e){console.warn('Save failed:',e);}
+}
 
-/* ================================================================
-   STORE LAYOUT CATEGORIES
-================================================================ */
-var LAYOUT_CATS=[
+function ld(key,def){
+  try{
+    var raw=localStorage.getItem(key);
+    if(raw===null||raw===undefined)return def;
+    return JSON.parse(raw);
+  }catch(e){return def;}
+}
+
+/* ============================================================
+   SHOW MESSAGE HELPER
+============================================================ */
+function msg(id,text,type){
+  var el=document.getElementById(id);
+  if(!el)return;
+  el.textContent=text;
+  el.className='msgbox show msg'+(type||'info');
+  el.style.display='block';
+}
+
+function msgHide(id){
+  var el=document.getElementById(id);
+  if(el){el.style.display='none';el.className='msgbox';}
+}
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+var SCREENS=['sStore','sLayout','sVoice','sPick','sQuick',
+  'sList','sNotes','sExport','sHistory','sSet'];
+
+function go(screenId,navIdx){
+  SCREENS.forEach(function(id){
+    document.getElementById(id).classList.remove('on');
+  });
+  document.querySelectorAll('.nb').forEach(function(b){
+    b.classList.remove('on');
+  });
+  document.getElementById(screenId).classList.add('on');
+  var navBtns=document.querySelectorAll('.nb');
+  if(navBtns[navIdx])navBtns[navIdx].classList.add('on');
+  /* Screen-specific actions */
+  if(screenId==='sExport')buildExport();
+  if(screenId==='sHistory')renderHistory();
+  if(screenId==='sList')renderList();
+  if(screenId==='sPick')renderPicker();
+  if(screenId==='sLayout')renderLayout();
+}
+
+/* ============================================================
+   MODALS
+============================================================ */
+function openModal(id){document.getElementById(id).classList.add('on');}
+function closeModal(id){document.getElementById(id).classList.remove('on');}
+
+/* ============================================================
+   STORE — SAVE AND LOAD (FIXED)
+============================================================ */
+function setStore(){
+  var name=document.getElementById('iName').value.trim();
+  var addr=document.getElementById('iAddr').value.trim();
+  if(!name){
+    msg('storeMsg','Please enter a store name first.','err');
+    return;
+  }
+  store={name:name,address:addr};
+  items={};
+  notes=[];
+  timerReset();
+  document.getElementById('hSub').textContent=
+    name+(addr?' — '+addr:'');
+  msg('storeMsg','✅ Store set: '+name+'. Fill list cleared for new visit.','ok');
+  renderList();
+  renderNotes();
+  updateStats();
+}
+
+function saveStoreToDB(){
+  var name=document.getElementById('iName').value.trim();
+  var addr=document.getElementById('iAddr').value.trim();
+  if(!name){
+    msg('storeMsg','Enter a store name before saving.','err');
+    return;
+  }
+  /* Load existing stores */
+  var stores=ld('savedStores',[]);
+  /* Check for duplicate */
+  var found=false;
+  for(var i=0;i<stores.length;i++){
+    if(stores[i].name===name){
+      /* Update address if changed */
+      stores[i].address=addr;
+      found=true;
+      break;
+    }
+  }
+  if(!found){
+    stores.push({name:name,address:addr});
+  }
+  /* Save back */
+  sv('savedStores',stores);
+  msg('storeMsg','💾 "'+name+'" saved to your store list. ('+stores.length+' total)','ok');
+}
+
+function openSavedStores(){
+  /* Always reload fresh from storage */
+  var stores=ld('savedStores',[]);
+  var list=document.getElementById('mStoreList');
+  list.innerHTML='';
+
+  if(!stores||stores.length===0){
+    list.innerHTML='<div class="empty">No saved stores yet.<br>Enter a store name and tap 💾 Save Store first.</div>';
+    openModal('mStores');
+    return;
+  }
+
+  stores.forEach(function(s,i){
+    var card=document.createElement('div');
+    card.className='hitem';
+
+    var info=document.createElement('div');
+    info.innerHTML=
+      '<div class="htitle">'+s.name+'</div>'+
+      '<div class="hsub">'+(s.address||'No address saved')+'</div>';
+
+    var btnRow=document.createElement('div');
+    btnRow.style.marginTop='8px';
+    btnRow.style.display='flex';
+    btnRow.style.gap='8px';
+
+    var selBtn=document.createElement('button');
+    selBtn.className='btn bp bsm';
+    selBtn.textContent='Select';
+    selBtn.onclick=(function(store_name,store_addr){
+      return function(e){
+        e.stopPropagation();
+        document.getElementById('iName').value=store_name;
+        document.getElementById('iAddr').value=store_addr||'';
+        closeModal('mStores');
+        msg('storeMsg','Selected: '+store_name+'. Tap ✅ Set Store to begin.','info');
+      };
+    })(s.name,s.address);
+
+    var delBtn=document.createElement('button');
+    delBtn.className='btn br bsm';
+    delBtn.textContent='🗑 Delete';
+    delBtn.onclick=(function(idx){
+      return function(e){
+        e.stopPropagation();
+        if(!confirm('Delete "'+stores[idx].name+'" from saved stores?'))return;
+        var fresh=ld('savedStores',[]);
+        fresh.splice(idx,1);
+        sv('savedStores',fresh);
+        openSavedStores();
+      };
+    })(i);
+
+    btnRow.appendChild(selBtn);
+    btnRow.appendChild(delBtn);
+    card.appendChild(info);
+    card.appendChild(btnRow);
+    list.appendChild(card);
+  });
+
+  openModal('mStores');
+}
+
+/* ============================================================
+   TIMER
+============================================================ */
+function timerStart(){
+  if(timerOn)return;
+  timerOn=true;
+  timerIv=setInterval(function(){
+    timerSec++;
+    var h=Math.floor(timerSec/3600);
+    var m=Math.floor((timerSec%3600)/60);
+    var s=timerSec%60;
+    document.getElementById('timerEl').textContent=
+      pad(h)+':'+pad(m)+':'+pad(s);
+  },1000);
+}
+function timerPause(){
+  timerOn=false;
+  clearInterval(timerIv);
+}
+function timerReset(){
+  timerPause();
+  timerSec=0;
+  document.getElementById('timerEl').textContent='00:00:00';
+}
+function pad(n){return String(n).padStart(2,'0');}
+
+/* ============================================================
+   STATS
+============================================================ */
+function updateStats(){
+  var vals=Object.values(items);
+  document.getElementById('stItems').textContent=vals.length;
+  document.getElementById('stUnits').textContent=
+    vals.reduce(function(a,v){return a+v.qty;},0);
+  document.getElementById('stOOS').textContent=
+    vals.filter(function(v){return v.oos;}).length;
+  var now=new Date();
+  var days=['Sunday','Monday','Tuesday','Wednesday',
+    'Thursday','Friday','Saturday'];
+  document.getElementById('stDate').textContent=
+    days[now.getDay()]+', '+
+    now.toLocaleDateString('en-US',
+      {month:'long',day:'numeric',year:'numeric'});
+}
+
+/* ============================================================
+   STORE LAYOUT
+============================================================ */
+var LAY_CATS=[
   {icon:'🥤',name:'Carbonated Soda'},
   {icon:'💧',name:'Water'},
   {icon:'🍵',name:'Tea'},
@@ -1116,149 +1368,61 @@ var LAYOUT_CATS=[
   {icon:'🌿',name:'Functional / Other'}
 ];
 
-/* ================================================================
-   NAV
-================================================================ */
-function go(id,btn){
-  document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on');});
-  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
-  document.getElementById(id).classList.add('on');
-  if(btn)btn.classList.add('on');
-  if(id==='sExport')buildExport();
-  if(id==='sHistory')renderHist();
-  if(id==='sList')renderList();
-  if(id==='sPick')renderPicker();
-  if(id==='sLayout')renderLayout();
+function layKey(){
+  return 'layout__'+(store.name||'_default_');
 }
-
-/* ================================================================
-   MODALS
-================================================================ */
-function openModal(id){document.getElementById(id).classList.add('on');}
-function closeModal(id){document.getElementById(id).classList.remove('on');}
-
-/* ================================================================
-   STORE
-================================================================ */
-function setStore(){
-  var name=document.getElementById('iName').value.trim();
-  var addr=document.getElementById('iAddr').value.trim();
-  if(!name){showSt('stSt','Enter a store name first.','#dc3545');return;}
-  store={name:name,address:addr};
-  items={};notes=[];
-  resetTimer();
-  document.getElementById('hSub').textContent=name+(addr?' — '+addr:'');
-  showSt('stSt','✅ Store set: '+name,'#0f9d58');
-  renderList();renderNotes();updateStats();
-}
-
-function saveStore(){
-  var name=document.getElementById('iName').value.trim();
-  var addr=document.getElementById('iAddr').value.trim();
-  if(!name){alert('Enter a store name first.');return;}
-  var stores=ld('stores',[]);
-  var exists=false;
-  stores.forEach(function(s){if(s.name===name)exists=true;});
-  if(!exists){stores.push({name:name,address:addr});sv('stores',stores);}
-  showSt('stSt','💾 "'+name+'" saved.','#0b5fa5');
-}
-
-function pickStore(){
-  var stores=ld('stores',[]);
-  var list=document.getElementById('mStoreList');
-  list.innerHTML='';
-  if(!stores.length){
-    list.innerHTML='<div class="empty">No saved stores yet.</div>';
-    openModal('mStores');return;
-  }
-  stores.forEach(function(s,i){
-    var d=document.createElement('div');
-    d.className='hitem';
-    d.innerHTML='<div class="htitle">'+s.name+'</div>'+
-      '<div class="hsub">'+(s.address||'No address')+'</div>';
-    d.onclick=function(){
-      document.getElementById('iName').value=s.name;
-      document.getElementById('iAddr').value=s.address||'';
-      closeModal('mStores');
-    };
-    var del=document.createElement('button');
-    del.className='btn br bsm';del.style.marginTop='6px';del.textContent='🗑 Remove';
-    del.onclick=function(e){
-      e.stopPropagation();
-      stores.splice(i,1);sv('stores',stores);pickStore();
-    };
-    d.appendChild(del);list.appendChild(d);
-  });
-  openModal('mStores');
-}
-
-/* ================================================================
-   STORE LAYOUT
-================================================================ */
-function getLayoutKey(){
-  return 'layout_'+(store.name||'__default__');
-}
-
-function getLayout(){
-  return ld(getLayoutKey(),{cats:{},custom:[]});
-}
-
-function saveLayout(layout){
-  sv(getLayoutKey(),layout);
-}
+function getLayout(){return ld(layKey(),{cats:{},custom:[]});}
+function saveLayout(lay){sv(layKey(),lay);}
 
 function renderLayout(){
-  var storeName=store.name||'';
-  var lbl=document.getElementById('layoutStoreName');
-  if(!storeName){
-    lbl.textContent='⚠️ Set a store first (🏪 Store tab), then save aisle locations here.';
-    lbl.style.color='#dc3545';
+  var lmsg=document.getElementById('layoutMsg');
+  if(!store.name){
+    lmsg.textContent='⚠️ Set a store first (🏪 Store tab), then save aisle locations here.';
+    lmsg.className='msgbox msgerr show';
   }else{
-    lbl.textContent='📍 Showing layout for: '+storeName;
-    lbl.style.color='#0b5fa5';
+    lmsg.textContent='📍 Layout for: '+store.name;
+    lmsg.className='msgbox msginfo show';
   }
 
-  var layout=getLayout();
-  var container=document.getElementById('layoutRows');
-  container.innerHTML='';
+  var lay=getLayout();
+  var cont=document.getElementById('layRows');
+  cont.innerHTML='';
 
-  LAYOUT_CATS.forEach(function(cat){
-    var saved=layout.cats[cat.name]||'';
+  LAY_CATS.forEach(function(cat){
+    var saved=lay.cats[cat.name]||'';
     var row=document.createElement('div');
-    row.className='layoutRow';
-    row.innerHTML=
-      '<div class="layoutIcon">'+cat.icon+'</div>'+
-      '<div style="flex:1;">'+
-        '<div class="layoutCat">'+cat.name+'</div>'+
-        (saved?'<div class="layoutAisle">📍 '+saved+'</div>':'<div class="layoutAisle" style="color:#aaa;">No aisle set</div>')+
-      '</div>';
+    row.className='layrow';
+
+    var icon=document.createElement('div');
+    icon.className='layicon';icon.textContent=cat.icon;
+
+    var info=document.createElement('div');
+    info.className='layinfo';
+    info.innerHTML='<div class="layname">'+cat.name+'</div>'+
+      (saved
+        ?'<div class="layloc">📍 '+saved+'</div>'
+        :'<div class="laynone">No aisle set</div>');
 
     var inp=document.createElement('input');
-    inp.type='text';
-    inp.className='layoutInput';
-    inp.placeholder='Aisle / Location';
-    inp.value=saved;
-    inp.style.width='110px';
-    inp.style.flexShrink='0';
+    inp.type='text';inp.className='layinp';
+    inp.placeholder='Aisle / Location';inp.value=saved;
 
-    var saveBtn=document.createElement('button');
-    saveBtn.className='btn bp bsm layoutSave';
-    saveBtn.textContent='Save';
-    saveBtn.onclick=(function(catName,input){
+    var btn=document.createElement('button');
+    btn.className='btn bp bsm';btn.textContent='Save';
+    btn.onclick=(function(catName,input){
       return function(){
-        var val=input.value.trim();
-        var layout=getLayout();
-        if(val){layout.cats[catName]=val;}
-        else{delete layout.cats[catName];}
-        saveLayout(layout);
+        var v=input.value.trim();
+        var lay=getLayout();
+        if(v)lay.cats[catName]=v;
+        else delete lay.cats[catName];
+        saveLayout(lay);
         renderLayout();
-        renderLayoutSummary();
       };
     })(cat.name,inp);
 
-    row.appendChild(inp);
-    row.appendChild(saveBtn);
-    container.appendChild(row);
+    row.appendChild(icon);row.appendChild(info);
+    row.appendChild(inp);row.appendChild(btn);
+    cont.appendChild(row);
   });
 
   renderCustomLocs();
@@ -1266,153 +1430,103 @@ function renderLayout(){
 }
 
 function addCustomLoc(){
-  var name=document.getElementById('customLocName').value.trim();
-  var detail=document.getElementById('customLocDetail').value.trim();
+  var name=document.getElementById('custName').value.trim();
+  var detail=document.getElementById('custDetail').value.trim();
   if(!name){alert('Enter a location name.');return;}
-  var layout=getLayout();
-  if(!layout.custom)layout.custom=[];
-  layout.custom.push({name:name,detail:detail});
-  saveLayout(layout);
-  document.getElementById('customLocName').value='';
-  document.getElementById('customLocDetail').value='';
+  var lay=getLayout();
+  if(!lay.custom)lay.custom=[];
+  lay.custom.push({name:name,detail:detail});
+  saveLayout(lay);
+  document.getElementById('custName').value='';
+  document.getElementById('custDetail').value='';
   renderCustomLocs();
   renderLayoutSummary();
 }
 
 function renderCustomLocs(){
-  var layout=getLayout();
-  var list=document.getElementById('customLocList');
+  var lay=getLayout();
+  var list=document.getElementById('custList');
   list.innerHTML='';
-  var customs=layout.custom||[];
-  if(!customs.length)return;
+  var customs=lay.custom||[];
   customs.forEach(function(loc,i){
     var d=document.createElement('div');
-    d.className='layoutCustom';
-    d.innerHTML=
-      '<div style="flex:1;">'+
-        '<div style="font-weight:800;font-size:13px;">📌 '+loc.name+'</div>'+
-        (loc.detail?'<div style="font-size:12px;color:#5a6b7c;margin-top:2px;">'+loc.detail+'</div>':'')+
-      '</div>';
+    d.className='custrow';
+    var info=document.createElement('div');
+    info.className='custinfo';
+    info.innerHTML='<div class="custname">📌 '+loc.name+'</div>'+
+      (loc.detail?'<div class="custdetail">'+loc.detail+'</div>':'');
     var del=document.createElement('button');
     del.className='btn br bsm';del.textContent='✕';
-    del.onclick=function(){
-      var layout=getLayout();
-      layout.custom.splice(i,1);
-      saveLayout(layout);
-      renderCustomLocs();
-      renderLayoutSummary();
-    };
-    d.appendChild(del);
+    del.onclick=(function(idx){
+      return function(){
+        var lay=getLayout();
+        lay.custom.splice(idx,1);
+        saveLayout(lay);
+        renderCustomLocs();
+        renderLayoutSummary();
+      };
+    })(i);
+    d.appendChild(info);d.appendChild(del);
     list.appendChild(d);
   });
 }
 
 function renderLayoutSummary(){
-  var layout=getLayout();
+  var text=buildLayoutText();
+  document.getElementById('laySummary').textContent=
+    text||'No aisles saved yet for this store.';
+}
+
+function buildLayoutText(){
+  var lay=getLayout();
   var lines=[];
-  if(store.name)lines.push('Store: '+store.name);
-  lines.push('--- STORE LAYOUT ---');
-  var hasCats=false;
-  LAYOUT_CATS.forEach(function(cat){
-    if(layout.cats[cat.name]){
-      lines.push(cat.icon+' '+cat.name+': '+layout.cats[cat.name]);
-      hasCats=true;
-    }
+  LAY_CATS.forEach(function(cat){
+    if(lay.cats[cat.name])
+      lines.push(cat.icon+' '+cat.name+': '+lay.cats[cat.name]);
   });
-  if(!hasCats)lines.push('No aisles saved yet.');
-  var customs=layout.custom||[];
-  if(customs.length){
-    lines.push('--- CUSTOM LOCATIONS ---');
-    customs.forEach(function(loc){
-      lines.push('📌 '+loc.name+(loc.detail?' — '+loc.detail:''));
-    });
-  }
-  document.getElementById('layoutSummary').textContent=lines.join('\n');
-}
-
-function getLayoutText(){
-  var layout=getLayout();
-  var lines=[];
-  var hasCats=false;
-  LAYOUT_CATS.forEach(function(cat){
-    if(layout.cats[cat.name]){
-      lines.push(cat.icon+' '+cat.name+': '+layout.cats[cat.name]);
-      hasCats=true;
-    }
+  var customs=lay.custom||[];
+  customs.forEach(function(loc){
+    lines.push('📌 '+loc.name+(loc.detail?' — '+loc.detail:''));
   });
-  var customs=layout.custom||[];
-  if(customs.length){
-    customs.forEach(function(loc){
-      lines.push('📌 '+loc.name+(loc.detail?' — '+loc.detail:''));
-    });
-  }
-  return lines.length?lines.join('\n'):'';
+  return lines.join('\n');
 }
 
-/* ================================================================
-   TIMER
-================================================================ */
-function timerStart(){
-  if(timerOn)return;timerOn=true;
-  timerIv=setInterval(function(){
-    timerSec++;
-    var h=Math.floor(timerSec/3600);
-    var m=Math.floor((timerSec%3600)/60);
-    var s=timerSec%60;
-    document.getElementById('timerEl').textContent=pad(h)+':'+pad(m)+':'+pad(s);
-  },1000);
-}
-function timerPause(){timerOn=false;clearInterval(timerIv);}
-function timerReset(){timerPause();timerSec=0;document.getElementById('timerEl').textContent='00:00:00';}
-function pad(n){return String(n).padStart(2,'0');}
-
-/* ================================================================
-   STATS
-================================================================ */
-function updateStats(){
-  var vals=Object.values(items);
-  document.getElementById('stItems').textContent=vals.length;
-  document.getElementById('stUnits').textContent=vals.reduce(function(a,v){return a+v.qty;},0);
-  document.getElementById('stOOS').textContent=vals.filter(function(v){return v.oos;}).length;
-  var now=new Date();
-  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  document.getElementById('stDate').textContent=
-    days[now.getDay()]+', '+now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-}
-
-function showSt(id,msg,color){
-  var el=document.getElementById(id);if(!el)return;
-  el.textContent=msg;el.style.display='block';
-  if(color)el.style.color=color;
-}
-
-/* ================================================================
-   SPEECH
-================================================================ */
+/* ============================================================
+   SPEECH RECOGNITION
+============================================================ */
 var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 var rec=null,micOn=false,lastT='';
 
 function initSpeech(){
   if(!SR){
-    document.getElementById('micSt').textContent='Voice not supported. Use Safari on iPhone.';
-    document.getElementById('micBtn').disabled=true;return;
+    msg('micMsg','Voice recognition not supported. Please use Safari on iPhone.','err');
+    var btn=document.getElementById('micBtn');
+    if(btn)btn.disabled=true;
+    return;
   }
-  rec=new SR();rec.lang='en-US';rec.interimResults=true;rec.continuous=false;
+  rec=new SR();
+  rec.lang='en-US';
+  rec.interimResults=true;
+  rec.continuous=false;
+
   rec.onstart=function(){
     micOn=true;
     document.getElementById('micBtn').textContent='🔴 Listening... tap to stop';
-    document.getElementById('micSt').textContent='Listening — speak now.';
+    msg('micMsg','Listening — speak now.','info');
   };
   rec.onerror=function(e){
     micOn=false;
     document.getElementById('micBtn').textContent='🎤 Start Voice';
-    document.getElementById('micSt').textContent='Error: '+e.error+'. Tap to try again.';
+    msg('micMsg','Error: '+e.error+'. Tap to try again.','err');
   };
   rec.onend=function(){
     micOn=false;
     document.getElementById('micBtn').textContent='🎤 Start Voice';
-    document.getElementById('micSt').textContent=
-      lastT?'Done — tap "Add to List"':'Stopped. Tap Start Voice to try again.';
+    if(lastT){
+      msg('micMsg','Done — review transcript then tap "Add to List".','ok');
+    }else{
+      msg('micMsg','Stopped. Tap Start Voice to try again.','info');
+    }
   };
   rec.onresult=function(ev){
     var interim='',final='';
@@ -1429,32 +1543,46 @@ function initSpeech(){
 function micToggle(){
   if(!rec){initSpeech();if(!rec)return;}
   if(micOn){rec.stop();return;}
-  lastT='';document.getElementById('tbox').textContent='';
+  lastT='';
+  document.getElementById('tbox').textContent='';
+  msgHide('micMsg');
   try{rec.start();}
-  catch(e){document.getElementById('micSt').textContent='Wait a moment then try again.';}
+  catch(e){
+    msg('micMsg','Wait a moment then try again.','err');
+  }
 }
-function clearT(){document.getElementById('tbox').textContent='';lastT='';}
 
-/* ================================================================
+function clearT(){
+  document.getElementById('tbox').textContent='';
+  lastT='';
+  msgHide('micMsg');
+}
+
+/* ============================================================
    VOICE PARSING
-================================================================ */
+============================================================ */
 function w2n(s){
   var u={zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,
     ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,
     seventeen:17,eighteen:18,nineteen:19};
-  var t={twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
-  s=s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\s+(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g,
+  var t={twenty:20,thirty:30,forty:40,fifty:50,sixty:60,
+    seventy:70,eighty:80,ninety:90};
+  s=s.replace(
+    /\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\s+(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g,
     function(_,a,b){return String(t[a]+u[b]);});
-  s=s.replace(/\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g,
+  s=s.replace(
+    /\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen)\b/g,
     function(_,w){return String(u[w]);});
-  s=s.replace(/\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\b/g,
+  s=s.replace(
+    /\b(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)\b/g,
     function(_,w){return String(t[w]);});
   return s;
 }
 
 function getSz(seg){
   var s=seg.toLowerCase();
-  var pack=s.match(/(\d+)\s*(pack|pk|case)\b/);if(pack)return pack[1]+'pk';
+  var pack=s.match(/(\d+)\s*(pack|pk|case)\b/);
+  if(pack)return pack[1]+'pk';
   var lit=s.match(/(\d+(?:\.\d+)?)\s*(l|lt|liter|liters)\b/);
   if(lit)return String(parseFloat(lit[1]))+'L';
   var oz=s.match(/(\d+(?:\.\d+)?)\s*(oz|ounce|ounces)\b/);
@@ -1469,7 +1597,9 @@ function getCt(seg){
 }
 
 function parseVoice(text){
-  text=text.toLowerCase().replace(/\band\b/g,',').replace(/\s*,\s*/g,',');
+  text=text.toLowerCase()
+    .replace(/\band\b/g,',')
+    .replace(/\s*,\s*/g,',');
   text=w2n(text);
   var re=/([^,]+?)\b(?:need|needs|want|add|fill)\b\s*(\d+)\b/gi;
   var out=[],m;
@@ -1478,10 +1608,12 @@ function parseVoice(text){
     var qty=parseInt(m[2],10);
     if(!seg||!(qty>0))continue;
     var prod=matchProduct(seg);
-    var sz=getSz(seg);var ct=getCt(seg);
+    var sz=getSz(seg);
+    var ct=getCt(seg);
     var label;
-    if(prod){label=makeLabel(prod,sz,ct);}
-    else{
+    if(prod){
+      label=makeLabel(prod,sz,ct);
+    }else{
       var raw=seg.replace(/(\d+)\s*(pack|pk|case|l|oz|liter)\b/g,'').trim();
       label=(raw||seg)+(sz?' | '+sz:'')+(ct&&!sz?' ('+ct+')':'');
     }
@@ -1490,66 +1622,118 @@ function parseVoice(text){
   return out;
 }
 
-/* ================================================================
+/* ============================================================
    ADD TO LIST
-================================================================ */
+============================================================ */
 function addItem(label,qty,oos){
-  oos=oos||false;
-  if(items[label]){items[label].qty+=qty;if(oos)items[label].oos=true;}
-  else{items[label]={qty:qty,oos:oos};}
-  renderList();updateStats();
+  oos=!!oos;
+  if(items[label]){
+    items[label].qty+=qty;
+    if(oos)items[label].oos=true;
+  }else{
+    items[label]={qty:qty,oos:oos};
+  }
+  renderList();
+  updateStats();
 }
 
 function addParsed(){
   var t=(document.getElementById('tbox').textContent||'').trim();
-  if(!t){document.getElementById('micSt').textContent='Nothing to add. Tap Start Voice first.';return;}
+  if(!t){
+    msg('micMsg','Nothing to add. Tap Start Voice first.','err');
+    return;
+  }
   var parsed=parseVoice(t);
   if(!parsed.length){
-    document.getElementById('micSt').textContent='No items found. Say "[Product] need [qty]".';return;
+    msg('micMsg','No items detected. Say "[Product] need [qty]".','err');
+    return;
   }
   parsed.forEach(function(e){addItem(e.label,e.qty);});
-  document.getElementById('micSt').textContent='✅ Added '+parsed.length+' item(s).';
-  document.getElementById('tbox').textContent='';lastT='';
-  go('sList',document.querySelectorAll('.nb')[5]);
+  msg('micMsg','✅ Added '+parsed.length+' item(s) to Fill List.','ok');
+  document.getElementById('tbox').textContent='';
+  lastT='';
+  go('sList',5);
 }
 
 function addManual(){
   var label=document.getElementById('mLabel').value.trim();
   var qty=parseInt(document.getElementById('mQty').value,10);
-  if(!label||!(qty>0)){alert('Enter both a product name and quantity.');return;}
+  if(!label||!(qty>0)){
+    alert('Please enter both a product name and a quantity greater than 0.');
+    return;
+  }
   addItem(label,qty);
-  document.getElementById('mLabel').value='';document.getElementById('mQty').value='';
+  document.getElementById('mLabel').value='';
+  document.getElementById('mQty').value='';
 }
 
-/* ================================================================
+/* ============================================================
    RENDER LIST
-================================================================ */
+============================================================ */
 function renderList(){
   var el=document.getElementById('listEl');
   var empty=document.getElementById('listEmpty');
   var hint=document.getElementById('listHint');
   el.innerHTML='';
   var keys=Object.keys(items).sort();
-  if(!keys.length){empty.style.display='block';hint.textContent='No items yet.';return;}
+  if(!keys.length){
+    empty.style.display='block';
+    hint.textContent='No items yet.';
+    return;
+  }
   empty.style.display='none';
   var total=0;
   keys.forEach(function(label){
-    var val=items[label];total+=val.qty;
+    var val=items[label];
+    total+=val.qty;
     var d=document.createElement('div');
     d.className='fitem'+(val.oos?' oos':'');
-    var safe=label.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    d.innerHTML=
-      '<div style="flex:1 1 auto;">'+
-        '<div class="flabel">'+label+'</div>'+
-        (val.oos?'<div class="fsub">⚠️ OUT OF STOCK</div>':'')+
-      '</div>'+
-      '<div class="qbox">'+
-        '<button class="qbtn" onclick="chgQty(\''+safe+'\',-1)">−</button>'+
-        '<div class="qnum">'+val.qty+'</div>'+
-        '<button class="qbtn" onclick="chgQty(\''+safe+'\',1)">+</button>'+
-        '<button class="btn bw bsm" onclick="togOOS(\''+safe+'\')">⚠️</button>'+
-        '<button class="btn br bsm" onclick="remItem(\''+safe+'\')">✕</button>'+
-      '</div>';
+
+    var left=document.createElement('div');
+    left.style.flex='1';left.style.minWidth='0';
+    var lbl=document.createElement('div');
+    lbl.className='flabel';lbl.textContent=label;
+    left.appendChild(lbl);
+    if(val.oos){
+      var sub=document.createElement('div');
+      sub.className='fsub';sub.textContent='⚠️ OUT OF STOCK';
+      left.appendChild(sub);
+    }
+
+    var qbox=document.createElement('div');
+    qbox.className='qbox';
+
+    var mBtn=document.createElement('button');
+    mBtn.className='qbtn';mBtn.textContent='−';
+    mBtn.onclick=(function(lbl){
+      return function(){chgQty(lbl,-1);};
+    })(label);
+
+    var qnum=document.createElement('div');
+    qnum.className='qnum';qnum.textContent=val.qty;
+
+    var pBtn=document.createElement('button');
+    pBtn.className='qbtn';pBtn.textContent='+';
+    pBtn.onclick=(function(lbl){
+      return function(){chgQty(lbl,1);};
+    })(label);
+
+    var oosBtn=document.createElement('button');
+    oosBtn.className='btn bw bsm';oosBtn.textContent='⚠️';
+    oosBtn.title='Toggle Out of Stock';
+    oosBtn.onclick=(function(lbl){
+      return function(){togOOS(lbl);};
+    })(label);
+
+    var delBtn=document.createElement('button');
+    delBtn.className='btn br bsm';delBtn.textContent='✕';
+    delBtn.onclick=(function(lbl){
+      return function(){remItem(lbl);};
+    })(label);
+
+    qbox.appendChild(mBtn);qbox.appendChild(qnum);qbox.appendChild(pBtn);
+    qbox.appendChild(oosBtn);qbox.appendChild(delBtn);
+    d.appendChild(left);d.appendChild(qbox);
     el.appendChild(d);
   });
   hint.textContent='Total: '+total+' units across '+keys.length+' item(s)';
@@ -1559,44 +1743,55 @@ function renderList(){
 function chgQty(label,delta){
   if(!items[label])return;
   var next=items[label].qty+delta;
-  if(next<=0)delete items[label];else items[label].qty=next;
+  if(next<=0)delete items[label];
+  else items[label].qty=next;
   renderList();
 }
 function remItem(label){delete items[label];renderList();}
 function togOOS(label){
-  if(!items[label])return;items[label].oos=!items[label].oos;renderList();
+  if(!items[label])return;
+  items[label].oos=!items[label].oos;renderList();
 }
 function clearList(){
-  if(!confirm('Clear the entire fill list?'))return;items={};renderList();
+  if(!confirm('Clear the entire fill list for this visit?'))return;
+  items={};renderList();
 }
 
-/* ================================================================
+/* ============================================================
    PRODUCT PICKER
-================================================================ */
+============================================================ */
 function renderPicker(){
   var q=(document.getElementById('pickSearch').value||'').toLowerCase().trim();
-  var res=document.getElementById('pickResults');res.innerHTML='';
+  var res=document.getElementById('pickResults');
+  res.innerHTML='';
   var cats={};
   DB.forEach(function(p,i){
     var str=(p.b+' '+p.l+' '+p.f+' '+p.c+' '+p.k.join(' ')).toLowerCase();
     if(!q||str.indexOf(q)>=0){
-      if(!cats[p.c])cats[p.c]=[];cats[p.c].push({p:p,i:i});
+      if(!cats[p.c])cats[p.c]=[];
+      cats[p.c].push({p:p,i:i});
     }
   });
-  var order=['Soft Drink','Sports Drink','Water','Enhanced Water','Sparkling Water',
-    'Energy Drink','Tea','Juice','Juice/Smoothie','Sparkling Juice','Coffee',
-    'Coconut Water','Protein','Functional'];
-  order.forEach(function(cat){
+  var ORDER=['Soft Drink','Sports Drink','Water','Enhanced Water',
+    'Sparkling Water','Energy Drink','Tea','Juice','Juice/Smoothie',
+    'Sparkling Juice','Coffee','Coconut Water','Protein','Functional'];
+  ORDER.forEach(function(cat){
     if(!cats[cat])return;
     var sec=document.createElement('div');
-    sec.innerHTML='<span class="catlabel">'+cat+'</span>';
+    var lbl=document.createElement('span');
+    lbl.className='catlbl';lbl.textContent=cat;
+    sec.appendChild(lbl);
     cats[cat].forEach(function(obj){
-      var chip=document.createElement('span');chip.className='pchip';
-      var lbl=obj.p.b;
-      if(obj.p.l&&obj.p.l!==obj.p.b)lbl+=' '+obj.p.l;
-      if(obj.p.f&&obj.p.f!=='Original'&&obj.p.f!==obj.p.b)lbl+=' — '+obj.p.f;
-      chip.textContent=lbl;
-      chip.onclick=(function(idx){return function(){openSizePicker(idx);};})(obj.i);
+      var chip=document.createElement('span');
+      chip.className='pchip';
+      var txt=obj.p.b;
+      if(obj.p.l&&obj.p.l!==obj.p.b)txt+=' '+obj.p.l;
+      if(obj.p.f&&obj.p.f!=='Original'&&obj.p.f!==obj.p.b)
+        txt+=' — '+obj.p.f;
+      chip.textContent=txt;
+      chip.onclick=(function(idx){
+        return function(){openSizePicker(idx);};
+      })(obj.i);
       sec.appendChild(chip);
     });
     res.appendChild(sec);
@@ -1606,56 +1801,70 @@ function renderPicker(){
 }
 
 function openSizePicker(idx){
-  currentProd=idx;var p=DB[idx];
+  currentProd=idx;
+  var p=DB[idx];
   var t=p.b;
   if(p.l&&p.l!==p.b)t+=' '+p.l;
   if(p.f&&p.f!=='Original')t+=' — '+p.f;
   document.getElementById('mSizeTitle').textContent='Pick Size: '+t;
-  var sz=document.getElementById('mSizeSizes');sz.innerHTML='';
+  var sz=document.getElementById('mSizeSizes');
+  sz.innerHTML='';
   p.s.forEach(function(size){
-    var chip=document.createElement('span');chip.className='schip';chip.textContent=size;
+    var chip=document.createElement('span');
+    chip.className='schip';chip.textContent=size;
     chip.onclick=function(){
       var qty=parseInt(document.getElementById('mSizeQty').value,10)||1;
       addItem(makeLabel(p,size,''),qty);
-      closeModal('mSize');document.getElementById('mSizeQty').value='';
-      go('sList',document.querySelectorAll('.nb')[5]);
+      closeModal('mSize');
+      document.getElementById('mSizeQty').value='';
+      go('sList',5);
     };
     sz.appendChild(chip);
   });
-  document.getElementById('mSizeQty').value='';openModal('mSize');
+  document.getElementById('mSizeQty').value='';
+  openModal('mSize');
 }
 
-/* ================================================================
-   QUICK ADD
-================================================================ */
+/* ============================================================
+   QUICK ADD BUTTONS
+============================================================ */
 var DEF_QB=[
   'Pepsi 12pk Cans','Pepsi 20oz Bottle','Diet Pepsi 12pk Cans',
   'Pepsi Zero 12pk Cans','Pepsi 2L Bottle','Diet Pepsi 2L Bottle',
-  'Mountain Dew 12pk Cans','Mountain Dew 20oz Bottle','Mountain Dew 2L Bottle',
-  'Gatorade Fruit Punch 20oz','Gatorade Cool Blue 20oz','Aquafina 20oz Bottle',
+  'Mountain Dew 12pk Cans','Mountain Dew 20oz Bottle',
+  'Mountain Dew 2L Bottle','Gatorade Fruit Punch 20oz',
+  'Gatorade Cool Blue 20oz','Aquafina 20oz Bottle',
   'bubly Blackberry 12pk Cans','Rockstar Original 16oz Can'
 ];
 
 function renderQB(){
   var btns=ld('qbtns',DEF_QB);
-  var grid=document.getElementById('qgrid');grid.innerHTML='';
+  var grid=document.getElementById('qgrid');
+  grid.innerHTML='';
   btns.forEach(function(label){
-    var d=document.createElement('div');d.className='qchip';
-    d.textContent=label+' (+1)';d.onclick=function(){addItem(label,1);};
-    var pt;
-    d.addEventListener('touchstart',function(){
-      pt=setTimeout(function(){
+    var d=document.createElement('div');
+    d.className='qchip';
+    d.textContent=label+' (+1)';
+    d.onclick=function(){addItem(label,1);};
+    var pressTimer;
+    d.addEventListener('touchstart',function(e){
+      pressTimer=setTimeout(function(){
         currentQBLabel=label;
-        document.getElementById('mQtyTitle').textContent='How many '+label+'?';
-        document.getElementById('mQtyIn').value='';openModal('mQty');
+        document.getElementById('mQtyTitle').textContent=
+          'How many '+label+'?';
+        document.getElementById('mQtyIn').value='';
+        openModal('mQty');
       },600);
     });
-    d.addEventListener('touchend',function(){clearTimeout(pt);});
-    d.addEventListener('touchmove',function(){clearTimeout(pt);});
+    d.addEventListener('touchend',function(){clearTimeout(pressTimer);});
+    d.addEventListener('touchmove',function(){clearTimeout(pressTimer);});
     d.oncontextmenu=function(e){
-      e.preventDefault();currentQBLabel=label;
-      document.getElementById('mQtyTitle').textContent='How many '+label+'?';
-      document.getElementById('mQtyIn').value='';openModal('mQty');
+      e.preventDefault();
+      currentQBLabel=label;
+      document.getElementById('mQtyTitle').textContent=
+        'How many '+label+'?';
+      document.getElementById('mQtyIn').value='';
+      openModal('mQty');
     };
     grid.appendChild(d);
   });
@@ -1663,33 +1872,37 @@ function renderQB(){
 
 function addQB(){
   var label=document.getElementById('qbLbl').value.trim();
-  if(!label){alert('Enter a label.');return;}
+  if(!label){alert('Enter a label for the button.');return;}
   var btns=ld('qbtns',DEF_QB);
   if(btns.indexOf(label)<0){btns.push(label);sv('qbtns',btns);}
-  document.getElementById('qbLbl').value='';renderQB();
+  document.getElementById('qbLbl').value='';
+  renderQB();
 }
 
 function resetQB(){
-  if(!confirm('Reset quick buttons to defaults?'))return;
+  if(!confirm('Reset all quick buttons back to defaults?'))return;
   sv('qbtns',DEF_QB);renderQB();
 }
 
 function confirmQty(){
   var qty=parseInt(document.getElementById('mQtyIn').value,10);
-  if(!(qty>0)){alert('Enter a valid quantity.');return;}
+  if(!(qty>0)){alert('Enter a valid quantity (number greater than 0).');return;}
   if(currentQBLabel)addItem(currentQBLabel,qty);
   closeModal('mQty');
 }
 
-/* ================================================================
+/* ============================================================
    NOTES
-================================================================ */
+============================================================ */
 function addNote(){
   var text=document.getElementById('noteIn').value.trim();
-  if(!text)return;
+  if(!text){
+    msg('noteMsg','Type a note first.','err');return;
+  }
   notes.push({text:text,time:new Date().toLocaleTimeString()});
   document.getElementById('noteIn').value='';
-  showSt('noteSt','✅ Note added.','#0f9d58');renderNotes();
+  msg('noteMsg','✅ Note saved.','ok');
+  renderNotes();
 }
 
 function voiceNote(){
@@ -1700,12 +1913,16 @@ function voiceNote(){
       micOn=false;
       document.getElementById('micBtn').textContent='🎤 Start Voice';
       var t=(document.getElementById('tbox').textContent||'').trim();
-      if(t){notes.push({text:t,time:new Date().toLocaleTimeString()});renderNotes();
-        showSt('noteSt','✅ Voice note added.','#0f9d58');}
+      if(t){
+        notes.push({text:t,time:new Date().toLocaleTimeString()});
+        renderNotes();
+        msg('noteMsg','✅ Voice note saved.','ok');
+      }
       rec.onend=origEnd;
     };
-    rec.start();showSt('noteSt','Listening for note...','#0b5fa5');
-  }catch(e){showSt('noteSt','Wait a moment and try again.','#dc3545');}
+    rec.start();
+    msg('noteMsg','Listening for note...','info');
+  }catch(e){msg('noteMsg','Wait a moment and try again.','err');}
 }
 
 function renderNotes(){
@@ -1715,23 +1932,33 @@ function renderNotes(){
   if(!notes.length){empty.style.display='block';return;}
   empty.style.display='none';
   notes.forEach(function(n,i){
-    var d=document.createElement('div');d.className='nitem';
-    d.innerHTML='<span class="ntag">'+n.time+'</span>'+n.text+
-      ' <button class="btn br bsm" style="float:right;" onclick="delNote('+i+')">✕</button>';
+    var d=document.createElement('div');
+    d.className='nitem';
+    var tag=document.createElement('span');
+    tag.className='ntag';tag.textContent=n.time;
+    var txt=document.createElement('span');
+    txt.style.flex='1';txt.textContent=n.text;
+    var del=document.createElement('button');
+    del.className='btn br bsm';del.textContent='✕';
+    del.onclick=(function(idx){return function(){delNote(idx);};})(i);
+    d.appendChild(tag);d.appendChild(txt);d.appendChild(del);
     list.appendChild(d);
   });
 }
 function delNote(i){notes.splice(i,1);renderNotes();}
 
-/* ================================================================
+/* ============================================================
    EXPORT
-================================================================ */
+============================================================ */
 function buildExportText(){
   var now=new Date();
-  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var days=['Sunday','Monday','Tuesday','Wednesday',
+    'Thursday','Friday','Saturday'];
   var dateStr=days[now.getDay()]+', '+
-    now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-  var timeStr=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    now.toLocaleDateString('en-US',
+      {month:'long',day:'numeric',year:'numeric'});
+  var timeStr=now.toLocaleTimeString('en-US',
+    {hour:'2-digit',minute:'2-digit'});
   var timer=document.getElementById('timerEl').textContent;
   var lines=[];
   lines.push('===================================');
@@ -1742,19 +1969,17 @@ function buildExportText(){
   lines.push('Date: '+dateStr);
   lines.push('Time: '+timeStr);
   lines.push('Time at Store: '+timer);
-
-  /* Include store layout if available */
-  var layoutText=getLayoutText();
-  if(layoutText){
+  var layText=buildLayoutText();
+  if(layText){
     lines.push('-----------------------------------');
     lines.push('STORE LAYOUT:');
-    lines.push(layoutText);
+    lines.push(layText);
   }
-
   lines.push('-----------------------------------');
   var keys=Object.keys(items).sort();
-  if(!keys.length){lines.push('No items.');}
-  else{
+  if(!keys.length){
+    lines.push('No items added yet.');
+  }else{
     var total=0;
     keys.forEach(function(label){
       var val=items[label];total+=val.qty;
@@ -1766,55 +1991,76 @@ function buildExportText(){
   if(notes.length){
     lines.push('-----------------------------------');
     lines.push('NOTES:');
-    notes.forEach(function(n){lines.push('• ['+n.time+'] '+n.text);});
+    notes.forEach(function(n){
+      lines.push('• ['+n.time+'] '+n.text);
+    });
   }
   lines.push('===================================');
   return lines.join('\n');
 }
 
-function buildExport(){document.getElementById('ebox').textContent=buildExportText();}
+function buildExport(){
+  document.getElementById('ebox').textContent=buildExportText();
+}
 
 function doCopy(){
   var text=buildExportText();
   if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(function(){
-      showSt('expSt','✅ Copied to clipboard.','#0f9d58');
-    }).catch(function(){fallbackCopy(text);});
-  }else{fallbackCopy(text);}
+    navigator.clipboard.writeText(text)
+      .then(function(){msg('expMsg','✅ Copied to clipboard.','ok');})
+      .catch(function(){fallbackCopy(text);});
+  }else{
+    fallbackCopy(text);
+  }
 }
 
 function fallbackCopy(text){
   var ta=document.createElement('textarea');
   ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
   document.body.appendChild(ta);ta.focus();ta.select();
-  try{document.execCommand('copy');showSt('expSt','✅ Copied.','#0f9d58');}
-  catch(e){showSt('expSt','Copy failed — select text manually.','#dc3545');}
+  try{
+    document.execCommand('copy');
+    msg('expMsg','✅ Copied.','ok');
+  }catch(e){
+    msg('expMsg','Copy failed — manually select and copy the text below.','err');
+  }
   document.body.removeChild(ta);
 }
 
 function doEmail(){
-  var email=ld('settings',{}).email||'';
-  var subject=encodeURIComponent('PepsiCo Fill List — '+(store.name||'Store'));
+  var settings=ld('settings',{});
+  var email=settings.email||'';
+  var subject=encodeURIComponent(
+    'PepsiCo Fill List — '+(store.name||'Store'));
   var body=encodeURIComponent(buildExportText());
   window.location.href='mailto:'+email+'?subject='+subject+'&body='+body;
 }
 
-function openSMSPicker(textOverride){
-  smsTxtOverride=textOverride||null;
+function openSMSModal(){
   var contacts=ld('contacts',[]);
-  var list=document.getElementById('mSMSList');list.innerHTML='';
-  if(!contacts.length){
-    list.innerHTML='<div class="empty">No contacts saved. Add them in the Export tab first.</div>';
+  var list=document.getElementById('mSMSList');
+  list.innerHTML='';
+  if(!contacts||!contacts.length){
+    list.innerHTML='<div class="empty">No contacts saved yet.<br>Add contacts in the Export tab below.</div>';
   }else{
     contacts.forEach(function(c){
-      var d=document.createElement('div');d.className='citem';d.style.cursor='pointer';
-      d.innerHTML='<div><div class="cname">'+c.name+'</div><div class="cnum">'+c.phone+'</div></div>'+
-        '<button class="btn bp bsm">Send</button>';
-      d.querySelector('button').onclick=function(){
-        var txt=encodeURIComponent(smsTxtOverride||buildExportText());
-        window.location.href='sms:'+c.phone+'&body='+txt;
-        closeModal('mSMS');
-      };
+      var d=document.createElement('div');
+      d.className='citem';
+      var info=document.createElement('div');
+      info.innerHTML='<div class="cname">'+c.name+'</div>'+
+        '<div class="cnum">'+c.phone+'</div>';
+      var btn=document.createElement('button');
+      btn.className='btn bp bsm';btn.textContent='Send';
+      btn.onclick=(function(phone){
+        return function(){
+          var txt=encodeURIComponent(
+            smsTxtOverride||buildExportText());
+          window.location.href='sms:'+phone+'&body='+txt;
+          closeModal('mSMS');
+          smsTxtOverride=null;
+        };
+      })(c.phone);
+      d.appendChild(info);d.appendChild(btn);
       list.appendChild(d);
     });
   }
@@ -1824,39 +2070,52 @@ function openSMSPicker(textOverride){
 function doSave(){
   var text=buildExportText();
   var now=new Date();
-  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var days=['Sunday','Monday','Tuesday','Wednesday',
+    'Thursday','Friday','Saturday'];
   var entry={
-    id:Date.now(),store:store.name||'Unknown Store',address:store.address||'',
+    id:Date.now(),
+    store:store.name||'Unknown Store',
+    address:store.address||'',
     date:days[now.getDay()]+', '+
-      now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}),
-    time:now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),
+      now.toLocaleDateString('en-US',
+        {month:'long',day:'numeric',year:'numeric'}),
+    time:now.toLocaleTimeString('en-US',
+      {hour:'2-digit',minute:'2-digit'}),
     items:Object.keys(items).length,
     units:Object.values(items).reduce(function(a,v){return a+v.qty;},0),
     text:text
   };
-  var hist=ld('history',[]);hist.unshift(entry);sv('history',hist);
-  showSt('expSt','✅ Saved to History.','#0f9d58');
+  var hist=ld('history',[]);
+  hist.unshift(entry);
+  sv('history',hist);
+  msg('expMsg','✅ Saved to History tab.','ok');
 }
 
-/* ================================================================
+/* ============================================================
    HISTORY
-================================================================ */
-function renderHist(){
+============================================================ */
+function renderHistory(){
   var list=document.getElementById('histList');
   var empty=document.getElementById('histEmpty');
   var hist=ld('history',[]);
   list.innerHTML='';
-  if(!hist.length){empty.style.display='block';return;}
+  if(!hist||!hist.length){
+    empty.style.display='block';return;
+  }
   empty.style.display='none';
   hist.forEach(function(entry){
-    var d=document.createElement('div');d.className='hitem';
-    d.innerHTML='<div class="htitle">'+entry.store+'</div>'+
+    var d=document.createElement('div');
+    d.className='hitem';
+    d.innerHTML=
+      '<div class="htitle">'+entry.store+'</div>'+
       '<div class="hsub">'+(entry.address||'')+'</div>'+
       '<div class="hsub">'+entry.date+' at '+entry.time+'</div>'+
-      '<span class="hbadge">'+entry.items+' items · '+entry.units+' units</span>';
+      '<span class="hbadge">'+entry.items+' items · '+
+        entry.units+' units</span>';
     d.onclick=function(){
       currentHist=entry;
-      document.getElementById('mHistTitle').textContent=entry.store+' — '+entry.date;
+      document.getElementById('mHistTitle').textContent=
+        entry.store+' — '+entry.date;
       document.getElementById('mHistBody').textContent=entry.text;
       openModal('mHist');
     };
@@ -1864,83 +2123,117 @@ function renderHist(){
   });
 }
 
-function histCopy(){if(!currentHist)return;fallbackCopy(currentHist.text);}
+function histCopy(){
+  if(!currentHist)return;
+  fallbackCopy(currentHist.text);
+}
 function histEmail(){
   if(!currentHist)return;
-  var subject=encodeURIComponent('PepsiCo Fill — '+currentHist.store+' — '+currentHist.date);
+  var subject=encodeURIComponent(
+    'PepsiCo Fill — '+currentHist.store+' — '+currentHist.date);
   var body=encodeURIComponent(currentHist.text);
   window.location.href='mailto:?subject='+subject+'&body='+body;
 }
-function histSMS(){if(!currentHist)return;closeModal('mHist');openSMSPicker(currentHist.text);}
+function histSMS(){
+  if(!currentHist)return;
+  smsTxtOverride=currentHist.text;
+  closeModal('mHist');
+  openSMSModal();
+}
 function histDelete(){
   if(!currentHist)return;
-  if(!confirm('Delete this saved list permanently?'))return;
+  if(!confirm('Permanently delete this saved list?'))return;
   var hist=ld('history',[]);
   hist=hist.filter(function(h){return h.id!==currentHist.id;});
-  sv('history',hist);closeModal('mHist');currentHist=null;renderHist();
+  sv('history',hist);
+  closeModal('mHist');
+  currentHist=null;
+  renderHistory();
 }
 
-/* ================================================================
+/* ============================================================
    CONTACTS
-================================================================ */
+============================================================ */
 function addContact(){
   var name=document.getElementById('cName').value.trim();
   var phone=document.getElementById('cPhone').value.trim().replace(/\D/g,'');
-  if(!name||!phone){alert('Enter both name and phone number.');return;}
+  if(!name||!phone){
+    msg('contactMsg','Enter both a name and a phone number.','err');
+    return;
+  }
   var contacts=ld('contacts',[]);
-  contacts.push({name:name,phone:phone});sv('contacts',contacts);
-  document.getElementById('cName').value='';document.getElementById('cPhone').value='';
+  contacts.push({name:name,phone:phone});
+  sv('contacts',contacts);
+  document.getElementById('cName').value='';
+  document.getElementById('cPhone').value='';
+  msg('contactMsg','✅ Contact "'+name+'" saved.','ok');
   renderContacts();
 }
 
 function renderContacts(){
   var contacts=ld('contacts',[]);
-  var list=document.getElementById('cList');list.innerHTML='';
+  var list=document.getElementById('cList');
+  list.innerHTML='';
+  if(!contacts||!contacts.length)return;
   contacts.forEach(function(c,i){
-    var d=document.createElement('div');d.className='citem';
-    d.innerHTML='<div><div class="cname">'+c.name+'</div><div class="cnum">'+c.phone+'</div></div>'+
-      '<button class="btn br bsm" onclick="delContact('+i+')">🗑</button>';
+    var d=document.createElement('div');
+    d.className='citem';
+    var info=document.createElement('div');
+    info.innerHTML=
+      '<div class="cname">'+c.name+'</div>'+
+      '<div class="cnum">'+c.phone+'</div>';
+    var del=document.createElement('button');
+    del.className='btn br bsm';del.textContent='🗑';
+    del.onclick=(function(idx){
+      return function(){
+        var contacts=ld('contacts',[]);
+        contacts.splice(idx,1);
+        sv('contacts',contacts);
+        renderContacts();
+      };
+    })(i);
+    d.appendChild(info);d.appendChild(del);
     list.appendChild(d);
   });
 }
 
-function delContact(i){
-  var contacts=ld('contacts',[]);contacts.splice(i,1);sv('contacts',contacts);renderContacts();
-}
-
-/* ================================================================
+/* ============================================================
    SETTINGS
-================================================================ */
+============================================================ */
 function saveEmail(){
+  var email=document.getElementById('setEmail').value.trim();
   var settings=ld('settings',{});
-  settings.email=document.getElementById('setEmail').value.trim();
-  sv('settings',settings);alert('Email saved!');
+  settings.email=email;
+  sv('settings',settings);
+  alert('Email address saved!');
 }
 
 function nukeAll(){
-  if(!confirm('Delete ALL data including history, stores, contacts and layouts?'))return;
-  if(!confirm('Are you sure? This cannot be undone.'))return;
-  localStorage.clear();location.reload();
+  if(!confirm('This will delete ALL app data including saved stores, history, contacts, and layouts. Are you sure?'))return;
+  if(!confirm('Final warning: this cannot be undone. Continue?'))return;
+  localStorage.clear();
+  location.reload();
 }
 
-/* ================================================================
+/* ============================================================
    INIT
-================================================================ */
+============================================================ */
 function init(){
   initSpeech();
   renderQB();
   renderContacts();
   renderNotes();
   renderList();
-  var s=ld('settings',{});
-  if(s.email)document.getElementById('setEmail').value=s.email;
   updateStats();
+  var s=ld('settings',{});
+  if(s&&s.email)document.getElementById('setEmail').value=s.email;
   if('serviceWorker' in navigator){
     window.addEventListener('load',function(){
       navigator.serviceWorker.register('./sw.js').catch(function(){});
     });
   }
 }
+
 init();
 </script>
 </body>
