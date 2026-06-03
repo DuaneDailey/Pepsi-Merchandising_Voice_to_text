@@ -1,4 +1,4 @@
-const CACHE_NAME = "pepsico-fill-voice-v1";
+const CACHE_NAME = "pepsico-fill-voice-v3";
 const ASSETS = ["./", "./index.html", "./manifest.json"];
 
 self.addEventListener("install", (event) => {
